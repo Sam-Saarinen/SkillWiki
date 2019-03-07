@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  topic: one
+  user: one
+  approved: false
+  link: MyString
+
+two:
+  name: MyString
+  topic: two
+  user: two
+  approved: false
+  link: MyString
