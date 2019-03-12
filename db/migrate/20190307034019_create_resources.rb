@@ -8,7 +8,8 @@ class CreateResources < ActiveRecord::Migration[5.2]
       t.string :link
       t.boolean :tentative
       t.boolean :removed
-      t.flagged :boolean
+      t.boolean :flagged
+      t.integer :views
 
       t.timestamps
     end
