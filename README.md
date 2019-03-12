@@ -18,4 +18,4 @@ cancancan ([https://github.com/CanCanCommunity/cancancan])
 gem 'sqlite3', '~> 1.3.6' 
 
 # Things to Remember (Eric)
-* Recommendation.content is set to ? for now. How do we do List<Resource.id>?
+
