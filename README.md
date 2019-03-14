@@ -6,7 +6,7 @@ This document is a working draft for internal use, containing notes and thoughts
 
 # Gems we want to use:
 ## Authentication
-Devise ([https://guides.railsgirls.com/devise])
+Devise ([https://github.com/plataformatec/devise])
 ## User Permissions Management
 cancancan ([https://github.com/CanCanCommunity/cancancan])
 ## Lists of Gems:
