@@ -36,6 +36,11 @@ gem 'cancancan', '~> 2.0'
 # Use devise for user authentication
 gem 'devise'
 
+# Use bootstrap for styling
+# Might need sprockets-rails?
+gem 'bootstrap', '~> 4.3.1'
+gem 'jquery-rails'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
