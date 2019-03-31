@@ -18,4 +18,5 @@ cancancan ([https://github.com/CanCanCommunity/cancancan])
 gem 'sqlite3', '~> 1.3.6' 
 
 # Things to Remember (Eric)
-
+* Why no flash messages when logging in?
+* Test devise controllers
