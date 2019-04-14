@@ -13,7 +13,12 @@
 
   <body>
     <% flash.each do |message_type, message| %>
-        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+        <% case message_type
+        when 'notice' then message_type='success'
+        when 'alert' then message_type='danger'
+        else name
+        end %>
+        <%= content_tag(:div, message, class: "text-center alert-#{message_type}") %>
     <% end %>
     <%= yield %>
   </body>

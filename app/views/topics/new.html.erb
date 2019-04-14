@@ -1,0 +1,11 @@
+<h1>New Topic</h1>
+<%= form_for @topic do |f| %>
+  <%= f.label 'Topic Name' %>
+  <%= f.text_field :name %>
+  <%= f.label 'Topic Description' %>
+  <%= f.text_area :description, size: "60x12" %>
+  <%= f.submit %>
+<% end %>
+
+
+

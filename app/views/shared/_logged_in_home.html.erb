@@ -1,5 +1,12 @@
-<%= render 'shared/navbar_with_user' %>
 <h1>Logged in page</h1>
 <div>
   <!--show all topics of the user-->
 </div>
+<div style="display: flex;">
+    <a class="btn btn-primary btn-lg" style="margin: auto" href="resources/new" role="button">Contribute a Resource</a>
+</div>
+<% if can? :create, Topic %>
+    <div style="display: flex;">
+        <a class="btn btn-primary btn-lg" style="margin: auto" href="topics/new" role="button">Create a Topic</a>
+    </div>
+<% end %>

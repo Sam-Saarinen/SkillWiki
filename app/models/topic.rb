@@ -1,4 +1,4 @@
 class Topic < ApplicationRecord
-  # TODO: Might delete topic if user is deleted
-  belongs_to :creator, foreign_key: :user, class_name:'User'
+  # TODO: Fix relationship so that topic is not deleted if creator is deleted.
+  belongs_to :user
 end

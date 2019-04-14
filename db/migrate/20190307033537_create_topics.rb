@@ -4,7 +4,8 @@ class CreateTopics < ActiveRecord::Migration[5.2]
       t.string :name
       t.boolean :approved
       t.text :description
-      t.references :users 
+      
+      t.references :user
 
       t.timestamps
     end

@@ -18,5 +18,7 @@ cancancan ([https://github.com/CanCanCommunity/cancancan])
 gem 'sqlite3', '~> 1.3.6' 
 
 # Things to Remember (Eric)
-* Why no flash messages when logging in?
-* Test devise controllers
+* redirect user to preferences for questions if haven't answered them yet--create UserFeaturesController
+* Goal for now: enable data gathering (adding topics and resources)
+*   ResourcesController 
+*   rails generate scaffold name (does forms automatically)
