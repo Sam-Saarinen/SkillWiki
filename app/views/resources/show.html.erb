@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<% safe_link = '/not_found' %>
+
+<% if valid_url?(@resource.link) %>
+  <%= @resource.link %>
+  <a href="<%=@resource.link%>">go</a>
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" style="border: 5px solid black" src="<%=@resource.link%>" allowfullscreen>Resource could not be rendered.</iframe>
+  </div>
+  <%= link_to 'Edit', edit_resource_path(@resource) %> |
+  <%= link_to 'Back', resources_path %>
+<% else %>
+  <a href="<%=safe_link%>">go</a>
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" style="border: 5px solid black" src="<%=safe_link%>" allowfullscreen>Resource could not be rendered.</iframe>
+  </div>
+  <%= link_to 'Edit', edit_resource_path(@resource) %> |
+  <%= link_to 'Back', resources_path %>
+<% end %>

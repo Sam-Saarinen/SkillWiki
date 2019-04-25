@@ -5,6 +5,7 @@ class Ability
       user ||= User.new # guest user (not logged in)
       if user.admin? || user.teacher?
         can :create, Topic
+        can :authorize, Resource
       else
         can :read, :all
       end

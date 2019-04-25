@@ -1,7 +1,4 @@
 <h1>Logged in page</h1>
-<div>
-  <!--show all topics of the user-->
-</div>
 <div style="display: flex;">
     <a class="btn btn-primary btn-lg" style="margin: auto" href="resources/new" role="button">Contribute a Resource</a>
 </div>
@@ -10,3 +7,12 @@
         <a class="btn btn-primary btn-lg" style="margin: auto" href="topics/new" role="button">Create a Topic</a>
     </div>
 <% end %>
+<div>
+  <!--show all topics of the user-->
+  <% topics = Topic.all %>
+  <ul class="form-group w-50">
+      <% topics.each do |topic| %>
+          <a href="topics/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
+      <% end %>
+  </ul>
+</div>

@@ -19,4 +19,9 @@ class TopicsController < ApplicationController
 
   def edit
   end
+  
+  def show
+    @topic = Topic.find_by(id: params[:topic_id])
+    @resources = @topic.resource.all
+  end
 end

@@ -1,0 +1,39 @@
+<%= form_with(model: resource, local: true) do |form| %>
+  <% if resource.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(resource.errors.count, "error") %> prohibited this resource from being saved:</h2>
+
+      <ul>
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+  
+  <!--<div class="form-group">-->
+  <!--  <label for="topicSelect">Topic</label>-->
+  <!--  <select class="form-control" id="topicSelect">-->
+  <!--    <option>1</option>-->
+  <!--    <option>2</option>-->
+  <!--    <option>3</option>-->
+      <!--TODO: Get topics from backend-->
+  <!--  </select>-->
+  <!--</div>-->
+  
+  <div class="field">
+    <%= form.label "Topic" %>
+    <% topics = Topic.all %>
+    <%= form.collection_select :topic_id, topics, :id, :name %>
+  </div>
+  
+  <%= form.label :link %>
+  <%= form.text_field :link %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
