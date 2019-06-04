@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resources :resources, except: :index
-  # get 'resources/:topic_id', to: 'resources#index', as: :topic_resource
-  get 'topics/:topic_id', to: 'topics#show', as: :show_topic
+  get 'topics/show/:topic_id', to: 'topics#show', as: :show_topic
   get 'topics/new'
+  post 'resources/eval', to: 'resources#eval'
   post 'topics/create', as: :topics
   get 'topics/edit'
   root 'pages#home'

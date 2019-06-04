@@ -1,18 +1,18 @@
-<h1>Logged in page</h1>
-<div style="display: flex;">
-    <a class="btn btn-primary btn-lg" style="margin: auto" href="resources/new" role="button">Contribute a Resource</a>
-</div>
-<% if can? :create, Topic %>
-    <div style="display: flex;">
-        <a class="btn btn-primary btn-lg" style="margin: auto" href="topics/new" role="button">Create a Topic</a>
-    </div>
-<% end %>
 <div>
   <!--show all topics of the user-->
   <% topics = Topic.all %>
-  <ul class="form-group w-50">
+  <center>
+    <ul class="form-group w-50">
       <% topics.each do |topic| %>
-          <a href="topics/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
+          <a href="topics/show/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
       <% end %>
   </ul>
+  </center>
 </div>
+<div>
+    <a class="btn btn-primary btn-lg" href="resources/new" role="button">Contribute a Resource</a>
+    <% if can? :create, Topic %>
+        <a class="btn btn-primary btn-lg" style="margin: auto" href="topics/new" role="button">Create a Topic</a>
+    <% end %>
+</div>
+

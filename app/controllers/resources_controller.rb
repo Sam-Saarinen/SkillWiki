@@ -10,7 +10,7 @@ class ResourcesController < ApplicationController
   # GET /resources/1
   # GET /resources/1.json
   def show
-   
+  # @resource = Resource.find_by(id: params[:id])
   end
 
   # GET /resources/new
@@ -68,6 +68,27 @@ class ResourcesController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def eval
+    set_resource
+    @interact = Interaction.new(user_id: @resource.user_id, 
+    resource_id: @resource.id, 
+    helpful_q: params[:helpful], 
+    confidence_q: params[:confident])
+    
+    if @interact.save
+      if params[:feedback] == "done"
+        redirect_to root_url, notice: "Thank you for the feedback!"
+      elsif params[:feedback] == "another"
+        # redirect to next resource
+        @rec = Recommendation.find_by(user_id: current_user.id) # FIXME: Assumes each user has a unique rec for each topic
+        @next_resource = Resource.find_by(id: next_id(@resource.id, @rec.content))
+        redirect_to @next_resource
+      end 
+    else 
+      render action: "show", alert: "Could not save feedback"
+    end 
+  end 
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -79,4 +100,14 @@ class ResourcesController < ApplicationController
     def resource_params
       params.fetch(:resource, {})
     end
+    
+    # Finds next id in recommendations for redirect
+    def next_id(cur_id, rec_content)
+      ids = rec_content.split(',')
+      ids.each_with_index do |val, index| 
+        if val.to_i == cur_id
+          return ids[index+1]
+        end 
+      end
+    end 
 end

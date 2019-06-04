@@ -1,20 +1,83 @@
-<p id="notice"><%= notice %></p>
+<!--<p id="notice"><%= notice %></p>-->
 
 <% safe_link = '/not_found' %>
 
 <% if valid_url?(@resource.link) %>
   <%= @resource.link %>
   <a href="<%=@resource.link%>">go</a>
-  <div class="embed-responsive embed-responsive-16by9">
-    <iframe class="embed-responsive-item" style="border: 5px solid black" src="<%=@resource.link%>" allowfullscreen>Resource could not be rendered.</iframe>
-  </div>
-  <%= link_to 'Edit', edit_resource_path(@resource) %> |
-  <%= link_to 'Back', resources_path %>
+  <center>
+    <div class="embed-responsive embed-responsive-16by9 w-75">
+      <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%=@resource.link%>" allowfullscreen>Resource could not be rendered.</iframe>
+    </div>
+  </center>
+  <!--<%= link_to 'Edit', edit_resource_path(@resource) %> |-->
+  <!--<%= link_to 'Back', resources_path %>-->
 <% else %>
   <a href="<%=safe_link%>">go</a>
-  <div class="embed-responsive embed-responsive-16by9">
-    <iframe class="embed-responsive-item" style="border: 5px solid black" src="<%=safe_link%>" allowfullscreen>Resource could not be rendered.</iframe>
-  </div>
-  <%= link_to 'Edit', edit_resource_path(@resource) %> |
-  <%= link_to 'Back', resources_path %>
+  <center>
+    <div class="embed-responsive embed-responsive-16by9 w-75">
+      <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%=safe_link%>" allowfullscreen>Resource could not be rendered.</iframe>
+    </div>
+  </center>
+  <!--<%= link_to 'Edit', edit_resource_path(@resource) %> |-->
+  <!--<%= link_to 'Back', resources_path %>-->
 <% end %>
+
+<div class="text-center">
+  <%= form_tag("/resources/eval", method: "post") do %>
+    <%= hidden_field_tag 'id', @resource.id %>
+    
+    <label>How helpful was this resource?</label>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="helpful" id="helpful1" value="1" required>
+        <label class="form-check-label" for="helpful1">1</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="helpful" id="helpful2" value="2" required>
+        <label class="form-check-label" for="helpful2">2</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="helpful" id="helpful3" value="3" required>
+        <label class="form-check-label" for="helpful3">3</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="helpful" id="helpful4" value="4" required>
+        <label class="form-check-label" for="helpful4">4</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="helpful" id="helpful5" value="5" required>
+        <label class="form-check-label" for="helpful5">5</label>
+      </div>
+    </div>
+    
+    <label>How confident are you in this topic now?</label>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="confident" id="confident1" value="1" required>
+        <label class="form-check-label" for="confident1">1</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="confident" id="confident2" value="2" required>
+        <label class="form-check-label" for="confident2">2</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="confident" id="confident3" value="3" required>
+        <label class="form-check-label" for="confident3">3</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="confident" id="confident4" value="4" required>
+        <label class="form-check-label" for="confident4">4</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="confident" id="confident5" value="5" required>
+        <label class="form-check-label" for="confident5">5</label>
+      </div>
+    </div>
+  
+    <button class="btn btn-primary" type="submit" name="feedback" value="done">I understand now</button>
+    <button class="btn btn-primary" type="submit" name="feedback" value="another">Give me another resource</button>
+  <% end %>
+</div>
+
+
