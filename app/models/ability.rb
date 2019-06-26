@@ -4,8 +4,10 @@ class Ability
   def initialize(user)
       user ||= User.new # guest user (not logged in)
       if user.admin? || user.teacher?
-        can :create, Topic
         can :approve, Resource
+        can :create, Topic
+        can :approve, Topic
+        can :approve_or_destroy, Topic
       else
         can :read, :all
       end

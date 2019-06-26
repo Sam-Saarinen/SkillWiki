@@ -1,0 +1,80 @@
+<h1>Edit User Features</h1>
+
+<div class="text-center">
+  <!--<p>Speed is <%= @user.speed %></p>-->
+  <!--<p>Guide is <%= @user.guide %></p>-->
+  
+  <div class="text-center">
+  <%= form_tag("/user_features/#{@user.id}", method: "patch") do %>
+    
+    <label>Do you prefer faster or more thorough lessons?</label>
+    <div class="form-group">
+      <% for i in 1..5 %>
+        <% if i == @user.speed %>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="speed" id="speed<%= i %>" value="<%= i %>" required checked>
+            <label class="form-check-label" for="speed<%= i %>">
+              <% if i==1  %>
+                <%= i %> (Faster) 
+              <% elsif i == 5 %>
+                <%= i %> (More thorough)
+              <% else %>
+                <%= i %>
+              <% end %>
+            </label>
+          </div>
+        <% else %>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="speed" id="speed<%= i %>" value="<%= i %>" required>
+            <label class="form-check-label" for="speed<%= i %>">
+              <% if i==1  %>
+                <%= i %> (Faster) 
+              <% elsif i == 5 %>
+                <%= i %> (More thorough)
+              <% else %>
+                <%= i %>
+              <% end %>
+            </label>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    
+    <label>Do you prefer self-directed or more guided lessons?</label>
+    <div class="form-group">
+      <% for i in 1..5 %>
+        <% if i == @user.guide %>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="guide" id="guide<%= i %>" value="<%= i %>" required checked>
+            <label class="form-check-label" for="guide<%= i %>">
+              <% if i==1  %>
+                <%= i %> (Self-directed) 
+              <% elsif i == 5 %>
+                <%= i %> (More guided)
+              <% else %>
+                <%= i %>
+              <% end %>
+            </label>
+          </div>
+        <% else %>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="guide" id="guide<%= i %>" value="<%= i %>" required>
+            <label class="form-check-label" for="guide<%= i %>">
+              <% if i==1  %>
+                <%= i %> (Self-directed) 
+              <% elsif i == 5 %>
+                <%= i %> (More guided)
+              <% else %>
+                <%= i %>
+              <% end %>
+            </label>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  
+    <button class="btn btn-primary" type="submit">Submit</button>
+  <% end %>
+</div>
+
+  

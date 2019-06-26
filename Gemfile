@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://rubygems.org' 
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.4.1'
@@ -39,13 +39,24 @@ gem 'devise'
 # Use bootstrap for styling
 # Might need sprockets-rails?
 gem 'bootstrap', '~> 4.3.1'
-gem 'jquery-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+
+# Use pycall to incorporate Python
+gem 'pycall'
+
+# Use unirest for web scraping
+gem 'unirest'
+
+# Add jQuery 
+gem 'jquery-rails'
+
+# Add Markdown parsing and rendering
+gem 'redcarpet'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -67,6 +78,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'minitest-reporters'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -4,11 +4,14 @@ require 'rails/test_help'
 
 class ActiveSupport::TestCase
   include Devise::Test::IntegrationHelpers
-  include Devise::TestHelpers
+  require "minitest/reporters"
+  Minitest::Reporters.use!
+
+  # include Devise::TestHelpers
   # https://github.com/plataformatec/devise/blob/1094ba65aac1d37713f2cba71f9edad76b5ca274/lib/devise/test_helpers.rb
 
-  sign_in @user
-  sign_out @user
+  # sign_in @user
+  # sign_out @user
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all

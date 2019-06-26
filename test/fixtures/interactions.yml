@@ -1,15 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
-  resource: one
-  helpful_q: 1
-  confidence_q: 1
-  time_taken: 1.5
+  id: 1
+  user_id: 1
+  resource_id: 1
+  
 
 two:
-  user: two
-  resource: two
+  id: 2
+  user_id: 1
+  resource_id: 2
   helpful_q: 1
   confidence_q: 1
-  time_taken: 1.5

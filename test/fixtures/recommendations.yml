@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  user: one
-  content: MyString
-  topic: one
+# one:
+#   user: one
+#   content: MyString
+#   topic: one
 
-two:
-  user: two
-  content: MyString
-  topic: two
+# two:
+#   user: two
+#   content: MyString
+#   topic: two

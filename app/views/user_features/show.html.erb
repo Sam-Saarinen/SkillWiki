@@ -1,0 +1,11 @@
+<h1><%= @user.name %></h1>
+
+<h2 class="text-center">Student since <%= @user.created_at.strftime("%B %d, %Y") %></h2>
+
+<center>
+  <a href="/user_features/<%= @user.id %>/edit" class="btn btn-primary">Edit My Features</a>
+  
+  <% if can? :approve, Topic %>
+        <a class="btn btn-primary btn-primary" style="margin: auto" href="/topics/approve" role="button">Approve Topics</a>
+  <% end %>
+</center>

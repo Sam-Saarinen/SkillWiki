@@ -1,4 +1,5 @@
 <%= form_with(model: resource, local: true) do |form| %>
+
   <% if resource.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(resource.errors.count, "error") %> prohibited this resource from being saved:</h2>
@@ -11,29 +12,52 @@
     </div>
   <% end %>
   
-  <%= form.label :name %>
-  <%= form.text_field :name %>
+  <center>
+    <div class="form-group w-25">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: "form-control", required: true %>
+    </div>
+    
+    <div class="form-group">
+      <%= form.label "Topic" %>
+      <% topics = Topic.all %>
+      <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true %>
+      <% # TODO: Change options to only approved topics %>
+    </div>
   
-  <!--<div class="form-group">-->
-  <!--  <label for="topicSelect">Topic</label>-->
-  <!--  <select class="form-control" id="topicSelect">-->
-  <!--    <option>1</option>-->
-  <!--    <option>2</option>-->
-  <!--    <option>3</option>-->
-      <!--TODO: Get topics from backend-->
-  <!--  </select>-->
-  <!--</div>-->
-  
-  <div class="field">
-    <%= form.label "Topic" %>
-    <% topics = Topic.all %>
-    <%= form.collection_select :topic_id, topics, :id, :name %>
-  </div>
-  
-  <%= form.label :link %>
-  <%= form.text_field :link %>
+    <div class="form-group w-50">
+      <%= form.label :link %>
+      <%= form.text_field :link, class: "form-control" %>
+      <small id="linkHelp" class="form-text text-muted">Copy and past the link. Make sure to add "https://" at the front.</small>
+    </div>
+    
+    <div id="link_preview">
+    </div>
+    
+    <div class="form-group w-50">
+      <%= form.label :text %>
+      <%= form.text_area :text, class: "form-control" %>
+      <small id="linkHelp" class="form-text text-muted">Write a resource yourself using Markdown!</small>
+    </div>
+    
+    <div id="text_preview">
+    </div>
+    
+    <div class="form-group w-50">
+      <%= form.label :video %>
+      <%= form.text_area :video, class: "form-control" %>
+      <small id="linkHelp" class="form-text text-muted">Copy and paste the video's embed code.</small>
+    </div>
+    
+    <div id="video_preview">
+    </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <div class="actions">
+      <%= form.submit class: "btn btn-primary", data: { "disable-with": "Saving..." } %>
+    </div>
+    
+  </center>
+  
 <% end %>
+
+<%= javascript_include_tag "preview" %>

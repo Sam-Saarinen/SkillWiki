@@ -3,7 +3,7 @@
 <div style="margin: 0 auto; width: 300px">
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
-  <%= devise_error_messages! %>
+  <%= render "devise/shared/error_messages" %>
 
   <div class="field">
     <%= f.label :email %><br />

@@ -1,3 +1,32 @@
-<% @resources.each do |resource| %>
-  <a href="<%= resource_path(resource) %>"><%= resource.name %></a>
+<% if !@rec_resources.empty? %>
+  <h2>Recommended Order</h2>
+  <center>
+    <ol>
+      <% @rec_resources.each do |resource| %>
+        <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
+      <% end %>
+  </ol>
+  </center>
+
+<% else %>
+  <h2>All Resources for <%= @topic.name %></h2>
+  <center>
+    <ol>
+      <% @resources.each do |resource| %>
+        <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
+      <% end %>
+    </ol>
+  </center>
+
+<% end %>
+
+<% if !(@past_resources.empty?) %>
+<h2>Viewed Resources</h2>
+<center>
+  <ol>
+    <% @past_resources.each do |resource| %>
+      <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
+    <% end %>
+  </ol>
+</center>
 <% end %>

@@ -2,12 +2,9 @@ require 'test_helper'
 
 class ResourcesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
     @resource = resources(:one)
-  end
-
-  test "should get index" do
-    get resources_url
-    assert_response :success
+    sign_in @user
   end
 
   test "should get new" do
@@ -17,10 +14,10 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create resource" do
     assert_difference('Resource.count') do
-      post resources_url, params: { resource: {  } }
+      post resources_url, params: { resource: { name: "Python", topic_id: 1, link: "python.org" } }
     end
 
-    assert_redirected_to resource_url(Resource.last)
+    assert_redirected_to root_url
   end
 
   test "should show resource" do
@@ -28,21 +25,9 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get edit" do
-    get edit_resource_url(@resource)
-    assert_response :success
-  end
-
-  test "should update resource" do
-    patch resource_url(@resource), params: { resource: {  } }
-    assert_redirected_to resource_url(@resource)
-  end
-
-  test "should destroy resource" do
-    assert_difference('Resource.count', -1) do
-      delete resource_url(@resource)
-    end
-
-    assert_redirected_to resources_url
-  end
+  test "should evaluate resource" do 
+    # TODO: Test other branches of the if statement
+    post '/resources/eval', params: { id: @resource.id, helpful: "4", confident: "3", feedback: "done" }
+    assert_redirected_to root_url
+  end 
 end

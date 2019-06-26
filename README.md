@@ -18,14 +18,11 @@ cancancan ([https://github.com/CanCanCommunity/cancancan])
 gem 'sqlite3', '~> 1.3.6' 
 
 # Things to Remember (Eric)
-* redirect user to preferences for questions if haven't answered them yet--create UserFeaturesController
-* Goal for now: enable data gathering (adding topics and resources)
-    * rails generate scaffold name (does forms automatically)
-    * routes for resources are weird 
-    * mockup: intermediate page after clicking on topic to display recommended resoruces first 
-    * refactor later for consistency among controllers
-    * link not found page has navbar still in iframe (only display text, go stil links to not_found)
-    * Two buttons: 
-        * "I understand the topic now", "Give me another resource" (sticky to top so always visible while viewing resource)
-        * If user clicks "I understand", give a quiz. Can then evaluate how useful resource(s) were for user based on score.
-        * redirecting away from resource view page: record last viewed resource to check if questions were answered 
+* Implement changes discussed in front-end 
+* Make one text column called 'content' and save JSON object with links, text, embed code, etc.
+* How to display a resource. If providing a video and explanation of video as text, display all (video, text, webpage order) and require at least one
+  * Put all these into a div with overflow scrolling to always make feedback questions visible at bottom
+* Edit test for creating resource
+
+* Feedback:
+  * Test prep, AP classes are huge selling points for public schools 
