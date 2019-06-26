@@ -23,6 +23,3 @@ gem 'sqlite3', '~> 1.3.6'
 * How to display a resource. If providing a video and explanation of video as text, display all (video, text, webpage order) and require at least one
   * Put all these into a div with overflow scrolling to always make feedback questions visible at bottom
 * Edit test for creating resource
-
-* Feedback:
-  * Test prep, AP classes are huge selling points for public schools 

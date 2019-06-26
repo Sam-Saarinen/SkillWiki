@@ -150,20 +150,5 @@ class Recommendation < ApplicationRecord
       end 
     end 
   
-  # Set of actions and outcomes based on likelihood
-  # Come up with synthetic data of ratings
-  # Thompson sampling script to see if ratings improve based on recommendations 
-  
-  # Feedback
-  # Supplements education of struggling students or advanced students 
-  # Using Khan Ac rn: features (e.g. badges) that encourage students to continue
-  #   indexing, searching are easy
-  # Teachers want resources already provided 
-  # Pricing: $1-$5 per student per year
-  # Students respond more to personalized instruction (more engaged with tailored content)
-  # e.g. Change language to more personalized "Resources recommended for you"
-  # Integration with other services like Quizzius is important (more marketable)
-  # Having connection with expert information is important for students
-  # =>Think about how resources can be uploaded (maybe use web-crawlers)
   
 end
