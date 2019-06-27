@@ -19,7 +19,10 @@ gem 'sqlite3', '~> 1.3.6'
 
 # Things to Remember (Eric)
 * Implement changes discussed in front-end 
+  * Use inline property for video field 
 * Make one text column called 'content' and save JSON object with links, text, embed code, etc.
 * How to display a resource. If providing a video and explanation of video as text, display all (video, text, webpage order) and require at least one
   * Put all these into a div with overflow scrolling to always make feedback questions visible at bottom
 * Edit test for creating resource
+* HTML/CSS tutorial
+* Think about between AAI and LAK

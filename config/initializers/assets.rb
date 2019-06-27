@@ -14,3 +14,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
 Rails.application.config.assets.precompile += %w( preview.js )
+Rails.application.config.assets.precompile += %w( require_one_field.js )

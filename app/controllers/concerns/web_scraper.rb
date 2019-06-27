@@ -37,7 +37,8 @@ module WebScraper
       title = title.titleize
       
       # User with id of 4 is the web scraper.
-      res = Resource.new(name: title, link: url, topic_id: topic.id, user_id: 4) 
+      content = { link: url, video: "", text: "" }
+      res = Resource.new(name: title, content: content.to_json, topic_id: topic.id, user_id: 4) 
       if res.save
         resources << res 
       else 

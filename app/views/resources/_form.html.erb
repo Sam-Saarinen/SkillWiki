@@ -1,4 +1,4 @@
-<%= form_with(model: resource, local: true) do |form| %>
+<%= form_with url: '/resources', local: true, id: "create_resource" do |form| %>
 
   <% if resource.errors.any? %>
     <div id="error_explanation">
@@ -26,34 +26,54 @@
     </div>
   
     <div class="form-group w-50">
-      <%= form.label :link %>
-      <%= form.text_field :link, class: "form-control" %>
+      <%= form.label "link" %>
       <small id="linkHelp" class="form-text text-muted">Copy and past the link. Make sure to add "https://" at the front.</small>
+      <%= form.text_field "link", class: "form-control" %>
+      
     </div>
     
     <div id="link_preview">
     </div>
     
-    <div class="form-group w-50">
-      <%= form.label :text %>
-      <%= form.text_area :text, class: "form-control" %>
-      <small id="linkHelp" class="form-text text-muted">Write a resource yourself using Markdown!</small>
-    </div>
     
-    <div id="text_preview">
+    <div class="form-group w-75">
+      <%= form.label "video" %>
+      <small id="linkHelp" class="form-text text-muted">Copy and paste the string after the slash from the embed code.</small>
+      <pre style="margin-bottom: 0; display: inline-block; float:left; position: relative; right: 5px"><code>
+        &lt;iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/
+      </code></pre>
+      <%= form.text_field "video", class: "form-control", style: "width: 15%; float: left; position: relative; top: 30px;" %>
+      <pre style="position:relative; top:20px; right: 105px;"><code>
+          " frameborder="0" allow="accelerometer; autoplay; 
+          encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>&lt;/iframe>
+      </code></pre>
     </div>
-    
-    <div class="form-group w-50">
-      <%= form.label :video %>
-      <%= form.text_area :video, class: "form-control" %>
-      <small id="linkHelp" class="form-text text-muted">Copy and paste the video's embed code.</small>
+    <div style="position: relative; top:30px;">
     </div>
     
     <div id="video_preview">
     </div>
+    
+    <div>
+      <div class="form-group w-50">
+        
+        <%= form.label "text" %>
+        <small id="linkHelp" class="form-text text-muted">Write a resource yourself using Markdown!</small>
+        <%= form.text_area "text", class: "form-control" %>
+        
+      </div>
+    
+      <div id="text_preview" class="border text-left w-50" style="height: 100px;">
+        <h4>See your text appear here!</h4>
+      </div>
+    </div>
+    
+    <input type="hidden" name="resource[content]" id="content">
 
     <div class="actions">
-      <%= form.submit class: "btn btn-primary", data: { "disable-with": "Saving..." } %>
+      <%= form.submit id: "submit", class: "btn btn-primary", data: { "disable-with": "Saving..." } %>
     </div>
     
   </center>
@@ -61,3 +81,4 @@
 <% end %>
 
 <%= javascript_include_tag "preview" %>
+<%= javascript_include_tag "require_one_field" %>

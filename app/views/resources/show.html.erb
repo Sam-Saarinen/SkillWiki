@@ -1,26 +1,52 @@
 <!--<p id="notice"><%= notice %></p>-->
 
-<% safe_link = '/not_found' %>
+<% content = JSON.parse(@resource.content) %>
 
-<% if valid_url?(@resource.link) %>
-  <%= @resource.link %>
-  <a href="<%=@resource.link%>">go</a>
-  <center>
-    <div class="embed-responsive embed-responsive-16by9 w-75">
-      <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%=@resource.link%>" allowfullscreen>Resource could not be rendered.</iframe>
-    </div>
-  </center>
-  <!--<%= link_to 'Edit', edit_resource_path(@resource) %> |-->
-  <!--<%= link_to 'Back', resources_path %>-->
-<% else %>
-  <a href="<%=safe_link%>">go</a>
-  <center>
-    <div class="embed-responsive embed-responsive-16by9 w-75">
-      <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%=safe_link%>" allowfullscreen>Resource could not be rendered.</iframe>
-    </div>
-  </center>
-  <!--<%= link_to 'Edit', edit_resource_path(@resource) %> |-->
-  <!--<%= link_to 'Back', resources_path %>-->
-<% end %>
+<div style="overflow: scroll; height: 600px">
+  
+  <!--Show link-->
+  <% if !content["link"].empty? %>
+    <% link = content["link"] %>
+    <% safe_link = '/not_found' %>
+    <% if valid_url?(link) %>
+      <center>
+        <div class="embed-responsive embed-responsive-16by9 w-75">
+          <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%= link %>" allowfullscreen>Resource could not be rendered.</iframe>
+        </div>
+      </center>
+    <% else %>
+      <a href="<%= safe_link %>">go</a>
+      <center>
+        <div class="embed-responsive embed-responsive-16by9 w-75">
+          <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%= safe_link %>" allowfullscreen>Resource could not be rendered.</iframe>
+        </div>
+      </center>
+    <% end %>
+  <% end %>
+  
+  <!--Show video-->
+  <% if !content["video"].empty? %>
+    <% video = content["video"] %>
+      
+    <center>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </center>
+  <% end %>
+  
+  <!--Show text-->
+  <% if !content["text"].empty? %>
+    <% text = content["text"] %>
+  
+    <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true) %>
+    <% rendered = markdown.render(text) %>
+  
+    <center>
+      <div class="border text-left w-50">
+        <%= sanitize rendered %>
+      </div>
+    </center>
+  <% end %>
+  
+</div>
 
 <%= render 'feedback_form' %>

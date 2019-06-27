@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_19_195342) do
+ActiveRecord::Schema.define(version: 2019_06_26_193639) do
 
   create_table "interactions", force: :cascade do |t|
     t.integer "user_id"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2019_06_19_195342) do
     t.float "helpful_avg"
     t.integer "feedback_count"
     t.float "sampled_reward", default: 0.0
+    t.text "content"
     t.index ["topic_id"], name: "index_resources_on_topic_id"
     t.index ["user_id"], name: "index_resources_on_user_id"
   end
