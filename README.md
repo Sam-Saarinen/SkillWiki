@@ -42,4 +42,5 @@ gem 'sqlite3', '~> 1.3.6'
     6. Doing the most good (Submit 100 resources that are approved)
     7. Mike drop (Get 100% on topic quiz)
     8. Viral (Submitted resource with > 100 feedback_count and > 4.0 helpful_avg)
+    9. See Something, Say Something (Report a resource for not being relevant)
 
