@@ -14,7 +14,7 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create resource" do
     assert_difference('Resource.count') do
-      post resources_url, params: { resource: { name: "Python", topic_id: 1, link: "python.org" } }
+      post resources_url, params: { resource: { name: "Python", topic_id: 1 }, link: "python.org", video: "", text: "" }
     end
 
     assert_redirected_to root_url

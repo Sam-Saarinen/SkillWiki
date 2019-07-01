@@ -30,7 +30,7 @@ class ResourcesController < ApplicationController
   # POST /resources
   # POST /resources.json
   def create
-    @resource = Resource.new(params.permit(:name, :topic_id))
+    @resource = Resource.new(resource_params.permit(:name, :topic_id))
     @resource.user_id = current_user.id
     content = { link: params[:link], video: params[:video], text: params[:text] }
     @resource.content = content.to_json

@@ -18,11 +18,28 @@ cancancan ([https://github.com/CanCanCommunity/cancancan])
 gem 'sqlite3', '~> 1.3.6' 
 
 # Things to Remember (Eric)
-* Implement changes discussed in front-end 
-  * Use inline property for video field 
-* Make one text column called 'content' and save JSON object with links, text, embed code, etc.
-* How to display a resource. If providing a video and explanation of video as text, display all (video, text, webpage order) and require at least one
-  * Put all these into a div with overflow scrolling to always make feedback questions visible at bottom
-* Edit test for creating resource
-* HTML/CSS tutorial
-* Think about between AAI and LAK
+* TOASK:
+    * Cap number of resources for a recommendation?
+* TODO:
+    * After topic creation, alert should mention topic must be approved (b/c user may be confused )
+    * HTML/CSS tutorial
+* Khan Academy Badge System Notes
+    * Badge page can be navigated to from profile navbar
+    * "Badges Earned" are displayed first then "Possible Badges"
+    * Badges are divided into categories based on difficulty to earn
+    * Each badge has its own illustration
+    * Each badge displays how long ago it was earned
+    * Hovering over the illustration of a badge displays the requirement to earn the badge
+    * Badges may be earned multiple times and this number is displayed below the illustration
+    * A link near the top of the page checks if any new badges have been earned
+* Badges to add:
+    1. Welcome! (Create an account)
+    2. All systems go (Complete user feature questions)
+    2. The journey begins (Give feedback for first resource)
+    3. Giving back (Submit first resource)
+    4. Just getting started (Finish first topic)
+    5. Doing more good (Submit 10 resources that are approved)
+    6. Doing the most good (Submit 100 resources that are approved)
+    7. Mike drop (Get 100% on topic quiz)
+    8. Viral (Submitted resource with > 100 feedback_count and > 4.0 helpful_avg)
+
