@@ -36,9 +36,9 @@ module WebScraper
       title = ActionView::Base.full_sanitizer.sanitize(webPage["title"])
       title = title.titleize
       
-      # User with id of 4 is the web scraper.
+      # User with id of 2 is the web scraper.
       content = { link: url, video: "", text: "" }
-      res = Resource.new(name: title, content: content.to_json, topic_id: topic.id, user_id: 4) 
+      res = Resource.new(name: title, content: content.to_json, topic_id: topic.id, user_id: 2) 
       if res.save
         resources << res 
       else 

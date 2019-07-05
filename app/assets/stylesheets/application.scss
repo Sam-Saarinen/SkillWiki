@@ -17,3 +17,30 @@
  
 h1, h2, h3, h4, h5, h6 {text-align: center;
 }
+
+.badge {
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid #ccc;
+  background: #ddd;
+  margin: 10px;
+}
+
+.badge-description {
+  width: 75%;
+  margin: auto;
+  // word-wrap: break-word;
+  // white-space:normal;
+}
+
+.badge-disabled {
+  background: #fff;
+  color: #bbb;
+}
+
+.badge-disabled img {
+  opacity: 0.4;
+}

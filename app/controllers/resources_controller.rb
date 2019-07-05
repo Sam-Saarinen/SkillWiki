@@ -30,7 +30,7 @@ class ResourcesController < ApplicationController
   # POST /resources
   # POST /resources.json
   def create
-    @resource = Resource.new(resource_params.permit(:name, :topic_id))
+    @resource = Resource.new(params.permit(:name, :topic_id))
     @resource.user_id = current_user.id
     content = { link: params[:link], video: params[:video], text: params[:text] }
     @resource.content = content.to_json
@@ -42,13 +42,24 @@ class ResourcesController < ApplicationController
     end 
 
     respond_to do |format|
-      if @resource.save
-        format.html { redirect_to root_url, notice: 'Resource was successfully created.' }
-        format.json { render :new, status: :created, location: @resource }
-      else
-        format.html { render :new, alert: 'Resource could not be created.' }
-        format.json { render json: @resource.errors, status: :unprocessable_entity }
-      end
+      if not current_user.earned(4) && Resource.where(user_id: current_user.id).count == 0
+        if @resource.save && current_user.add_badge(4)
+          title = User::Badges[4][:title]
+          format.html { redirect_to root_url, notice: "You've earned the #{title} badge!" }
+          format.json { render :new, status: :created, location: @resource }
+        else
+          format.html { render :new, alert: 'Resource could not be created.' }
+          format.json { render json: @resource.errors, status: :unprocessable_entity }
+        end
+      else 
+        if @resource.save
+          format.html { redirect_to root_url, notice: 'Resource was successfully created.' }
+          format.json { render :new, status: :created, location: @resource }
+        else
+          format.html { render :new, alert: 'Resource could not be created.' }
+          format.json { render json: @resource.errors, status: :unprocessable_entity }
+        end
+      end 
     end
   end
 
@@ -82,7 +93,7 @@ class ResourcesController < ApplicationController
     if @interact.helpful_q.nil? && @interact.confidence_q.nil?
       if @interact.update(helpful_q: params[:helpful], confidence_q: params[:confident]) && 
         @resource.update_avg(params[:helpful].to_i)
-        redirect_to_home_or_next
+        check_feedback_badges
       else 
         render action: "show", alert: "Could not save feedback"
       end 
@@ -92,7 +103,7 @@ class ResourcesController < ApplicationController
       old_val = @interact.helpful_q
       if @interact.update(helpful_q: params[:helpful], confidence_q: params[:confident]) && 
         @resource.update_avg_with_old_val(params[:helpful].to_i, old_val)
-        redirect_to_home_or_next
+        check_feedback_badges
       else 
         render action: "show", alert: "Could not save feedback"
       end 
@@ -142,10 +153,40 @@ class ResourcesController < ApplicationController
       end
     end 
     
+    # Check for any feedback badges that might have been earned.
+    def check_feedback_badges
+      u = User.find(@resource.user_id)
+      if (not current_user.earned(3)) && (Interaction.where(user_id: current_user.id).count == 1) && current_user.add_badge(3)
+        # current_user.add_badge(3) # FIXME: Why can't this be added with '&&' for if clause?
+        title = User::Badges[3][:title]
+        redirect_to_home_or_next_with_msg("You've earned the #{title} badge!")
+      elsif (not u.earned(9)) && @resource.feedback_count > 100 && @resource.helpful_avg > 4.0 && u.add_badge(9) 
+        redirect_to_home_or_next
+      else 
+        redirect_to_home_or_next
+      end 
+    end 
+    
     # Redirect after feedback to next resource or home page.
+    def redirect_to_home_or_next_with_msg(success_notice)
+      if params[:feedback] == "done" 
+              redirect_to root_url, notice: success_notice
+      elsif params[:feedback] == "another" 
+          # redirect to next resource
+          @rec = Recommendation.find_by(user_id: current_user.id, topic_id: @resource.topic_id) 
+          # FIXME: Above assumes each user has a unique rec for each topic.
+          @next_resource = Resource.find_by(id: next_id(@resource.id, @rec.content))
+          if @next_resource.nil?
+            redirect_to root_url, notice: success_notice
+          else
+            redirect_to @next_resource, notice: success_notice
+          end 
+      end 
+    end 
+    
     def redirect_to_home_or_next
       if params[:feedback] == "done"
-          redirect_to root_url, notice: "Thank you for the feedback!"
+              redirect_to root_url, notice: "Thank you for the feedback!"
       elsif params[:feedback] == "another"
           # redirect to next resource
           @rec = Recommendation.find_by(user_id: current_user.id, topic_id: @resource.topic_id) 
@@ -158,4 +199,5 @@ class ResourcesController < ApplicationController
           end 
       end 
     end 
+      
 end

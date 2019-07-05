@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_26_193639) do
+ActiveRecord::Schema.define(version: 2019_07_02_163122) do
 
   create_table "interactions", force: :cascade do |t|
     t.integer "user_id"
@@ -38,16 +38,14 @@ ActiveRecord::Schema.define(version: 2019_06_26_193639) do
     t.string "name"
     t.integer "topic_id"
     t.integer "user_id"
-    t.boolean "approved"
-    t.string "link"
+    t.boolean "approved", default: false
     t.boolean "tentative"
-    t.boolean "removed"
-    t.boolean "flagged"
-    t.integer "views"
+    t.boolean "removed", default: false
+    t.boolean "flagged", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "helpful_avg"
-    t.integer "feedback_count"
+    t.float "helpful_avg", default: 0.0
+    t.integer "feedback_count", default: 0
     t.float "sampled_reward", default: 0.0
     t.text "content"
     t.index ["topic_id"], name: "index_resources_on_topic_id"
@@ -56,7 +54,7 @@ ActiveRecord::Schema.define(version: 2019_06_26_193639) do
 
   create_table "topics", force: :cascade do |t|
     t.string "name"
-    t.boolean "approved"
+    t.boolean "approved", default: false
     t.text "description"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -67,8 +65,8 @@ ActiveRecord::Schema.define(version: 2019_06_26_193639) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.boolean "admin"
-    t.boolean "teacher"
+    t.boolean "admin", default: false
+    t.boolean "teacher", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
@@ -82,6 +80,7 @@ ActiveRecord::Schema.define(version: 2019_06_26_193639) do
     t.string "unconfirmed_email"
     t.integer "speed"
     t.integer "guide"
+    t.text "badges"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

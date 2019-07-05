@@ -1,10 +1,10 @@
 class Resource < ApplicationRecord
   belongs_to :topic
   belongs_to :user
-  attribute :helpful_avg, :float, default: 0.0 
+  # attribute :helpful_avg, :float, default: 0.0 
   # FIXME: SQL default value is still nill so this is a temporary fix? Migration changing default run into SQL exception of foreign key constraint.
   # Could make a helper that sets nil to 0
-  attribute :feedback_count, :integer, default: 0
+  # attribute :feedback_count, :integer, default: 0
   
   # Updates running helpfulness average with value from new feedback
   def update_avg(val)

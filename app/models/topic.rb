@@ -3,5 +3,4 @@ class Topic < ApplicationRecord
   belongs_to :user
   has_many :resource, :dependent => :delete_all 
   has_many :recommendation, :dependent => :delete_all 
-  attribute :approved, :boolean, default: false 
 end

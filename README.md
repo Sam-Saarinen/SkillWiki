@@ -21,8 +21,13 @@ gem 'sqlite3', '~> 1.3.6'
 * TOASK:
     * Cap number of resources for a recommendation?
 * TODO:
-    * After topic creation, alert should mention topic must be approved (b/c user may be confused )
+    * For badges, put checkmark to show that badge has been earned
+    * Change CSS for headers so that h1 is clearly different from h2, h3, etc.
+    * After topic creation, alert should mention topic must be approved (b/c user may be confused)
     * HTML/CSS tutorial
+    * Add ability for filtering resources that have been web-scraped
+    * Add ability to flag inappropriate resources
+    * Ability to review resources is imp.
 * Khan Academy Badge System Notes
     * Badge page can be navigated to from profile navbar
     * "Badges Earned" are displayed first then "Possible Badges"

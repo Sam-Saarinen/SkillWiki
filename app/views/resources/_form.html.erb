@@ -44,6 +44,7 @@
         src="https://www.youtube.com/embed/
       </code></pre>
       <%= form.text_field "video", class: "form-control", style: "width: 15%; float: left; position: relative; top: 30px;" %>
+      <% # FIXME: Whole textbox cannot be clicked on %>
       <pre style="position:relative; top:20px; right: 105px;"><code>
           " frameborder="0" allow="accelerometer; autoplay; 
           encrypted-media; gyroscope; picture-in-picture"
@@ -69,8 +70,6 @@
         <h4>See your text appear here!</h4>
       </div>
     </div>
-    
-    <input type="hidden" name="resource[content]" id="content">
 
     <div class="actions">
       <%= form.submit id: "submit", class: "btn btn-primary", data: { "disable-with": "Saving..." } %>

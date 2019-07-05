@@ -1,11 +1,44 @@
 <h1><%= @user.name %></h1>
 
-<h2 class="text-center">Student since <%= @user.created_at.strftime("%B %d, %Y") %></h2>
-
+<h2>Student since <%= @user.created_at.strftime("%B %d, %Y") %></h2>
+  
 <center>
+  
+  <h2>Badges</h2>
+  
+  <button class="btn btn-primary" onclick="location.reload()">Check for New Badges</button>
+    
+    <% user_badges = JSON.parse(@user.badges) %>
+    <% user_badges.each do |key, val| %>
+      
+      <% if val["earned"] %>
+        <div class="badge">
+          <div>
+            <%= image_tag("badge.png", height: '64', width: '64', :alt => "badge") %>
+          </div>
+          <div class="badge-description text-wrap">
+            <h5><%= @badges[key.to_i][:title] %></h5>
+            <%= @badges[key.to_i][:requirement] %></br><em>Earned on <%= val["earn_date"] %></em>
+          </div>
+        </div>
+      <% else %>
+        <div class="badge badge-disabled">
+          <div>
+            <%= image_tag("badge.png", height: '64', width: '64', :alt => "badge") %>
+          </div>
+          <div class="badge-description text-wrap">
+            <h5><%= @badges[key.to_i][:title] %></h5>
+            <%= @badges[key.to_i][:requirement] %>
+          </div>
+        </div>
+      <% end %>
+      
+    <% end %>
+
   <a href="/user_features/<%= @user.id %>/edit" class="btn btn-primary">Edit My Features</a>
   
   <% if can? :approve, Topic %>
         <a class="btn btn-primary btn-primary" style="margin: auto" href="/topics/approve" role="button">Approve Topics</a>
   <% end %>
 </center>
+
