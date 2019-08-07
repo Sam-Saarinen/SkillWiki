@@ -1,0 +1,41 @@
+<% if params[:topic_id] %>
+  <div class="stats"> 
+    <h2>Class Stats</h2>
+    
+    <!--Get stats from backend-->
+    <% stats = JSON.parse(@classroom.stats) %>
+    
+    <% quiz_avg = stats["#{params[:topic_id]}"]["quiz_avg"] %>
+    
+    <h3>Class quiz average: <%= if quiz_avg.nil? then 'N/A' else quiz_avg end %></h3>
+    
+    <!--Calculated by getting total number of resources students have viewed from interactions-->
+    <h3>Average number of resources viewed: <%= stats["#{params[:topic_id]}"]["avg_resources_viewed"] %></h3>
+    
+    <% highest_rated_resource = stats["#{params[:topic_id]}"]["highest_rated_resource"] %>
+    <% lowest_rated_resource = stats["#{params[:topic_id]}"]["lowest_rated_resource"] %>
+    
+    <h3>Highest rated resource: <%= if !highest_rated_resource.nil? then Resource.find(highest_rated_resource.to_i).name else 'N/A' end %></h3>
+    <h3>Lowest rated resource: <%= if !lowest_rated_resource.nil? then Resource.find(lowest_rated_resource.to_i).name else 'N/A' end %></h3>
+  </div>
+<% elsif params[:topics] %>
+  <div class="stats"> 
+    <h2>Class Stats</h2>
+    
+    <!--Get stats from backend-->
+    <% stats = JSON.parse(@classroom.stats) %>
+    
+    <% quiz_avg = stats["#{params[:topics]}"]["quiz_avg"] %>
+    
+    <h3>Class quiz average: <%= if quiz_avg.nil? then 'N/A' else quiz_avg end %></h3>
+    
+    <!--Calculated by getting total number of resources students have viewed from interactions-->
+    <h3>Average number of resources viewed: <%= stats["#{params[:topics]}"]["avg_resources_viewed"] %></h3>
+    
+    <% highest_rated_resource = stats["#{params[:topics]}"]["highest_rated_resource"] %>
+    <% lowest_rated_resource = stats["#{params[:topics]}"]["lowest_rated_resource"] %>
+    
+    <h3>Highest rated resource: <%= if !highest_rated_resource.nil? then Resource.find(highest_rated_resource.to_i).name else 'N/A' end %></h3>
+    <h3>Lowest rated resource: <%= if !lowest_rated_resource.nil? then Resource.find(lowest_rated_resource.to_i).name else 'N/A' end %></h3>
+  </div>
+<% end %>

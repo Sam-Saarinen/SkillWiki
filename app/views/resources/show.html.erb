@@ -10,6 +10,7 @@
     <% safe_link = '/not_found' %>
     <% if valid_url?(link) %>
       <center>
+        <a href="<%= link %>" target="_blank">Click here if resource is not visible below (Opens in new tab)</a>
         <div class="embed-responsive embed-responsive-16by9 w-75">
           <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%= link %>" allowfullscreen>Resource could not be rendered.</iframe>
         </div>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  references: 
+  references: 
+  references: 
+  references: 
+  due_date: 2019-07-15 16:54:05
+  resources_completed: MyText
+  start_date: 2019-07-15 16:54:05
+  quiz_score: 1.5
+
+two:
+  references: 
+  references: 
+  references: 
+  references: 
+  due_date: 2019-07-15 16:54:05
+  resources_completed: MyText
+  start_date: 2019-07-15 16:54:05
+  quiz_score: 1.5

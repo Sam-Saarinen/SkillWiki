@@ -1,12 +1,34 @@
 <div>
   <!--show all topics of the user-->
-  <% topics = Topic.all.where(approved: true) %>
+  <% topics = Topic.where(approved: true) %>
   <center>
-    <ul class="form-group w-50">
-      <% topics.each do |topic| %>
-          <a href="topics/show/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
-      <% end %>
-  </ul>
+    <% assigned = Assignment.where(student_id: current_user) %>
+    <% if not assigned.empty? %>
+      <h2>Assigned Topics</h2>
+      <ul class="form-group w-50">
+        <% assigned.each do |a| %>
+            <% topic = Topic.find(a.topic_id) %>
+            <a href="topics/show/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
+        <% end %>
+      </ul>
+      
+      <h2>Other Topics</h2>
+      <ul class="form-group w-50">
+        <% ids = assigned.map {|a| a.topic_id} %>
+        <% topics.each do |topic| %>
+          <% if not ids.include? topic.id %>
+            <a href="topics/show/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
+          <% end %>
+        <% end %>
+      </ul>
+    
+    <% else %>
+      <ul class="form-group w-50">
+        <% topics.each do |topic| %>
+            <a href="topics/show/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
+        <% end %>
+      </ul>
+    <% end %>
   </center>
 </div>
 

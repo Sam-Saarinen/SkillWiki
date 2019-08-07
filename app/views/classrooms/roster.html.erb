@@ -1,0 +1,19 @@
+<center>
+  <h1><%= @classroom.name %></h1>
+  <h2>Class code: <%= @classroom.join_code %></h2>
+    
+  <%= render 'teacher_navbar' %>
+  
+  <h1>Roster</h1>
+  <% @students.each do |s| %>
+    <%= form_tag("/classrooms/#{@classroom.id}/remove_student/#{s.id}", method: "post") do %>
+      <div class="student-roster-item">
+        <% viewed = Interaction.where(user_id: s.id).count %>
+        <h2><%= s.name %></h2>
+        <p>Total topics completed: N/A </p>
+        <p>Total resources viewed: <%= viewed %></p>
+        <button class="btn btn-danger btn-sm" type="submit" name="remove">Remove this Student</button>
+      </div>
+    <% end %>
+  <% end %>
+</center>

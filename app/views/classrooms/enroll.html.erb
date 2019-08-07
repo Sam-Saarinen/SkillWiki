@@ -1,0 +1,17 @@
+<h1>Join a Class</h1>
+
+<%= form_with url: '/classrooms/join', local: true do |form| %>
+
+  <center>
+    <div class="form-group w-25">
+      <%= form.label :join_code %>
+      <%= form.text_field :join_code, class: "form-control", required: true %>
+    </div>
+    
+    <div class="actions">
+      <%= form.submit "Join", class: "btn btn-primary", data: { "disable-with": "Joining..." } %>
+    </div>
+    
+  </center>
+
+<% end %>

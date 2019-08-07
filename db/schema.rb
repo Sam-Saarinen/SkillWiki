@@ -10,11 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_02_163122) do
+ActiveRecord::Schema.define(version: 2019_07_18_192310) do
+
+  create_table "assignments", force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "classroom_id"
+    t.integer "teacher_id"
+    t.integer "topic_id"
+    t.datetime "due_date"
+    t.text "resources_completed"
+    t.datetime "start_date"
+    t.float "quiz_score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["classroom_id"], name: "index_assignments_on_classroom_id"
+    t.index ["student_id"], name: "index_assignments_on_student_id"
+    t.index ["teacher_id"], name: "index_assignments_on_teacher_id"
+    t.index ["topic_id"], name: "index_assignments_on_topic_id"
+  end
+
+  create_table "classrooms", force: :cascade do |t|
+    t.text "name"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "stats"
+    t.string "join_code"
+    t.index ["join_code"], name: "index_classrooms_on_join_code", unique: true
+    t.index ["user_id"], name: "index_classrooms_on_user_id"
+  end
+
+  create_table "classrooms_users", id: false, force: :cascade do |t|
+    t.integer "classroom_id"
+    t.integer "user_id"
+    t.index ["classroom_id"], name: "index_classrooms_users_on_classroom_id"
+    t.index ["user_id"], name: "index_classrooms_users_on_user_id"
+  end
 
   create_table "interactions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "resource_id"
+    t.integer "topic_id"
     t.integer "helpful_q"
     t.integer "confidence_q"
     t.float "time_taken"
@@ -22,6 +58,7 @@ ActiveRecord::Schema.define(version: 2019_07_02_163122) do
     t.datetime "updated_at", null: false
     t.index ["resource_id"], name: "index_interactions_on_resource_id"
     t.index ["user_id"], name: "index_interactions_on_user_id"
+    t.index ["topic_id"], name: "index_interactions_on_topic_id"
   end
 
   create_table "recommendations", force: :cascade do |t|

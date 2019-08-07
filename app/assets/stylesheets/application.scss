@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap-datepicker
  */
  @import "bootstrap";
  
@@ -26,7 +27,7 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
   align-items: center;
   border: 1px solid #ccc;
   background: #ddd;
-  margin: 10px;
+  margin: 1rem;
 }
 
 .badge-description {
@@ -44,3 +45,91 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
 .badge-disabled img {
   opacity: 0.4;
 }
+
+.stats {
+  background: rgba(0,0,0,0.1);
+  width: 50%;
+}
+
+.topic-progress-item {
+  width: 50%;
+  border: 1px solid;
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.topic-progress-item h2 {
+  margin-left: 2rem;
+}
+
+.topic-progress-item p {
+  margin-left: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.student-progress-item {
+  width: 50%;
+  border: 1px solid;
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.student-progress-item h2 {
+  margin-left: 1rem;
+}
+
+.student-progress-item p {
+  margin-left: 10rem;
+  margin-bottom: 0.25rem;
+}
+
+.student-progress-item a {
+  margin-left: 10rem;
+  margin-bottom: 0.25rem;
+}
+
+.student-roster-item {
+  width: 50%;
+  border: 1px solid;
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.student-roster-item button {
+  margin-bottom: 1rem;
+}
+
+.student-progress-item h2 {
+  margin-left: 1rem;
+}
+
+.viewed-resource-item {
+  width: 50%;
+  border: 1px solid;
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+// .viewed-resource-item p {
+//   text-align:center;
+// }

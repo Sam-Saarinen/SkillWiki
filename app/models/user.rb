@@ -25,7 +25,10 @@ class User < ApplicationRecord
     10 => { :earned => false, :earn_date => nil }
   }
   attribute :badges, :text, default: "#{UserBadges.to_json}"
-  # TODO: Make user's badges a separate hash with only :earned and :earn_date (too much repetition)
+  
+  has_many :my_assignments, :class_name => 'Assignment', :foreign_key => 'student_id'
+  has_many :given_assignments, :class_name => 'Assignment', :foreign_key => 'teacher_id'
+  has_and_belongs_to_many :classrooms
   
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable, :trackable and :omniauthable
@@ -35,7 +38,6 @@ class User < ApplicationRecord
          
   # Sets specified badge for user to earned
   def add_badge(badge_id)
-    puts "--- here ---"
     badges = JSON.parse(self.badges)
     badges["#{badge_id}"]["earned"] = true
     badges["#{badge_id}"]["earn_date"] = Date.current

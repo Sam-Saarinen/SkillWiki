@@ -58,6 +58,9 @@ gem 'jquery-rails'
 # Add Markdown parsing and rendering
 gem 'redcarpet'
 
+# Add datepicker 
+gem 'bootstrap-datepicker-rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

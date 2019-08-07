@@ -10,9 +10,18 @@
         <li class="nav-item">
           <a class="nav-link" href="/user_features/<%= current_user.id %>"><%= current_user.name %></a>
         </li>
+        
+        <% classes = current_user.classrooms %>
+        <% classes.each do |classroom| %>
+          <li class="nav-item">
+            <a class="nav-link" href="/classrooms/<%= classroom.id %>/show/active"><%= classroom.name %></a>
+          </li>
+        <% end %>
+        
         <li class="nav-item">
           <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "nav-link") %>
         </li>
+        
       <% else %>
         <li class="nav-item">
            <%= link_to('Login', new_user_session_path, class: "nav-link") %>

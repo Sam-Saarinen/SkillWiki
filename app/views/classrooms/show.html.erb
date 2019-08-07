@@ -1,0 +1,55 @@
+<% if current_user.teacher %>
+
+  <center>
+    <h1><%= @classroom.name %></h1>
+    <h2>Class code: <%= @classroom.join_code %></h2>
+    
+    <%= render 'teacher_navbar' %>
+    <%= render 'class_stats' %>
+    
+    <a class="btn btn-primary" href='/classrooms/<%= @classroom.id %>/assignments/new'>Assign a Topic</a>
+    
+    <!--Topic cards from teacher view-->
+    <h1>Topics</h1>
+      
+    <% @assignments.each do |a| %>
+      <div class="topic-progress-item">
+        <!--Content of topic progress-->
+        <% t = Topic.find(a.topic_id) %>
+        <h2><%= t.name %></h2>
+        <p>Students who have completed this topic: </p>
+        <p>Class quiz average: </p>
+      </div>
+    <% end %>
+  </center>
+
+<% else %>
+  <center>
+    <h1><%= @classroom.name %></h1>
+    <h2>Class code: <%= @classroom.join_code %></h2>
+    <%= render 'student_topics_navbar' %>
+    <%= render 'class_stats' %>
+    
+    <!--Topic cards from student view-->
+    
+    <h1>Topics</h1>
+    
+    <!--Need another way to get assignments for specific student-->
+    
+    <% @student_assignments = @student_assignments.select {|a| a.student_id == current_user.id } %>
+    <% @student_assignments = @student_assignments.uniq {|a| a.topic_id } %>
+    
+    <% @student_assignments.each do |a| %>
+      <div class="topic-progress-item">
+        <!--Content of topic progress-->
+        <% t = Topic.find(a.topic_id) %>
+        <% student = a.student %>
+        <% finished = Interaction.where('user_id = ?', student.id).count %>
+        <h2><%= t.name %></h2>
+        <p>Number of resources completed: <%= finished %></p>
+        <p>Due date: <%= a.due_date.strftime("%B %d, %Y") %></p>
+      </div>
+    <% end %>
+  </center>
+
+<% end %>

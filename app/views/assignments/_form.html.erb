@@ -1,0 +1,185 @@
+<%= form_with(url: "/classrooms/#{params[:classroom_id]}/assignments", local: true, id: "assign_topic") do |form| %>
+  
+  <center>
+    
+    <div class="form-group">
+      <% if params[:topic_id] %>
+        <%= form.label "Topic" %>
+        <% topics = Topic.where(reviewed:true).where(approved: true) %>
+        <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true, selected: params[:topic_id] %>
+      <% else %>
+        <%= form.label "Topic" %>
+        <% topics = Topic.where(reviewed:true).where(approved: true) %>
+        <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true %>
+      <% end %>
+    </div>
+  
+    <div class="form-group">
+      <%= form.label :due_date %>
+      <input placeholder="<%= @assignment.due_date %>" type="text" name="due_date" data-provide='datepicker' data-date-format="yyyy-mm-dd 23:59:59" required>
+    </div>
+    
+    <div class="form-group">
+      <%= form.label :students %>
+      
+      <input type="hidden" name="students[all]" value="false">
+      <div class="form-check">
+        
+        <input id="all" class="form-check-input" type="checkbox" name="students[all]" value="true" onclick="userSelectAll()">
+        
+        <label class="form-check-label" for="all">
+          All Students
+        </label>
+      </div>
+      
+      <% @classroom = Classroom.find(params[:classroom_id]) %>
+      <% enrolled = @classroom.enrolled %>
+      <% enrolled.each do |student| %>
+        <% if student.teacher %>
+          <% next %>
+        <% end %>
+        
+        <input type="hidden" name="students[<%= student.id %>]" value="false">
+        <div class="form-check">
+          
+          <% if params[:student_id] && student.id == params[:student_id] %>
+            <input id="<%= student.id %>" class="form-check-input" type="checkbox" name="students[<%= student.id %>]" value="true" checked=true>
+          <% else %>
+            <input id="<%= student.id %>" class="form-check-input" type="checkbox" name="students[<%= student.id %>]" value="true">
+          <% end %>
+          
+          <label class="form-check-label" for="<%= student.id %>">
+            <%= student.name %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+    <% #TODO: Align checkboxes vertically %>
+    
+    <input type="hidden" id="classroom_id" name="classroom_id" value="<%= j(params['classroom_id']) %>">
+  
+    <div class="actions">
+        <%= form.submit "Assign", id: "assign", class: "btn btn-primary", data: { "disable-with": "Assigning..." } %>
+    </div>
+  
+  </center>
+<% end %>
+
+<script type="text/javascript">
+
+    $("#topic_id").on('click', event => {
+      location.reload();
+    });
+
+    $( document ).ready(function() {
+        $("input:checkbox").each( function() {
+          $(this).prop('checked', true);
+        });
+        deselectSome();
+      });
+
+    // function deselectAll() {
+    //   $("input:checkbox").each( function() {
+    //       $(this).prop('checked', false);
+    //   });
+    // }
+
+    function userSelectAll() {
+
+      if ($("#all:checked").val()) {
+        $("input:checkbox").each( function() {
+          $(this).prop('checked', true);
+        });
+      }
+      else {
+        $("input:checkbox").each( function() {
+          $(this).prop('checked', false);
+        });
+      }
+    }
+    
+    // Deselects checkboxes for students with assignments for this topic and 
+    // displays a message
+    function deselectSome() {
+      $("input:checkbox").each( function() {
+        if (this.getAttribute('id') !== "all") {
+          checkDuplicate(this); //.done(dupMessage(this));
+        }
+      });
+    }
+    
+    // TODO: Doesn't deslect if topic is changed
+    // TODO: Doesn't deselect when selectAll is called
+    // Checks if student selected already has been assigned the topic,
+    // in which case deselects the student with a message
+    function checkDuplicate(box) {
+      student = []
+      student.push(box.getAttribute('id'));
+      
+      const postParameters = {
+                  classroom_id: $("#classroom_id").val(),
+                  topic_id: $("#topic_id").val(),
+                  checked: student};
+                  
+      $.post("/assignments/dup_assignments", postParameters, responseJSON => {
+        dup = JSON.parse(responseJSON);
+        dupMessage(box, dup);
+      });
+    }
+    
+    function dupMessage(box, dup) {
+      if (dup) {
+        $(box).prop('checked', false);
+        displayMessage(box);
+        // $(box).html(dueDate);
+        // console.log("duplicate");
+        // console.log(box)
+      } 
+    }
+    
+    function displayMessage(box) {
+      studentId = box.getAttribute('id');
+      
+      const postParameters = { 
+        classroom_id: $("#classroom_id").val(),
+        topic_id: $("#topic_id").val(), 
+        student_id: studentId }
+        
+      console.log("ready to post");
+      $.post("/assignments/dup_message", postParameters, responseJSON => {
+        // TODO: Not getting here after POST request
+        console.log("posted");
+        console.log(responseJSON);
+        const responseObject = responseJSON;
+        console.log(responseObject);
+        const label = 'label[for="' + $(box).attr('id') + '"]'
+        let msg = $(label).html().trim();
+        msg += responseObject;
+        $(label).html(msg);
+      });
+    }
+    
+    // $('.form-check-input').click(function() {
+    //   if (this.getAttribute('id') !== "all") {
+    //     student = []
+    //     student.push(this.getAttribute('id'));
+        
+    //     const postParameters = {
+    //                 classroom_id: $("#classroom_id").val(),
+    //                 topic_id: $("#topic_id").val(),
+    //                 checked: student};
+                    
+    //     $.post("/assignments/dup_assignments", postParameters, responseJSON => {
+    //       const responseObject = JSON.parse(responseJSON);
+            
+    //       if (responseObject) {
+    //         // $(this).prop('checked', false);
+    //         // alert("This student has already been as")
+    //       } 
+    //     });
+    //   }
+      
+    // });
+    
+</script>
+<%= javascript_include_tag "assign_topic_checks" %>

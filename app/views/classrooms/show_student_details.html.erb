@@ -1,0 +1,16 @@
+<h1><%= @student.name %>'s Progress in <%= @topic.name %></h1>
+
+<h2>Resources Viewed</h2>
+<center>
+  <% viewed = Interaction.where('user_id = ?', params[:user_id]).where('topic_id = ?', params[:topic_id]) %>
+  <% viewed.each do |v| %>
+    <% r = Resource.find(v.resource_id) %>
+      <div class="viewed-resource-item">
+        <h3><%= r.name %></h3>
+        <p>Helpfulness rating: <%= v.helpful_q %></p>
+        <p>Confidence rating: <%= v.confidence_q %></p>
+      </div>
+  <% end %>
+</center>
+
+<h2>Quiz Results</h2>

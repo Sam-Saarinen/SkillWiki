@@ -20,7 +20,7 @@
     
     <div class="form-group">
       <%= form.label "Topic" %>
-      <% topics = Topic.all %>
+      <% topics = Topic.where(reviewed:true).where(approved: true) %>
       <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true %>
       <% # TODO: Change options to only approved topics %>
     </div>

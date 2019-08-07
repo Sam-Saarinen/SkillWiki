@@ -13,7 +13,7 @@ class ResourcesController < ApplicationController
   def show
     @interact = Interaction.find_by(user_id: current_user.id, resource_id: @resource.id)
     if @interact.nil?
-      @interact = Interaction.new(user_id: current_user.id, resource_id: @resource.id)
+      @interact = Interaction.new(user_id: current_user.id, resource_id: @resource.id, topic_id: @resource.topic_id)
       @interact.save # TODO: Add way to catch error in saving.
     end 
   end
@@ -90,9 +90,12 @@ class ResourcesController < ApplicationController
   # POST /resources/eval
   def eval
     @interact = Interaction.find_by(user_id: current_user.id, resource_id: @resource.id)
-    if @interact.helpful_q.nil? && @interact.confidence_q.nil?
+    if @interact.helpful_q.nil? && @interact.confidence_q.nil? # new feedback with nil values
       if @interact.update(helpful_q: params[:helpful], confidence_q: params[:confident]) && 
         @resource.update_avg(params[:helpful].to_i)
+        update_resources_viewed_avg
+        update_highest_rated_resource
+        update_lowest_rated_resource
         check_feedback_badges
       else 
         render action: "show", alert: "Could not save feedback"
@@ -103,6 +106,9 @@ class ResourcesController < ApplicationController
       old_val = @interact.helpful_q
       if @interact.update(helpful_q: params[:helpful], confidence_q: params[:confident]) && 
         @resource.update_avg_with_old_val(params[:helpful].to_i, old_val)
+        update_resources_viewed_avg
+        update_highest_rated_resource
+        update_lowest_rated_resource
         check_feedback_badges
       else 
         render action: "show", alert: "Could not save feedback"
@@ -115,7 +121,6 @@ class ResourcesController < ApplicationController
   def check_link
     link = params[:link]
     msg = valid_url?(link).to_json
-    # puts "--- #{msg} ---"
     render :json => msg
   end 
   
@@ -126,7 +131,6 @@ class ResourcesController < ApplicationController
     # Initializes a Markdown parser
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true)
     
-    # puts "--- #{markdown.render(text)} ---"
     rendered = markdown.render(text)
     msg = { html: rendered }.to_json
     render :json => msg
@@ -198,6 +202,82 @@ class ResourcesController < ApplicationController
             redirect_to @next_resource
           end 
       end 
+    end 
+    
+    # Updates running resources viewed average if topic for this resource has been assigned to user
+    def update_resources_viewed_avg
+      asgns = current_user.my_assignments
+      asgns.each do |asgn|
+        if asgn.topic_id == @resource.topic_id 
+          classroom = Classroom.find(asgn.classroom_id) 
+          new_stats = JSON.parse(classroom.stats)
+          new_stats[asgn.topic_id.to_s]["avg_resources_viewed"] += 1.0 / classroom.num_students
+          classroom.stats = new_stats.to_json
+          classroom.save
+        end 
+      end 
+    end
+    
+    # Updates highest rated resource for all classes the student has assignments for
+    def update_highest_rated_resource
+      assignments = current_user.my_assignments 
+      assignments.each do |a|
+        c = Classroom.find(a.classroom_id)
+        new_stats = JSON.parse(c.stats)
+        if new_stats.key?("#{@resource.topic_id}")
+          helpfulness = resource_helpfulness_in_classroom(@resource.id, c)
+          if new_stats["#{@resource.topic_id}"]["highest_rated_resource"].nil?
+            new_stats["#{@resource.topic_id}"]["highest_rated_resource_rating"] = helpfulness
+            new_stats["#{@resource.topic_id}"]["highest_rated_resource"] = @resource.id 
+            c.stats = new_stats.to_json
+            c.save 
+          elsif new_stats["#{@resource.topic_id}"]["highest_rated_resource"] == @resource.id
+            new_stats["#{@resource.topic_id}"]["highest_rated_resource_rating"] = helpfulness
+            c.stats = new_stats.to_json
+            c.save
+          elsif helpfulness > new_stats["#{@resource.topic_id}"]["highest_rated_resource_rating"]
+            new_stats["#{@resource.topic_id}"]["highest_rated_resource_rating"] = helpfulness
+            new_stats["#{@resource.topic_id}"]["highest_rated_resource"] = @resource.id 
+            c.stats = new_stats.to_json
+            c.save 
+          end 
+        end 
+      end 
+    end 
+    
+    # Updates lowest rated resource for all classes the student has assignments for
+    def update_lowest_rated_resource
+      assignments = current_user.my_assignments 
+      assignments.each do |a|
+        c = Classroom.find(a.classroom_id)
+        new_stats = JSON.parse(c.stats)
+        if new_stats.key?("#{@resource.topic_id}")
+          helpfulness = resource_helpfulness_in_classroom(@resource.id, c)
+          if new_stats["#{@resource.topic_id}"]["lowest_rated_resource"].nil?
+            new_stats["#{@resource.topic_id}"]["lowest_rated_resource_rating"] = helpfulness
+            new_stats["#{@resource.topic_id}"]["lowest_rated_resource"] = @resource.id 
+            c.stats = new_stats.to_json
+            c.save 
+          elsif new_stats["#{@resource.topic_id}"]["lowest_rated_resource"] == @resource.id
+            new_stats["#{@resource.topic_id}"]["lowest_rated_resource_rating"] = helpfulness
+            c.stats = new_stats.to_json
+            c.save
+          elsif helpfulness < new_stats["#{@resource.topic_id}"]["lowest_rated_resource_rating"]
+            new_stats["#{@resource.topic_id}"]["lowest_rated_resource_rating"] = helpfulness
+            new_stats["#{@resource.topic_id}"]["lowest_rated_resource"] = @resource.id 
+            c.stats = new_stats.to_json
+            c.save 
+          end 
+        end 
+      end 
+    end 
+    
+    # Calculates the helpfulness average for a resource for a specific classroom
+    def resource_helpfulness_in_classroom(resource_id, classroom)
+      feedback = Interaction.where(resource_id: resource_id)
+      enrolled = classroom.enrolled_ids
+      feedback = feedback.select {|f| enrolled.include? f.user_id}
+      feedback.sum(&:helpful_q).fdiv(classroom.num_students)
     end 
       
 end

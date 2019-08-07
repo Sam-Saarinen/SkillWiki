@@ -19,15 +19,64 @@ gem 'sqlite3', '~> 1.3.6'
 
 # Things to Remember (Eric)
 * TOASK:
-    * Cap number of resources for a recommendation?
 * TODO:
+    * [X] Flags for students when struggling versus doing well
+    * [X] Teacher shouldn't have to manually deselect students when creating new assignments 
+    * [X] Quiz API
+        * API key and student_id are paired up
+        * GET /topics/:topic_id/questions { student_id: 1 }
+          * Pass in student id to personalize questions 
+            * Returns list of questions for topic in following format:
+                * { questions: 
+                * [ { id: 1, type: "multiple choice", prompt: "What is...?", choices: ["quicksort", "mergesort"] },
+                * { id: 2, type: "free response", prompt: "What is...?"} ] } 
+        * POST /topics/:topic_id/scores { api_key: ..., student_id: 1, answers: [ { id: 1, submission: "quicksort") } ] }
+            * Returns list of scores for each question { cumulative: 1.1, scores: [ { id: 1, score: 1} ] }
+            * Cumulative score signifies whether topic is completed (>=1 means completed and else means incomplete)
+              * No max on cumulative score
+            * Score from 4 categories: right, partial, wrong, not graded
+            * Post request to create record of student's attempt in server
+            * On Skillwiki side, only give question feedback if cumulative is >= 1
+        * GET /topics/:topic_id/students/1
+            * Returns list of quiz attempts for student in topic:
+                * { attempts: [ { cumulative: 0.84, date: 08/04/2019, question_set_id: 1, answer_set_id: 1 } ] }
+        * GET /questions/:question_set_id
+            *  Returns a set of questions in this format: { questions: 
+                * [ { id: 1, type: "multiple choice", prompt: "What is...?", choices: ["quicksort", "mergesort"] }, 
+                * { id: 2, type: "free response", prompt: "What is...?"} ] }
+        * GET /answers/:answer_set_id
+            * Returns a set of student submissions in this format:  { submissions: 
+                * [ { id: 1, submission: "quicksort" }, 
+                * { id: 2, type: "free response", submission: "..." ] }
+        * POST /questions/topics/:topic_id
+            * { submissions: [  
+                * {type: "multiple choice", prompt: "What is...?", choices: ["quicksort", "mergesort"] },
+                * {type: "free response", prompt: "Describe..."} ] } 
+            * Creates questions for topic (for crowdsourcing questions)
+        * Look up authentication methods for API keys
+    * [] Fix broken tests
+    * 
     * For badges, put checkmark to show that badge has been earned (Optional)
     * Change CSS for headers so that h1 is clearly different from h2, h3, etc.
     * After topic creation, alert should mention topic must be approved (b/c user may be confused)
     * HTML/CSS tutorial
-    * Add ability for filtering resources that have been web-scraped
-    * Add ability to flag inappropriate resources
     * Ability to review resources is imp.
 * Badges to add:
+* For students, make assigned and completed topics list on home page, don't need stats 
+  * Remove class stats 
+* Class table fields
+  * Class Id:integer
+  * Class name:text
+  * Instructor id:integer
+  * String of student ids:text (Store as a JSON formatted list)
+* Assignment table fields
+  * Assignment id:integer
+  * Student id:integer
+  * Class id:integer
+  * Instructor id:integer
+  * Topic id:integer
+  * Due date:datetime
+  * Completed resource ids:text
+  * Start date:datetime
 
 

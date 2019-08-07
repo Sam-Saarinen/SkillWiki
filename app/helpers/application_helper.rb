@@ -1,6 +1,13 @@
 module ApplicationHelper
   
   require 'uri'
+  
+  ProgressMessages = { 
+    doingWellThreshold: 2.5,
+    needHelp: " is finding the recommended resources unhelpful.",
+    doingWell: " is doing well!",
+    notStarted: " has not started the assignment yet."
+  }
 
   def valid_url?(url)
     # TODO: Check if 'https://' has been added and append to front if needed.
@@ -10,4 +17,5 @@ module ApplicationHelper
     rescue URI::InvalidURIError
       false
   end 
+  
 end

@@ -8,6 +8,7 @@ class Ability
         can :create, Topic
         can :approve, Topic
         can :approve_or_destroy, Topic
+        can :create, Classroom
       else
         can :read, :all
       end

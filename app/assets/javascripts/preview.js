@@ -8,7 +8,6 @@ $(document).ready(() => {
                 link: text};
     $.post("/resources/check_link", postParameters, responseJSON => {
               const responseObject = JSON.parse(responseJSON);
-              // console.log("--- " + responseObject + " ---");
               if (responseObject) {
                 $("#link_preview").html("<center><div class='embed-responsive embed-responsive-16by9 w-75'><iframe class='embed-responsive-item' style='border: 2px solid black' src=" + text + " allowfullscreen>Resource could not be rendered.</iframe> </div> </center>");
                 

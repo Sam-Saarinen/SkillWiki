@@ -1,0 +1,36 @@
+<center>
+  <h1><%= @classroom.name %></h1>
+  <h2>Class code: <%= @classroom.join_code %></h2>
+  
+  <%= render 'teacher_navbar' %>
+  <%= render 'class_stats' %>
+  
+  <a class="btn btn-primary" href='/classrooms/<%= @classroom.id %>/assignments/new'>Assign a Topic</a>
+  
+  <!--Student progress cards from teacher view-->
+  
+  <% t = Topic.find(params[:topic_id]) %>
+  <h1><%= t.name %></h1>
+  
+  <!--Sort assignments by urgency and then alphabetically-->
+  <% @assignments = @assignments.sort_by { |a| a.student.name.downcase } %>
+  
+  <% @assignments.each do |a| %>
+    <div class="student-progress-item">
+      <!--Content of topic progress-->
+      <% student = a.student %>
+      <% finished = Interaction.where('user_id = ?', student.id).count %>
+      <h2><%= student.name %>'s Progress</h2>
+      <span>
+        <p style="margin-left: 1em;"><em>Due date: <%= a.due_date.strftime("%B %d, %Y") %></em>
+        <%= link_to "Edit Due Date", "/classrooms/#{ @classroom.id }/assignments/new/topics/#{ @topic.id }/students/#{ student.id }", :classroom => @classroom %></p>
+        
+      </span>
+      <p>Resources completed: <%= finished %> </p>
+      <p>Quiz taken yet?  </p>
+      <p><%= student.name %> <%= progressMessage(student.id, t.id, @classroom.id).html_safe %></p>
+      <a href="enrolled/<%= student.id %>">View Details</a>
+    </div>
+  <% end %>
+</center>
+

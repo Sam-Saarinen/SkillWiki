@@ -15,3 +15,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
 Rails.application.config.assets.precompile += %w( preview.js )
 Rails.application.config.assets.precompile += %w( require_one_field.js )
+Rails.application.config.assets.precompile += %w( assign_topic_checks.js )
