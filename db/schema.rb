@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
   create_table "interactions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "resource_id"
+    t.integer "topic_id"
     t.integer "helpful_q"
     t.integer "confidence_q"
     t.float "time_taken"
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
     t.datetime "updated_at", null: false
     t.index ["resource_id"], name: "index_interactions_on_resource_id"
     t.index ["user_id"], name: "index_interactions_on_user_id"
+    t.index ["topic_id"], name: "index_interactions_on_topic_id"
   end
 
   create_table "recommendations", force: :cascade do |t|
