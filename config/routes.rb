@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   post 'topics/approve_or_destroy/:topic_id', to: 'topics#approve_or_destroy'
   post 'topics/create', as: :topics
   get 'topics/edit'
+  get 'topics/:topic_id/quiz', to: 'topics#quiz', as: :topic_quiz
+  post '/topics/:topic_id/quiz/submit', to: 'topics#submit_quiz'
+  get 'topics/:topic_id/quiz/contribute_question', to: 'topics#contribute_question', as: :quiz_contribution
+  post 'topics/:topic_id/quiz/contribute', to: 'topics#contribute'
   
   post 'resources/eval', to: 'resources#eval'
   post 'resources/check_link', to: 'resources#check_link'

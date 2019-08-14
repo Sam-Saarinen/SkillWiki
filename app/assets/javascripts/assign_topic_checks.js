@@ -12,6 +12,8 @@ $(document).ready(() => {
         return false;
       }
       
+      $("#assign_topic").off().submit();  
+      
       // Begin check for duplicate assignments
       // const checkboxes = $('[name^="students"]:checked')
       // students = []

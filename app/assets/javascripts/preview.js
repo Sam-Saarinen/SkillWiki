@@ -1,7 +1,7 @@
 $(document).ready(() => {
   $("#link").on("keyup", event => {
   
-    const text = $("#link").val();
+    const text = $("#link").val().trim();
     // console.log(text)
     
     const postParameters = {
@@ -40,7 +40,7 @@ $(document).ready(() => {
   
   $("#video").on("keyup", event => {
   
-    const text = $("#video").val();
+    const text = $("#video").val().trim();
     // Take template for Youtube embed and only allow string after /embed/-------
     $("#video_preview").html("<iframe width='560' height='315' src='https://www.youtube.com/embed/" + text + "' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>");
     

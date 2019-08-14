@@ -27,7 +27,7 @@
         
       </span>
       <p>Resources completed: <%= finished %> </p>
-      <p>Quiz taken yet?  </p>
+      <p>Quiz taken yet?  <%= quiz_taken(student.id, t.id) %></p>
       <p><%= student.name %> <%= progressMessage(student.id, t.id, @classroom.id).html_safe %></p>
       <a href="enrolled/<%= student.id %>">View Details</a>
     </div>

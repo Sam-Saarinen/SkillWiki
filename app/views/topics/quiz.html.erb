@@ -1,0 +1,46 @@
+<h1><%= @topic.name %> Quiz</h1>
+
+<center>
+  <%= form_with(url: "/topics/#{@topic.id}/quiz/submit", local: true, id: "topic_quiz") do |form| %>
+
+    <% @questions.each do |q| %>
+    
+      <% if q["type"] == "multiple choice" %>
+      
+        <div class="form-group">
+          <div class="quiz-question">
+            <%= form.label "#{q["prompt"]}" %>
+            <% q["choices"].each do |c| %>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="answers[<%= q["id"] %>]" id="<%= q["id"] %>-<%= c %>" value="<%= c %>" required>
+                <label class="form-check-label" for="<%= q["id"] %>-<%= c %>"><%= c %></label>
+              </div>
+            <% end %>
+            <br>
+            <%= form.label "Justify your answer" %>
+            <%= form.text_area "justify[#{ q["id"] }]", class: "form-control", required: true%>
+          </div>
+        </div>
+
+      <% elsif q["type"] == "free response" %>
+        <div class="form-group">
+          <div class="quiz-question">
+            <%= form.label "#{q["prompt"]}" %>
+            <%= form.text_field "answers[#{q["id"]}]", class: "form-control", required: true%>
+            
+            <br>
+            <%= form.label "Justify your answer" %>
+            <%= form.text_area "justify[#{ q["id"] }]", class: "form-control", required: true%>
+          </div>
+        </div>
+        
+      <% end %>
+    <% end %>
+    
+    <div class="actions">
+          <%= form.submit "Submit", class: "btn btn-primary", data: { "disable-with": "Submitting..." } %>
+    </div>
+    
+  <% end %>
+</center>
+

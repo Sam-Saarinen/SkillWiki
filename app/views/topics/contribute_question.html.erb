@@ -1,0 +1,113 @@
+<h1>Contribute a Question for <%= @topic.name %></h1>
+
+<center>
+  <p class="w-50">To indicate your understanding of <%= @topic.name %>, submit a question that touches on something that you found interesting or difficult about <%= @topic.name %></p>
+  <%= form_with(url: "/topics/#{@topic.id}/quiz/contribute", local: true, id: "contribute_question") do |form| %>
+    <div class="form-group">
+          <div class="quiz-question">
+            <select id="question_type" name="question_type" class="custom-select">
+              <option selected disabled hidden>Choose question type</option>
+              <!--<option value="multiple choice">Multiple Choice</option>-->
+              <option value="free response">Free Response</option>
+            </select>
+            
+            <%= form.label "Your question" %>
+            <%= form.text_area "prompt", class: "form-control", required: true%>
+            
+            <br>
+          <!--  <div id="mc" style="display: none;">-->
+          <!--        <% (1..4).each do |n| %>-->
+          <!--          <div class="form-check">-->
+          <!--            <input class="form-check-input" type="radio" name="mc" id="<% n %>">-->
+          <!--            <label class="form-check-label" for="<% n %>">-->
+          <!--              <input name="choices[<% n %>]" class="form-control" type="text" required>-->
+          <!--            </label>-->
+          <!--          </div>-->
+          <!--        <% end %>-->
+          <!--    </div>-->
+          <!--</div>-->
+    </div>
+    
+    <div class="actions">
+          <input type="button" id="for_modal" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submitting...">
+    </div>
+    
+    <!--<input type="hidden" name="next" value=true>-->
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Next Steps</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Do you want to continue directly to quiz or contribue another question?</p>
+          </div>
+          <div class="modal-footer">
+            <button name="next" value=false type="submit" class="btn btn-primary">Contribute Another Question</button>
+            <button name="next" value=true type="submit" class="btn btn-primary">Continue to Quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <% end %>
+</center>
+
+<script type="text/javascript">
+
+  $("#for_modal").on('click', event => {
+    // event.preventDefault();
+    // result = window.confirm("Click 'OK' to continue onto quiz or click 'Cancel' to contribute another question");
+    // result = true;
+    $('#exampleModal').modal('toggle');
+    // $("#contribute_question").off().submit();
+    // if (result) {
+    //   $("#contribute_question").off().submit();
+    // } else {
+    //   console.log("cancel");
+    //   // $("#continue").val(false);
+    //   $("#contribute_question").off().submit();
+    // }
+  });
+  
+  // function form_submit() {
+  //   console.log("ready to submit");
+  //   $("#contribute_question").submit();
+  // }
+  
+  // $("#continue").on('click', event => {
+  //   console.log("continue clicked");
+  //   $("#contribute_question").submit();
+  // });
+  
+  // $("#contribute").on('click', event => {
+  //   console.log("contribute clicked");
+  //   $("#next").val(false);
+  //   $("#contribute_question").submit();
+  // });
+  
+
+  $("#question_type").on('click', event => {
+    switch ($("#question_type").val()) {
+      case "multiple choice":
+        $("#mc").css("display", "block");
+        break;
+      case "free response":
+        if ($("#mc").css("display") === "block") {
+          $("#mc").css("display", "none");
+        }
+        break;
+      default:
+        if ($("#mc").css("display") === "block") {
+            $("#mc").css("display", "none");
+          }
+        break;
+    }
+  });
+</script>
+

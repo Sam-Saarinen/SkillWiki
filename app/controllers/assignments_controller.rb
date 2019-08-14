@@ -99,7 +99,7 @@ class AssignmentsController < ApplicationController
     
     respond_to do |format|
       if Assignment.create(assignments) && @classroom.save
-        format.html { redirect_to "/classrooms/#{params[:classroom_id]}/active", notice: 'Assignment was successfully created.' }
+        format.html { redirect_to "/classrooms/#{params[:classroom_id]}/show/active", notice: 'Assignment was successfully created.' }
         format.json { render :show, status: :created, location: @assignment }
       else
         format.html { render :new }

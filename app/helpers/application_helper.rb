@@ -8,6 +8,13 @@ module ApplicationHelper
     doingWell: " is doing well!",
     notStarted: " has not started the assignment yet."
   }
+  
+  ScoreMessages = {
+    "right": "<span style='color: green;'>Correct</span>",
+    "partial": "<span style='color: orange;'>Partial Credit</span>",
+    "wrong": "<span style='color: red;'>Incorrect</span>",
+    "not graded": "<span>Not graded<span>"
+  }
 
   def valid_url?(url)
     # TODO: Check if 'https://' has been added and append to front if needed.

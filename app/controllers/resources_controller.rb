@@ -32,7 +32,7 @@ class ResourcesController < ApplicationController
   def create
     @resource = Resource.new(params.permit(:name, :topic_id))
     @resource.user_id = current_user.id
-    content = { link: params[:link], video: params[:video], text: params[:text] }
+    content = { link: params[:link].strip!, video: params[:video].strip!, text: params[:text] }
     @resource.content = content.to_json
     
     if can? :authorize, @resource
@@ -161,7 +161,6 @@ class ResourcesController < ApplicationController
     def check_feedback_badges
       u = User.find(@resource.user_id)
       if (not current_user.earned(3)) && (Interaction.where(user_id: current_user.id).count == 1) && current_user.add_badge(3)
-        # current_user.add_badge(3) # FIXME: Why can't this be added with '&&' for if clause?
         title = User::Badges[3][:title]
         redirect_to_home_or_next_with_msg("You've earned the #{title} badge!")
       elsif (not u.earned(9)) && @resource.feedback_count > 100 && @resource.helpful_avg > 4.0 && u.add_badge(9) 
@@ -171,17 +170,26 @@ class ResourcesController < ApplicationController
       end 
     end 
     
+    # Check for first topic completed badge
+    def check_topic_completion_badge
+      if (not current_user.earned(5))
+        current_user.add_badge(5)
+      end 
+    end 
+    
     # Redirect after feedback to next resource or home page.
     def redirect_to_home_or_next_with_msg(success_notice)
       if params[:feedback] == "done" 
-              redirect_to root_url, notice: success_notice
+              redirect_to quiz_contribution_url(@resource.topic_id), notice: success_notice
+              # TODO: Redirect to quiz for topic
       elsif params[:feedback] == "another" 
           # redirect to next resource
           @rec = Recommendation.find_by(user_id: current_user.id, topic_id: @resource.topic_id) 
           # FIXME: Above assumes each user has a unique rec for each topic.
           @next_resource = Resource.find_by(id: next_id(@resource.id, @rec.content))
           if @next_resource.nil?
-            redirect_to root_url, notice: success_notice
+            check_topic_completion_badge
+            redirect_to quiz_contribution_url(@resource.topic_id), notice: success_notice
           else
             redirect_to @next_resource, notice: success_notice
           end 
@@ -190,14 +198,16 @@ class ResourcesController < ApplicationController
     
     def redirect_to_home_or_next
       if params[:feedback] == "done"
-              redirect_to root_url, notice: "Thank you for the feedback!"
+              redirect_to quiz_contribution_url(@resource.topic_id), notice: "Thank you for the feedback!"
+              # TODO: Redirect to quiz for topic
       elsif params[:feedback] == "another"
           # redirect to next resource
           @rec = Recommendation.find_by(user_id: current_user.id, topic_id: @resource.topic_id) 
           # FIXME: Above assumes each user has a unique rec for each topic.
           @next_resource = Resource.find_by(id: next_id(@resource.id, @rec.content))
           if @next_resource.nil?
-            redirect_to root_url, notice: "That's all we have!"
+            check_topic_completion_badge
+            redirect_to quiz_contribution_url(@resource.topic_id), notice: "That's all we have. Now time for a quiz!"
           else
             redirect_to @next_resource
           end 

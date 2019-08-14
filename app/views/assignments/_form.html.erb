@@ -145,13 +145,8 @@
         topic_id: $("#topic_id").val(), 
         student_id: studentId }
         
-      console.log("ready to post");
       $.post("/assignments/dup_message", postParameters, responseJSON => {
-        // TODO: Not getting here after POST request
-        console.log("posted");
-        console.log(responseJSON);
         const responseObject = responseJSON;
-        console.log(responseObject);
         const label = 'label[for="' + $(box).attr('id') + '"]'
         let msg = $(label).html().trim();
         msg += responseObject;

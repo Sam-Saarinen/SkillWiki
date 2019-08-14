@@ -43,9 +43,8 @@
         &lt;iframe width="560" height="315" 
         src="https://www.youtube.com/embed/
       </code></pre>
-      <%= form.text_field "video", class: "form-control", style: "width: 15%; float: left; position: relative; top: 30px;" %>
-      <% # FIXME: Whole textbox cannot be clicked on %>
-      <pre style="position:relative; top:20px; right: 105px;"><code>
+      <%= form.text_field "video", class: "form-control", style: "width: 15%; float: left; position: relative; top: 30px; z-index: 2;" %>
+      <pre style="position:relative; top:20px; right: 80px; text-align: left;"><code>
           " frameborder="0" allow="accelerometer; autoplay; 
           encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>&lt;/iframe>
@@ -66,7 +65,7 @@
         
       </div>
     
-      <div id="text_preview" class="border text-left w-50" style="height: 100px;">
+      <div id="text_preview" class="border text-left w-50" style="height: 100px; overflow: scroll;">
         <h4>See your text appear here!</h4>
       </div>
     </div>
