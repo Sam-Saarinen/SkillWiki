@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["resource_id"], name: "index_interactions_on_resource_id"
-    t.index ["user_id"], name: "index_interactions_on_user_id"
     t.index ["topic_id"], name: "index_interactions_on_topic_id"
+    t.index ["user_id"], name: "index_interactions_on_user_id"
   end
 
   create_table "recommendations", force: :cascade do |t|
