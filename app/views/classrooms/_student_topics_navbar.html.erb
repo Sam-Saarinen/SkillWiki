@@ -5,11 +5,11 @@
       
       
       <li class="nav-ite <%= 'active' if current_page?("/classrooms/#{@classroom.id}/active") %>">
-          <a class="nav-link" href="/classrooms/<%= @classroom.id %>/active">Active Topics</a>
+          <a class="nav-link" href="/classrooms/<%= @classroom.id %>/show/active">Active Topics</a>
       </li>
       
       <li class="nav-ite <%= 'active' if current_page?("/classrooms/#{@classroom.id}/past") %>">
-          <a class="nav-link" href="/classrooms/<%= @classroom.id %>/past">Past Topics</a>
+          <a class="nav-link" href="/classrooms/<%= @classroom.id %>/show/past">Past Topics</a>
       </li>
       
     </ul>

@@ -68,6 +68,7 @@ gem 'sqlite3', '~> 1.3.6'
     * [] Integrate first API endpoint 
     * Demo Notes
         * Dropdown for Active topics needs to be clicked twice
+    * [] PyCall::PythonNotFound (PyCall::PythonNotFound) error on Heroku when create initial resources 
     * 
     * For badges, put checkmark to show that badge has been earned (Optional)
     * Change CSS for headers so that h1 is clearly different from h2, h3, etc.
