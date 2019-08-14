@@ -17,6 +17,8 @@
             <a class="dropdown-item" href="/classrooms/<%= @classroom.id %>/topics/<%= t.id %>/"><%= t.name %></a>
           <% end %>
         </div>
+        <% # FIXME: Dropdown menu has to be clicked twice to open %>
+        <% # Possible errors: 'focus' or CSS %>
       </div>
       
       <li class="nav-item <%= 'active' if current_page?("/classrooms/#{@classroom.id}/past") %>">
