@@ -32,3 +32,6 @@
 
 # Ignore heroku
 /heroku
+
+# Ignore database.yml
+/config/database.yml

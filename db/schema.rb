@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
 
   create_table "classrooms", force: :cascade do |t|
     t.text "name"
+    t.text "students"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,7 +51,6 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
   create_table "interactions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "resource_id"
-    t.integer "topic_id"
     t.integer "helpful_q"
     t.integer "confidence_q"
     t.float "time_taken"
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
     t.datetime "updated_at", null: false
     t.index ["resource_id"], name: "index_interactions_on_resource_id"
     t.index ["user_id"], name: "index_interactions_on_user_id"
-    t.index ["topic_id"], name: "index_interactions_on_topic_id"
   end
 
   create_table "recommendations", force: :cascade do |t|
@@ -75,14 +74,16 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
     t.string "name"
     t.integer "topic_id"
     t.integer "user_id"
-    t.boolean "approved", default: false
+    t.boolean "approved"
+    t.string "link"
     t.boolean "tentative"
-    t.boolean "removed", default: false
-    t.boolean "flagged", default: false
+    t.boolean "removed"
+    t.boolean "flagged"
+    t.integer "views"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "helpful_avg", default: 0.0
-    t.integer "feedback_count", default: 0
+    t.float "helpful_avg"
+    t.integer "feedback_count"
     t.float "sampled_reward", default: 0.0
     t.text "content"
     t.index ["topic_id"], name: "index_resources_on_topic_id"
@@ -91,7 +92,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
 
   create_table "topics", force: :cascade do |t|
     t.string "name"
-    t.boolean "approved", default: false
+    t.boolean "approved"
     t.text "description"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -102,8 +103,8 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.boolean "admin", default: false
-    t.boolean "teacher", default: false
+    t.boolean "admin"
+    t.boolean "teacher"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
