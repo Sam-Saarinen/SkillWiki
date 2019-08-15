@@ -135,7 +135,6 @@ GEM
     pg (0.20.0)
     popper_js (1.14.5)
     puma (3.12.1)
-    pycall (1.2.1)
     rack (2.0.7)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -176,6 +175,7 @@ GEM
       mime-types (~> 1.16)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
+    rubystats (0.3.0)
     rubyzip (1.2.3)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -258,9 +258,9 @@ DEPENDENCIES
   minitest-reporters
   pg (= 0.20.0)
   puma (~> 3.11)
-  pycall
   rails (~> 5.2.1, >= 5.2.1.1)
   redcarpet
+  rubystats (~> 0.3.0)
   sass-rails (~> 5.0)
   selenium-webdriver
   spring

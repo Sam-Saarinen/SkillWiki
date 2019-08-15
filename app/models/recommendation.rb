@@ -1,5 +1,5 @@
-require 'pycall/import'
-include PyCall::Import
+# require 'pycall/import'
+# include PyCall::Import
 # pyimport :numpy, as: :np # FIXME: PyCall::PyError: Module not found
 # pyimport :GPy
 
@@ -56,7 +56,7 @@ class Recommendation < ApplicationRecord
   
   # Thompson sampling with Gaussian priors
   def self.generate_with_ts_Gaussian(user, topic)
-    pyimport :random, as: :rand # TODO: Why does import have to be inside?
+    # pyimport :random, as: :rand # TODO: Why does import have to be inside?
     resources = topic.resource.all
     resources.each do |res|
       interactions = Interaction.where(resource_id: res.id)
@@ -64,10 +64,11 @@ class Recommendation < ApplicationRecord
       # TODO: Filter out interactions with nil values here.
       reward_sum = interactions.sum(&:helpful_q) 
       mean = (reward_sum + 2.5) / (interactions.length + 1) 
-      # Add 2.5 for first prior so that we don't have a mean of 0 for the 1st round.
+      # Add 2.5 to reward_sum for first prior so that we don't have a mean of 0 for the 1st round.
       std_dev = 1.0 / (interactions.length + 1) 
-      res.sampled_reward = rand.gauss(mean, std_dev)
-    end 
+      dist = Rubystats::NormalDistribution.new(mean, std_dev)
+      res.sampled_reward = dist.rng
+    end
     resources = resources.sort_by { |res| res.sampled_reward }
     resources.reverse!
     

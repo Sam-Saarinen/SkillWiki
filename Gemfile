@@ -45,7 +45,10 @@ gem 'bootstrap', '~> 4.3.1'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use pycall to incorporate Python
-gem 'pycall'
+# gem 'pycall'
+
+# Use Rubystats for sampling probability distributions
+gem 'rubystats', '~> 0.3.0'
 
 # Use unirest for web scraping
 gem 'unirest'
