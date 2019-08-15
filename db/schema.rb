@@ -77,24 +77,23 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
     t.integer "topic_id"
     t.integer "user_id"
     t.boolean "approved"
-    t.string "link"
+    t.text "content"
     t.boolean "tentative"
     t.boolean "removed"
     t.boolean "flagged"
     t.integer "views"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "helpful_avg"
-    t.integer "feedback_count"
+    t.float "helpful_avg", default: 0.0
+    t.integer "feedback_count", default: 0
     t.float "sampled_reward", default: 0.0
-    t.text "content"
     t.index ["topic_id"], name: "index_resources_on_topic_id"
     t.index ["user_id"], name: "index_resources_on_user_id"
   end
 
   create_table "topics", force: :cascade do |t|
     t.string "name"
-    t.boolean "approved"
+    t.boolean "approved", default: false
     t.text "description"
     t.integer "user_id"
     t.datetime "created_at", null: false

@@ -61,14 +61,14 @@ gem 'sqlite3', '~> 1.3.6'
         * Order is a function of the quiz, student features, etc.  
     * [X] Add explanation for 'Contribute a Question' page
         * e.g. "To indicate understanding of topic, submit a question that illustrates something that was interesting or difficult about this topic"
-    * [] Deploy for demo on Wednesday (use Heroku?)
+    * [X] Deploy for demo on Wednesday (use Heroku?)
         * [X] Make sure seed for db is set up correctly 
         * [X] Add admin account in seed
         * [X] Go through website for bugs
     * [] Integrate first API endpoint 
     * Demo Notes
         * Dropdown for Active topics needs to be clicked twice
-    * [] PyCall::PythonNotFound (PyCall::PythonNotFound) error on Heroku when create initial resource
+    * [X] PyCall::PythonNotFound (PyCall::PythonNotFound) error on Heroku when create initial resource
     * 
     * For badges, put checkmark to show that badge has been earned (Optional)
     * Change CSS for headers so that h1 is clearly different from h2, h3, etc.

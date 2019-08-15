@@ -5,7 +5,7 @@ class CreateResources < ActiveRecord::Migration[5.2]
       t.references :topic, foreign_key: true
       t.references :user, foreign_key: true
       t.boolean :approved
-      t.string :link
+      t.text :content
       t.boolean :tentative
       t.boolean :removed
       t.boolean :flagged

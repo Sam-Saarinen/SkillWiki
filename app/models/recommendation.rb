@@ -91,21 +91,38 @@ class Recommendation < ApplicationRecord
     mean_rewards = []
     resources.each do |res|
       interactions = Interaction.where(resource_id: res.id)
-      speed = []
-      guide = []
+      user_features = []
       helpfulness = []
       interactions.each do |interact|
         helpfulness << interact.helpful_q
         u = User.find(interact.user_id)
-        speed << u.speed
-        guide << u.guide
+        user_features << u.speed
+        user_features << u.guide
       end 
+      
+      # Load model and sample mean
+      input = [user.speed, user.guide]
+      sample_mean = `python3 rewards.py #{user_features.to_json} #{helpfulness.to_json} #{input.to_json}`.to_f
+      mean_rewards << sample_mean
       
       # X = combine speed and guide into one 2-d array
       # =>Update the Gaussian process (using past observations) to get new means and standard errors
       # =>Okay to load all data in to model so that we're not storing model somewhere
       # =>Feed user context vector to the Gaussian process
       # =>Sample expected reward/mean and record as a tuple in an array
+    end 
+    resources = resources.sort_by { |res| res.sampled_reward }
+    resources.reverse!
+    
+    resources = Recommendation.filter_out_viewed(user, resources)
+    content = Recommendation.generate_content(resources)
+    
+    if content.empty?
+      []
+    else
+      @rec = Recommendation.new(user_id: user.id, topic_id: topic.id, content: content)
+      Recommendation.save_or_update(@rec)
+      resources
     end 
     # Return resources sorted by decreasing expected reward
     # TODO: Come back for infinite-armed bandit problem
