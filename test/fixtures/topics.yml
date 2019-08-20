@@ -3,15 +3,23 @@
 one:
   id: 1
   user_id: 1
-  name: "For Loop"
+  name: "Bubble Sort"
   approved: true
   reviewed: true
-  description: "Basic cs concept for all languages."
+  description: "A sorting algorithm"
 
 two:
   id: 2
   user_id: 1
-  name: "MergeSort"
-  approved: false
+  name: "Quick Sort"
+  approved: true
+  description: "Another sorting algo"
+  reviewed: true
+
+three:
+  id: 3
+  user_id: 1
+  name: "Merge Sort"
+  approved: false 
+  description: "Another sorting algo to add"
   reviewed: false
-  description: "A sorting algorithm"

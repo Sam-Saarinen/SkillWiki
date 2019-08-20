@@ -7,7 +7,7 @@
 one: 
   id: 1
   name: "Eric"
-  email: "example@example.com"
+  email: "eric@example.com"
   encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
   confirmed_at: <%= Time.current %>
   admin: true
@@ -17,6 +17,15 @@ one:
   
 two: 
   id: 2
+  name: "Scraper"
+  email: "scraper@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  confirmed_at: <%= Time.current %>
+  admin: true
+  teacher: false
+  
+three:
+  id: 3
   name: "Jocko"
   email: "jocko@example.com"
   encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>

@@ -2,35 +2,54 @@
 
 <center>
   <%= form_with(url: "/topics/#{@topic.id}/quiz/submit", local: true, id: "topic_quiz") do |form| %>
+  
+    <input type="hidden" name="quizius_interact_id" value="<%= @quizius_interact_id %>">
 
     <% @questions.each do |q| %>
     
-      <% if q["type"] == "multiple choice" %>
+      <% if q["question_type"] == "multiple choice" %>
       
         <div class="form-group">
           <div class="quiz-question">
+            
             <%= form.label "#{q["prompt"]}" %>
-            <% q["choices"].each do |c| %>
+            
+            <% q["choices"].each_with_index do |c, i| %>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="answers[<%= q["id"] %>]" id="<%= q["id"] %>-<%= c %>" value="<%= c %>" required>
-                <label class="form-check-label" for="<%= q["id"] %>-<%= c %>"><%= c %></label>
+                <input type="hidden" name="question_type[<%= q["question_id"] %>]" value="multiple choice">
+                <input class="form-check-input" type="radio" name="answers[<%= q["question_id"] %>]" id="<%= q["question_id"] %>-<%= c %>" value="<%= i %>" required>
+                <label class="form-check-label" for="<%= q["question_id"] %>-<%= c %>"><%= c %></label>
               </div>
             <% end %>
-            <br>
-            <%= form.label "Justify your answer" %>
-            <%= form.text_area "justify[#{ q["id"] }]", class: "form-control", required: true%>
+            
+            <% if q["rationale_required"] %>
+              <br>
+              <%= form.label "Justify your answer" %>
+              <%= form.text_area "justify[#{ q["question_id"] }]", class: "form-control", required: true%>
+            <% else %>
+              <input type="hidden" name="justify[<%= q["question_id"] %>]" value=nil>
+            <% end %>
+            
           </div>
         </div>
 
-      <% elsif q["type"] == "free response" %>
+      <% elsif q["question_type"] == "free response" %>
         <div class="form-group">
           <div class="quiz-question">
-            <%= form.label "#{q["prompt"]}" %>
-            <%= form.text_field "answers[#{q["id"]}]", class: "form-control", required: true%>
             
-            <br>
-            <%= form.label "Justify your answer" %>
-            <%= form.text_area "justify[#{ q["id"] }]", class: "form-control", required: true%>
+            <%= form.label "#{q["prompt"]}" %>
+            
+            <input type="hidden" name="question_type[<%= q["question_id"] %>]" value="free response">
+            <%= form.text_field "answers[#{q["question_id"]}]", class: "form-control", required: true%>
+            
+            <% if q["rationale_required"] %>
+              <br>
+              <%= form.label "Justify your answer" %>
+              <%= form.text_area "justify[#{ q["question_id"] }]", class: "form-control", required: true%>
+            <% else %>
+              <input type="hidden" name="justify[<%= q["question_id"] %>]" value=nil>
+            <% end %>
+            
           </div>
         </div>
         

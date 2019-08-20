@@ -1,6 +1,9 @@
 class TopicsController < ApplicationController
-  load_and_authorize_resource param_method: :sanitizer, :except => [:show, :quiz, :submit_quiz, :contribute_question, :contribute]
+  before_action :form_sanitizer, :only => [:submit_quiz]
+  load_and_authorize_resource param_method: :sanitizer, :only =>[:create] # , :except => [:show, :quiz, :submit_quiz, :contribute_question, :contribute]
   include WebScraper
+  
+  Quizius_API_Key = "needs_to_be_added"
   
   def new
     @topic = Topic.new
@@ -67,40 +70,54 @@ class TopicsController < ApplicationController
   # GET /topics/:topic_id/quiz
   def quiz
     @topic = Topic.find(params[:topic_id])
-    # GET /topics/:topic_id/questions { student_id: current_user.id }
-    # FIXME: Dummy JSON response for now
-    response = { questions: 
-    [ { id: 1, type: "multiple choice", prompt: "Which sorting algorithm has the worst time complexity on average?", choices: ["Heapsort", "Insertion sort", "Quicksort", "Mergesort"] },
-    { id: 2, type: "multiple choice", prompt: "Which sorting algorithm has the best time complexity in the best cases?", choices: ["Heapsort", "Insertion sort", "Quicksort", "Mergesort"] },
-    { id: 3, type: "free response", prompt: "Describe the time complexity of any sorting algorithm (justify your answer by accounting for the best, average, and worst case)"} ] }.to_json
-    @questions = JSON.parse(response)["questions"]
+    
+    # Get questions for particular user and topic from quizius 
+    response = Unirest.get "https://us-central1-edapt-quizius.cloudfunctions.net/get_questions", 
+    headers: {
+      api_key: Quizius_API_Key, 
+      student_id: "#{current_user.id}", 
+      topic_id: "#{params[:topic_id]}"
+    }
+    
+    @quizius_interact_id = response.body["interaction_id"]
+    @questions = response.body["questions"]
   end 
   
   # POST/topics/:topic_id/quiz/submit
   def submit_quiz
-    # POST /topics/:topic_id/scores { api_key: ..., student_id: 1, answers: [ { id: 1, submission: "quicksort") } ] }
     topic = Topic.find(params[:topic_id])
-    toSend = { student_id: current_user.id }
+    question_types = params[:question_type]
     
     answers = []
-    params[:answers].each do |key, val|
-      answers << { id: key, submission: val }
+    user_answers = params.permit(:answers)
+    justifications = params.permit(:justify)
+    submissions =  user_answers.merge(justifications) { |key, oldval, newval| [oldval, newval] }
+    submissions.each do |key, val|
+      answers << { 
+        question_id: key, 
+        answer_index?: (val[0] if question_types[key] == "multiple choice"),
+        response_text?: (val[0] if question_types[key] == "free response"),
+        rationale_text?: val[1]
+      }.compact! # Only includes keys with values other than nil
     end 
-    toSend[:answers] = answers
+
+    response = Unirest.get "https://us-central1-edapt-quizius.cloudfunctions.net/submit_answers", 
+    headers: {
+      api_key: Quizius_API_Key, 
+      interaction_id: params[:quizius_interact_id],
+      answers: answers
+    }
     
-    justify = []
-    params[:justify].each do |key, val|
-      justify << { id: key, submission: val }
-    end 
-    toSend[:justify] = justify
-    # toSend = toSend.to_json
-    puts "--- #{toSend} ---"
-    response = JSON.parse({ cumulative: 1.3, scores: [ { id: 1, score: 1} ] }.to_json)
-    cumulative = response["cumulative"].to_i
+    status = response.body["status"] # TODO: Is there a "retake" status?
+    # FIXME: Do this based on cumulative score and not quiz status
+    
     respond_to do |format|
-      if cumulative >= 1.0
+      if status == "quiz complete"
         format.html { redirect_to root_url, notice: "You've completed #{topic.name}!" }
         format.json { render root_url, status: :created }
+      elsif status == "questions remaining"
+        format.html { redirect_to topic_quiz_url(params[:topic_id]), alert: "Here's some more questions for #{topic.name}!" }
+        format.json { render topic_quiz_url(params[:topic_id]), status: :created }
       else 
         format.html { redirect_to root_url, alert: "You did not complete #{topic.name}. Try viewing some more resources and retaking the quiz." }
         format.json { render root_url, status: :created }
@@ -142,6 +159,10 @@ class TopicsController < ApplicationController
   private
     def sanitizer
       params.require(:topic).permit(:name, :description)
+    end 
+    
+    def form_sanitizer
+      params.permit(:utf8, :authenticity_token, :quizius_interact_id, :question_type, :answers, :justify, :commit, :topic_id)
     end 
     
     def redirect_to_last_viewed(resources)

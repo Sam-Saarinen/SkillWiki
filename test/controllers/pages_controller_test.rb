@@ -2,8 +2,8 @@ require 'test_helper'
 
 class PagesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user1 = users(:one)
-    @user2 = users(:two)
+    @user1 = User.find(1)
+    @user3 = User.find(3)
   end
   
   test "should get home" do
@@ -35,24 +35,5 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     get '/not_found'
     assert_response :success
   end
-  
-  test "should get logged_in_home and then not_logged_in_home" do
-    sign_in @user1
-    get root_url
-    assert_response :success
-    # TODO: Add assert_select to differentiate between logged_in_home and not_logged_in_home
-    
-    sign_out @user1
-    get root_url
-    assert_response :success
-    assert_select "h1", 1
-  end
-  
-  # test "should be redirected to edit user features" do
-  #   sign_in @user2
-  #   get root_url
-  #   assert_response :success
-  #   assert_select "h1", "Edit User Features"
-  # end 
 
 end

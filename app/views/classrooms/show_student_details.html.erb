@@ -14,62 +14,60 @@
 
 <h2>Quiz Results</h2>
 
-<% quizzes =  @attempts.zip(@questions, @answers, @scores) %>
+<% quizzes =  @cumulative.zip(@q_and_a_list) %>
 
 <% quizzes.each_with_index do |l, i| %>
 
-  <% a = l[0] %>
-  <% questions = l[1] %>
-  <% answers = l[2] %>
-  <% scores = l[3] %>
+  <% cumulative = l[0] %>
+  <% q_and_a = l[1] %>
+
   
   <h3>Attempt <%= i + 1 %></h3>
-  <h5>Attempted on <%= a["date"] %></h4>
-  <h5>Cumulative Score: <%= a["cumulative"] %></h4>
+  <!--<h5>Attempted on </h4>-->
+  <h5>Cumulative Score: <%= cumulative %></h4>
   
   <center>
-    <% questions.zip(answers, scores).each do |question| %>
-      <% q = question[0] %>
-      <% ans = question[1] %>
-      <% s = question[2] %>
+    <% q_and_a.each do |pair| %>
+      <% q = pair[0] %>
+      <% ans = pair[1] %>
       
-      <% if q["type"] == "multiple choice" %>
+      <% if q["question_type"] == "multiple choice" %>
         
           <div class="form-group">
             <div class="quiz-question">
               <label for="<%= q["prompt"] %>"><%= q["prompt"] %></label>
-              <% q["choices"].each do |c| %>
+              <% q["choices"].each_with_index do |c, j| %>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="answers[<%= q["id"] %>]" id="<%= q["id"] %>-<%= c %>" value="<%= c %>" required
-                  <%= 'disabled' if ans["submission"] != c %> 
-                  <%= 'checked' if ans["submission"] == c %> >
+                  <%= 'disabled' if ans["answer_index"] != j %> 
+                  <%= 'checked' if ans["answer_index"] == j %> >
                   <label class="form-check-label" for="<%= q["id"] %>-<%= c %>">
-                    <%= c %> <%= scoreMessage(s["score"].to_sym).html_safe if ans["submission"] == c %>
+                    <%= c %> <%# scoreMessage(s["score"].to_sym).html_safe if ans["submission"] == c %>
                   </label>
                 </div>
               <% end %>
               <label style="margin-top: 1rem;">Justification</label>
-              <text_area name="answers[#{q["id"]}]" class="form-control">
-                <%= ans["justify"] %>
+              <text_area name="answers[<%= q["id"] %>]" class="form-control">
+                <%= ans["rationale_text"] %>
               </text_area>
               
             </div>
           </div>
   
-        <% elsif q["type"] == "free response" %>
+        <% elsif q["question_type"] == "free response" %>
           <div class="form-group">
             <div class="quiz-question">
               <label for="<%= q["prompt"] %>">
                 <%= q["prompt"] %> 
               </label>
-              <text_area name="answers[#{q["id"]}]" class="form-control">
-                <%= ans["submission"] %>
+              <text_area name="answers[ <%= q["id"] %> ]" class="form-control">
+                <%= ans["response_text"] %>
               </text_area>
               <label style="margin-top: 1rem;">Justification</label>
-              <text_area name="answers[#{q["id"]}]" class="form-control">
-                <%= ans["justify"] %>
+              <text_area name="answers[<%= q["id"] %>]" class="form-control">
+                <%= ans["rationale_text"] %>
               </text_area>
-              <%= scoreMessage(s["score"].to_sym).html_safe %>
+              <%# scoreMessage(s["score"].to_sym).html_safe %>
             </div>
           </div>
           

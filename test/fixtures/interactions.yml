@@ -1,14 +1,2 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  id: 1
-  user_id: 1
-  resource_id: 1
-  
-
-two:
-  id: 2
-  user_id: 1
-  resource_id: 2
-  helpful_q: 1
-  confidence_q: 1

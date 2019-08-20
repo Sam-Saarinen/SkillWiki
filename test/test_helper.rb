@@ -14,7 +14,9 @@ class ActiveSupport::TestCase
   # sign_out @user
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+  # fixtures :all
+  
+  Rails.application.load_seed
 
   # Add more helper methods to be used by all tests here...
   # def login_user

@@ -108,35 +108,23 @@ class ClassroomsController < ApplicationController
     @topic = Topic.find(params[:topic_id])
     @viewed = Interaction.where('user_id = ?', @student.id).where('topic_id = ?', @topic.id)
     
-    # GET /topics/:topic_id/students/1 (list of quiz attempts)
-    attempts_response = { 
-      attempts: [ 
-        { cumulative: 2.38, date: "08/04/2019", question_set_id: 1, answer_set_id: 1 } 
-        ] 
-    }.to_json
-    @attempts = JSON.parse(attempts_response)["attempts"]
+    quiz_status = Unirest.get "https://us-central1-edapt-quizius.cloudfunctions.net/check_status", 
+    headers: { 
+      api_key: "test", 
+      student_id: "#{params[:user_id]}", 
+      topic_id: "#{params[:topic_id]}" 
+    }
     
-    # GET /questions/:question_set_id
-    # Get question and answer sets for each attempt
-    q_response_list = [ { questions: 
-    [ { id: 1, type: "multiple choice", prompt: "Which sorting algorithm has the worst time complexity on average?", choices: ["Heapsort", "Insertion sort", "Quicksort", "Mergesort"] },
-    { id: 2, type: "multiple choice", prompt: "Which sorting algorithm has the best time complexity in the best cases?", choices: ["Heapsort", "Insertion sort", "Quicksort", "Mergesort"] },
-    { id: 3, type: "free response", prompt: "Describe the time complexity of any sorting algorithm. Make sure to account for the best, average, and worst case."} ] }.to_json ]
-    @questions = q_response_list.map { |r| JSON.parse(r)["questions"] }
-    
-    # GET /answers/:answer_set_id
-    ans_response_list = [ { submissions: 
-    [ { id: 1, submission: "Insertion sort", justify: "The time complexity is quadratic." },
-    { id: 2, submission: "Heapsort", justify: "The time complexity is O(n log n)." },
-    { id: 3, submission: "The time complexity of quicksort is O(n log n).", justify: "Quicksort selects a pivot to divide the list approximately in half."} ] }.to_json ]
-    @answers = ans_response_list.map { |r| JSON.parse(r)["submissions"] }
-    
-    # POST /topics/:topic_id/scores { api_key: ?, student_id: 1, answers: (for each item in @answers) }
-    scores_response_list = [ { scores: [ { id: 1, score: "right"}, 
-    { id: 2, score: "wrong" },
-    { id: 3, score: "partial" } ] }.to_json ]
-    @scores = scores_response_list.map { |r| JSON.parse(r)["scores"] }
-
+    @cumulative = []
+    @q_and_a_list = []
+    quiz_status.body.each do |key, val|
+      @cumulative << val["cumulative_score"]
+      response = Unirest.get "https://us-central1-edapt-quizius.cloudfunctions.net/get_interaction_record", 
+      headers: { 
+        quiz_id: key 
+      }
+      @q_and_a_list << response.body
+    end 
   end 
   
   # GET /classrooms/1/roster
