@@ -180,7 +180,7 @@ class ResourcesController < ApplicationController
     # Redirect after feedback to next resource or home page.
     def redirect_to_home_or_next_with_msg(success_notice)
       if params[:feedback] == "done" 
-              redirect_to quiz_contribution_url(@resource.topic_id), notice: success_notice
+              redirect_to topic_quiz_url(@resource.topic_id), notice: success_notice
               # TODO: Redirect to quiz for topic
       elsif params[:feedback] == "another" 
           # redirect to next resource
@@ -189,7 +189,7 @@ class ResourcesController < ApplicationController
           @next_resource = Resource.find_by(id: next_id(@resource.id, @rec.content))
           if @next_resource.nil?
             check_topic_completion_badge
-            redirect_to quiz_contribution_url(@resource.topic_id), notice: success_notice
+            redirect_to topic_quiz_url(@resource.topic_id), notice: success_notice
           else
             redirect_to @next_resource, notice: success_notice
           end 
@@ -198,7 +198,7 @@ class ResourcesController < ApplicationController
     
     def redirect_to_home_or_next
       if params[:feedback] == "done"
-              redirect_to quiz_contribution_url(@resource.topic_id), notice: "Thank you for the feedback!"
+              redirect_to topic_quiz_url(@resource.topic_id), notice: "Thank you for the feedback!"
               # TODO: Redirect to quiz for topic
       elsif params[:feedback] == "another"
           # redirect to next resource
@@ -207,7 +207,7 @@ class ResourcesController < ApplicationController
           @next_resource = Resource.find_by(id: next_id(@resource.id, @rec.content))
           if @next_resource.nil?
             check_topic_completion_badge
-            redirect_to quiz_contribution_url(@resource.topic_id), notice: "That's all we have. Now time for a quiz!"
+            redirect_to topic_quiz_url(@resource.topic_id), notice: "That's all we have. Now time for a quiz!"
           else
             redirect_to @next_resource
           end 

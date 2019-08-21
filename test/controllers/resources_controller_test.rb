@@ -1,33 +1,55 @@
-# require 'test_helper'
+require 'test_helper'
 
-# class ResourcesControllerTest < ActionDispatch::IntegrationTest
-#   setup do
-#     @user = users(:one)
-#     @resource = resources(:one)
-#     sign_in @user
-#   end
+class ResourcesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @jocko = User.find(3)
+    sign_in @jocko
+  end
 
-#   test "should get new" do
-#     get new_resource_url
-#     assert_response :success
-#   end
+  test "should get new" do
+    get new_resource_url
+    assert_response :success
+  end
 
-#   test "should create resource" do
-#     assert_difference('Resource.count') do
-#       post resources_url, params: { resource: { name: "Python", topic_id: 1 }, link: "python.org", video: "", text: "" }
-#     end
+  test "should create resource" do
+    assert_difference('Resource.count') do
+      post resources_url, params: { name: "Python", topic_id: 2, link: "python.org", video: "", text: "" }
+    end
+    badges = JSON.parse(@jocko.badges) # Don't need to reset @jocko for badges?
+    assert badges["4"]["earned"]
+    assert_redirected_to root_url
+  end
 
-#     assert_redirected_to root_url
-#   end
+  test "should show resource" do
+    assert_difference('Interaction.count') do 
+      get resource_url(1)
+    end 
+    assert_response :success
+  end
 
-#   test "should show resource" do
-#     get resource_url(@resource)
-#     assert_response :success
-#   end
-
-#   test "should evaluate resource" do 
-#     # TODO: Test other branches of the if statement
-#     post '/resources/eval', params: { id: @resource.id, helpful: "4", confident: "3", feedback: "done" }
-#     assert_redirected_to root_url
-#   end 
-# end
+  test "should evaluate resource" do 
+    # Create new interaction
+    get resource_url(1)
+    post '/resources/eval', params: { id: 1, helpful: "4", confident: "3", feedback: "done" }
+    
+    i = Interaction.find(1)
+    assert i.helpful_q == 4
+    assert i.confidence_q == 3
+    
+    @jocko = User.find(3)
+    badges = JSON.parse(@jocko.badges)
+    assert badges["3"]["earned"]
+    assert_redirected_to topic_quiz_url(1)
+    
+    # Update feedback for interaction
+    get root_url
+    get resource_url(1)
+    post '/resources/eval', params: { id: 1, helpful: "3", confident: "4", feedback: "done" }
+    
+    i = Interaction.find(1)
+    assert i.helpful_q == 3
+    assert i.confidence_q == 4
+    
+    assert_redirected_to topic_quiz_url(1)
+  end 
+end

@@ -225,8 +225,8 @@ class ClassroomsController < ApplicationController
     
     respond_to do |format|
       if @classroom.enrolled<<(current_user) && @classroom.save
-        format.html { redirect_to "/classrooms/#{@classroom.id}/active", notice: 'Classroom was successfully joined.' }
-        format.json { render :show, status: :created, location: "/classrooms/#{@classroom.id}/active" }
+        format.html { redirect_to "/classrooms/#{@classroom.id}/show/active", notice: 'Classroom was successfully joined.' }
+        format.json { render :show, status: :created, location: "/classrooms/#{@classroom.id}/show/active" }
       else
         format.html { render :enroll }
         format.json { render json: @classroom.errors, status: :unprocessable_entity }
@@ -283,7 +283,7 @@ class ClassroomsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def classroom_params
-      params.require(:classroom).permit(:name, :students, :user_id)
+      params.require(:classroom).permit(:name)
     end
     
     # Initialize stats field if nil to a JSON array with all topics

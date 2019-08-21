@@ -4,7 +4,7 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: 
+eric: 
   id: 1
   name: "Eric"
   email: "eric@example.com"
@@ -14,8 +14,10 @@ one:
   teacher: false
   speed: 3
   guide: 4
+  badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
+  classrooms: one 
   
-two: 
+scraper: 
   id: 2
   name: "Scraper"
   email: "scraper@example.com"
@@ -23,8 +25,10 @@ two:
   confirmed_at: <%= Time.current %>
   admin: true
   teacher: false
+  badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
+  classrooms: one 
   
-three:
+jocko:
   id: 3
   name: "Jocko"
   email: "jocko@example.com"
@@ -32,3 +36,5 @@ three:
   confirmed_at: <%= Time.current %>
   admin: false
   teacher: false
+  badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
+  classrooms: one 

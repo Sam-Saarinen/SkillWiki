@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class PagesControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @user1 = User.find(1)
-    @user3 = User.find(3)
-  end
   
   test "should get home" do
     get root_url

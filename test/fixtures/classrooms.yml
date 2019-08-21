@@ -1,7 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  id: 1,
+  id: 1
   name: "PHIL1590"
   user_id: 1
   join_code: "394c0200"
+  stats: "{\"active\":{\"quiz_avg\":null,\"avg_resources_viewed\":0,\"highest_rated_resource\":null,\"highest_rated_resource_rating\":null,\"lowest_rated_resource\":null,\"lowest_rated_resource_rating\":null},\"past\":{\"quiz_avg\":null,\"avg_resources_viewed\":0,\"highest_rated_resource\":null,\"highest_rated_resource_rating\":null,\"lowest_rated_resource\":null,\"lowest_rated_resource_rating\":null},\"1\":{\"quiz_avg\":null,\"avg_resources_viewed\":0,\"highest_rated_resource\":null,\"highest_rated_resource_rating\":null,\"lowest_rated_resource\":null,\"lowest_rated_resource_rating\":null}}"
+  enrolled: eric,scraper,jocko

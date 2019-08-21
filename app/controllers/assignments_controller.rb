@@ -110,27 +110,27 @@ class AssignmentsController < ApplicationController
 
   # PATCH/PUT /assignments/1
   # PATCH/PUT /assignments/1.json
-  def update
-    respond_to do |format|
-      if @assignment.update(assignment_params)
-        format.html { redirect_to @assignment, notice: 'Assignment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @assignment }
-      else
-        format.html { render :edit }
-        format.json { render json: @assignment.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   respond_to do |format|
+  #     if @assignment.update(assignment_params)
+  #       format.html { redirect_to @assignment, notice: 'Assignment was successfully updated.' }
+  #       format.json { render :show, status: :ok, location: @assignment }
+  #     else
+  #       format.html { render :edit }
+  #       format.json { render json: @assignment.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /assignments/1
   # DELETE /assignments/1.json
-  def destroy
-    @assignment.destroy
-    respond_to do |format|
-      format.html { redirect_to assignments_url, notice: 'Assignment was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+  #   @assignment.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to assignments_url, notice: 'Assignment was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

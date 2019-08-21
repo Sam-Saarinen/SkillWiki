@@ -19,6 +19,10 @@ Topic.create(name: "Merge Sort", approved: false, description: "Another sorting 
 # Create classrooms
 Classroom.create(name: "PHIL1590", user_id: 1, join_code: "394c0200")
 
+# Create resource for Bubble Sort
+# content = { link: "python.org", video: "", text: "" }.to_json
+# Resource.create(name: "Python", topic_id: 1, user_id: 1, content: content, tentative: true)
+
 # Add teacher to PHIL1590
 u = User.find(1)
 c = Classroom.find(1)

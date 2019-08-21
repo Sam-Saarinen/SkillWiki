@@ -63,8 +63,8 @@ class TopicsController < ApplicationController
   
   # POST /topics/approve_or_destroy/:topic_id
   def approve_or_destroy
-    @topic = Topic.find(params[:topic_id])
-    approve_or_unapprove(params[:todo])
+    topic = Topic.find(params[:topic_id])
+    approve_or_unapprove(topic, params[:todo])
   end 
   
   # GET /topics/:topic_id/quiz
@@ -108,16 +108,12 @@ class TopicsController < ApplicationController
       answers: answers
     }
     
-    status = response.body["status"] # TODO: Is there a "retake" status?
-    # FIXME: Do this based on cumulative score and not quiz status
+    cumulative = response.body["cumulative_score"] 
     
     respond_to do |format|
-      if status == "quiz complete"
+      if cumulative >= 1.0
         format.html { redirect_to root_url, notice: "You've completed #{topic.name}!" }
         format.json { render root_url, status: :created }
-      elsif status == "questions remaining"
-        format.html { redirect_to topic_quiz_url(params[:topic_id]), alert: "Here's some more questions for #{topic.name}!" }
-        format.json { render topic_quiz_url(params[:topic_id]), status: :created }
       else 
         format.html { redirect_to root_url, alert: "You did not complete #{topic.name}. Try viewing some more resources and retaking the quiz." }
         format.json { render root_url, status: :created }
@@ -126,35 +122,35 @@ class TopicsController < ApplicationController
   end 
   
   # GET /topics/:topic_id/quiz/contribute_question
-  def contribute_question
-    @topic = Topic.find(params[:topic_id])
-  end 
+  # def contribute_question
+  #   @topic = Topic.find(params[:topic_id])
+  # end 
   
   # POST /topics/:topic_id/quiz/contribute
-  def contribute 
-    toSend = { submissions: [] }
-    q = {}
-    q[:type] = params[:question_type]
-    q[:prompt] = params[:prompt] 
-    if q[:type] == "multiple choice"
-      q[:choices] =  params[:choices].values 
-    end 
-    toSend[:submissions] << q
+  # def contribute 
+  #   toSend = { submissions: [] }
+  #   q = {}
+  #   q[:type] = params[:question_type]
+  #   q[:prompt] = params[:prompt] 
+  #   if q[:type] == "multiple choice"
+  #     q[:choices] =  params[:choices].values 
+  #   end 
+  #   toSend[:submissions] << q
 
-    # POST /questions/topics/:topic_id
-    #         * { submissions: [  
-    #             * {type: "multiple choice", prompt: "What is...?", choices: ["quicksort", "mergesort"] },
-    #             * {type: "free response", prompt: "Describe..."} ] } 
-    respond_to do |format|
-      if params[:next] == "true"
-        format.html { redirect_to topic_quiz_url(params[:topic_id]) }
-        format.json { render topic_quiz_url(params[:topic_id]) }
-      else 
-        format.html { redirect_to "/topics/#{params[:topic_id]}/quiz/contribute_question" }
-        format.json { render "/topics/#{params[:topic_id]}/quiz/contribute_question" }
-      end 
-    end 
-  end 
+  #   # POST /questions/topics/:topic_id
+  #   #         * { submissions: [  
+  #   #             * {type: "multiple choice", prompt: "What is...?", choices: ["quicksort", "mergesort"] },
+  #   #             * {type: "free response", prompt: "Describe..."} ] } 
+  #   respond_to do |format|
+  #     if params[:next] == "true"
+  #       format.html { redirect_to topic_quiz_url(params[:topic_id]) }
+  #       format.json { render topic_quiz_url(params[:topic_id]) }
+  #     else 
+  #       format.html { redirect_to "/topics/#{params[:topic_id]}/quiz/contribute_question" }
+  #       format.json { render "/topics/#{params[:topic_id]}/quiz/contribute_question" }
+  #     end 
+  #   end 
+  # end 
   
   private
     def sanitizer
@@ -176,21 +172,21 @@ class TopicsController < ApplicationController
       end 
     end 
     
-    def approve_or_unapprove(action)
+    def approve_or_unapprove(topic, action)
       if action == "approve"
-        @topic.reviewed = true
-        @topic.approved = true 
-        if @topic.save 
-          redirect_to approve_topics_url, notice: "#{@topic.name} is approved!"
+        topic.reviewed = true
+        topic.approved = true 
+        if topic.save 
+          redirect_to approve_topics_url, notice: "#{topic.name} is approved!"
         else 
-          redirect_to approve_topics_url, alert: "#{@topic.name} could not be approved!"
+          redirect_to approve_topics_url, alert: "#{topic.name} could not be approved!"
         end 
       elsif action == "unapprove"
-        @topic.reviewed = true
-        if @topic.save 
-          redirect_to approve_topics_url, notice: "#{@topic.name} marked as unapproved!"
+        topic.reviewed = true
+        if topic.save 
+          redirect_to approve_topics_url, notice: "#{topic.name} marked as unapproved!"
         else 
-          redirect_to approve_topics_url, alert: "#{@topic.name} could not be marked as unapproved!"
+          redirect_to approve_topics_url, alert: "#{topic.name} could not be marked as unapproved!"
         end 
       end 
     end 

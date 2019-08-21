@@ -6,6 +6,7 @@ class ActiveSupport::TestCase
   include Devise::Test::IntegrationHelpers
   require "minitest/reporters"
   Minitest::Reporters.use!
+  Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new()]
 
   # include Devise::TestHelpers
   # https://github.com/plataformatec/devise/blob/1094ba65aac1d37713f2cba71f9edad76b5ca274/lib/devise/test_helpers.rb
@@ -14,9 +15,9 @@ class ActiveSupport::TestCase
   # sign_out @user
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  # fixtures :all
+  fixtures :all
   
-  Rails.application.load_seed
+  # Rails.application.load_seed
 
   # Add more helper methods to be used by all tests here...
   # def login_user

@@ -20,13 +20,10 @@ gem 'sqlite3', '~> 1.3.6'
 # Things to Remember (Eric)
 * TOASK:
 * TODO:
-    * [X] Integrate rest of the quizius API endpoints
-        * [X] Quiz_status endpoint 
-        * [X] interaction_record endpoint 
-    * [X] Edit current fixtures to match current schema 
+    * [] Take out contribute_question action
     * [] Get current tests working (after some edits)
+    * [] Refactor CSS (get rid of in-line styling) 
     * [] Flag resources by default as tentative 
-    * [] Refactor CSS (get rid of in-line styling)
     * [] Get automatic approval of resources (threshold of 5 helpfulness ratings >= 3 and helpful_avg >= 2.5)
     * Joseph J Williams paper on bandit processes to select helpful explanations for quiz questions
     * 
