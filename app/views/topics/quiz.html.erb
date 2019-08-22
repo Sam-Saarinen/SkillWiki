@@ -1,6 +1,6 @@
 <h1><%= @topic.name %> Quiz</h1>
 
-<center>
+<div class="container">
   <%= form_with(url: "/topics/#{@topic.id}/quiz/submit", local: true, id: "topic_quiz") do |form| %>
   
     <input type="hidden" name="quizius_interact_id" value="<%= @quizius_interact_id %>">
@@ -61,5 +61,6 @@
     </div>
     
   <% end %>
-</center>
+</div>
+  
 

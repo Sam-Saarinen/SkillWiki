@@ -1,32 +1,35 @@
-<% if !@rec_resources.empty? %>
-  <h2>Recommended Order</h2>
-  <center>
+<div class="container">
+  <% if !@rec_resources.empty? %>
+    <h2>Recommended Order</h2>
+    <div class="recommendation-list">
+      <ol>
+        <% @rec_resources.each do |resource| %>
+          <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
+        <% end %>
+      </ol>
+    </div>
+  
+  <% else %>
+    <h2>All Resources for <%= @topic.name %></h2>
+    <div class="recommendation-list">
+      <ol>
+        <% @resources.each do |resource| %>
+          <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
+        <% end %>
+      </ol>
+    </div>
+  <% end %>
+  
+  <% if !(@past_resources.empty?) %>
+  <h2>Resources You Have Viewed</h2>
+  <div class="recommendation-list">
     <ol>
-      <% @rec_resources.each do |resource| %>
-        <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
-      <% end %>
-  </ol>
-  </center>
-
-<% else %>
-  <h2>All Resources for <%= @topic.name %></h2>
-  <center>
-    <ol>
-      <% @resources.each do |resource| %>
+      <% @past_resources.each do |resource| %>
         <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
       <% end %>
     </ol>
-  </center>
+  </div>
+  <% end %>
+</div>
 
-<% end %>
 
-<% if !(@past_resources.empty?) %>
-<h2>Viewed Resources</h2>
-<center>
-  <ol>
-    <% @past_resources.each do |resource| %>
-      <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
-    <% end %>
-  </ol>
-</center>
-<% end %>

@@ -14,7 +14,7 @@
         <% classes = current_user.classrooms %>
         <% classes.each do |classroom| %>
           <li class="nav-item">
-            <a class="nav-link" href="/classrooms/<%= classroom.id %>/show/active"><%= classroom.name %></a>
+            <a class="nav-link" href="/classrooms/<%= classroom.id %>/show/active/"><%= classroom.name %></a>
           </li>
         <% end %>
         

@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  *= require bootstrap-datepicker
+ *= require jquery-ui
  */
  @import "bootstrap";
  
@@ -27,7 +28,10 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
   align-items: center;
   border: 1px solid #ccc;
   background: #ddd;
-  margin: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .badge-description {
@@ -46,43 +50,79 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
   opacity: 0.4;
 }
 
+.container {
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.due-date {
+  margin-left: 1em;
+}
+
+.form-group {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.home-section {
+  margin: 1rem;
+}
+
+.navigate-button {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-lg;
+  text-align: center;
+}
+
 .quiz-question {
   width: 50%;
   border: 1px solid;
   border-radius: 0.3rem;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: flex-start;
-  // align-items: center;
-  margin: 1rem;
+  margin-bottom: 1rem;
+  margin-right: auto;
+  margin-left: auto;
   padding: 1rem;
   background: rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.recommendation-list {
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.recommendation-list li {
+  text-align: left;
+}
+
+.resource-feedback {
+  position: fixed; 
+  bottom: 0; 
+  width: 100%; 
+  background: gainsboro;
+}
+
+.resource-view {
+  overflow: scroll; 
+  height: 500px;
+  text-align: center;
+}
+
+.resource-view-item {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 .stats {
   background: rgba(0,0,0,0.1);
   width: 50%;
-}
-
-.topic-progress-item {
-  width: 50%;
-  border: 1px solid;
-  border-radius: 0.3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.topic-progress-item h2 {
-  margin-left: 2rem;
-}
-
-.topic-progress-item p {
-  margin-left: 2rem;
-  margin-bottom: 0.25rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .student-progress-item {
@@ -95,6 +135,8 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
   align-items: flex-start;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .student-progress-item a {
@@ -120,6 +162,8 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
   align-items: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .student-roster-item button {
@@ -128,6 +172,66 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
 
 .student-progress-item h2 {
   margin-left: 1rem;
+}
+
+.title {
+  display: flex; 
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.topic-item {
+  @extend .list-group-item;
+  @extend .list-group-item-action;
+  text-align: center;
+}
+
+.topic-list {
+  @extend .form-group;
+  text-align: center;
+  width: 50%;
+  margin-top: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.topics-navbar {
+  @extend .navbar;
+  @extend .navbar-expand-sm;
+  @extend .navbar-light;
+  @extend .bg-light;
+  @extend .w-50;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.topic-progress-item {
+  width: 50%;
+  border: 1px solid;
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.topic-progress-item h2 {
+  margin-left: 2rem;
+}
+
+.topic-progress-item p {
+  margin-left: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.options button {
+  display: inline-block;
 }
 
 .viewed-resource-item {
@@ -140,4 +244,6 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
   align-items: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }

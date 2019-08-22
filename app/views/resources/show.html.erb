@@ -1,53 +1,52 @@
-<!--<p id="notice"><%= notice %></p>-->
-
 <% content = JSON.parse(@resource.content) %>
 
-<div style="overflow: scroll; height: 600px">
+<div class="resource-view">
   
   <!--Show link-->
   <% if !content["link"].empty? %>
     <% link = content["link"] %>
     <% safe_link = '/not_found' %>
     <% if valid_url?(link) %>
-      <center>
         <a href="<%= link %>" target="_blank">Click here if resource is not visible below (Opens in new tab)</a>
-        <div class="embed-responsive embed-responsive-16by9 w-75">
+        <div class="resource-view-item embed-responsive embed-responsive-16by9 w-75">
           <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%= link %>" allowfullscreen>Resource could not be rendered.</iframe>
         </div>
-      </center>
     <% else %>
-      <a href="<%= safe_link %>">go</a>
-      <center>
-        <div class="embed-responsive embed-responsive-16by9 w-75">
+        <a href="<%= safe_link %>">go</a>
+        <div class="resource-view-item embed-responsive embed-responsive-16by9 w-75">
           <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%= safe_link %>" allowfullscreen>Resource could not be rendered.</iframe>
         </div>
-      </center>
     <% end %>
   <% end %>
   
   <!--Show video-->
   <% if !content["video"].empty? %>
     <% video = content["video"] %>
-      
-    <center>
+    <div class="resource-view-item">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </center>
+    </div>
   <% end %>
   
   <!--Show text-->
   <% if !content["text"].empty? %>
-    <% text = content["text"] %>
-  
-    <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true) %>
-    <% rendered = markdown.render(text) %>
-  
-    <center>
-      <div class="border text-left w-50">
+      <% text = content["text"] %>
+      <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true) %>
+      <% rendered = markdown.render(text) %>
+    
+      <div class="resource-view-item border text-left w-50">
         <%= sanitize rendered %>
       </div>
-    </center>
+    
   <% end %>
   
 </div>
 
-<%= render 'feedback_form' %>
+<div class="resource-feedback">
+  <%= render 'feedback_form' %>
+</div>
+
+<script>
+    // $( function() {
+    //   $( "#draggable" ).draggable();
+    // } );
+</script>

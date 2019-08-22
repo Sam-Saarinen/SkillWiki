@@ -1,6 +1,7 @@
 <h1>New Topic</h1>
-<%= form_for @topic do |f| %>
-  <center>
+
+<div class="container">
+  <%= form_for @topic do |f| %>
     <div class="form-group w-25">
       <%= f.label 'Topic Name' %>
       <%= f.text_field :name, class: "form-control form-control-sm" %>
@@ -10,8 +11,8 @@
       <%= f.text_area :description, class: "form-control form-control-lg" %>
     </div>
     <%= f.submit class: "btn btn-primary" %>
-  </center>
-<% end %>
+  <% end %>
+</div>
 
 
 

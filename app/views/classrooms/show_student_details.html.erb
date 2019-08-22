@@ -1,7 +1,6 @@
 <h1><%= @student.name %>'s Progress in <%= @topic.name %></h1>
 
 <h2>Resources Viewed</h2>
-<center>
   <% @viewed.each do |v| %>
     <% r = Resource.find(v.resource_id) %>
       <div class="viewed-resource-item">
@@ -10,7 +9,6 @@
         <p>Confidence rating: <%= v.confidence_q %></p>
       </div>
   <% end %>
-</center>
 
 <h2>Quiz Results</h2>
 
@@ -26,7 +24,6 @@
   <!--<h5>Attempted on </h4>-->
   <h5>Cumulative Score: <%= cumulative %></h4>
   
-  <center>
     <% q_and_a.each do |pair| %>
       <% q = pair[0] %>
       <% ans = pair[1] %>
@@ -73,7 +70,6 @@
           
         <% end %>
     <% end %>
-  </center>
   
 
 <% end %>

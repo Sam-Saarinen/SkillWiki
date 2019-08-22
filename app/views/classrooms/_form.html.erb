@@ -1,17 +1,17 @@
-<%= form_with(model: classroom, local: true) do |form| %>
-  <% if classroom.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(classroom.errors.count, "error") %> prohibited this classroom from being saved:</h2>
-
-      <ul>
-      <% classroom.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div class="container">
+  <%= form_with(model: classroom, local: true) do |form| %>
+    <% if classroom.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(classroom.errors.count, "error") %> prohibited this classroom from being saved:</h2>
   
-  <center>
+        <ul>
+        <% classroom.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
     <div class="form-group w-25">
       <%= form.label :name %>
       <%= form.text_field :name, class: "form-control", required: true %>
@@ -20,6 +20,7 @@
     <div class="actions">
       <%= form.submit class: "btn btn-primary", data: { "disable-with": "Saving..." } %>
     </div>
-  </center>
 
-<% end %>
+  <% end %>
+</div>
+

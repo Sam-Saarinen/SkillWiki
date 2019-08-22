@@ -1,4 +1,4 @@
-<center>
+<div class="container">
   <h1><%= @classroom.name %></h1>
   <h2>Class code: <%= @classroom.join_code %></h2>
   
@@ -21,10 +21,9 @@
       <% student = a.student %>
       <% finished = Interaction.where('user_id = ?', student.id).count %>
       <h2><%= student.name %>'s Progress</h2>
-      <span>
-        <p style="margin-left: 1em;"><em>Due date: <%= a.due_date.strftime("%B %d, %Y") %></em>
-        <%= link_to "Edit Due Date", "/classrooms/#{ @classroom.id }/assignments/new/topics/#{ @topic.id }/students/#{ student.id }", :classroom => @classroom %></p>
-        
+      <span class="due-date">
+        <em>Due date: <%= a.due_date.strftime("%B %d, %Y") %></em>
+        <%= link_to "Edit Due Date", "/classrooms/#{ @classroom.id }/assignments/new/topics/#{ @topic.id }/students/#{ student.id }", :classroom => @classroom %>
       </span>
       <p>Resources completed: <%= finished %> </p>
       <p>Quiz taken yet?  <%= quiz_taken(student.id, t.id) %></p>
@@ -32,5 +31,5 @@
       <a href="enrolled/<%= student.id %>">View Details</a>
     </div>
   <% end %>
-</center>
+</div>
 

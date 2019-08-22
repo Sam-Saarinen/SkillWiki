@@ -1,43 +1,39 @@
-<div>
+<div class="container">
   <!--show all topics of the user-->
   <% topics = Topic.where(approved: true) %>
-  <center>
-    <% assigned = Assignment.where(student_id: current_user) %>
-    <% if not assigned.empty? %>
-      <h2>Assigned Topics</h2>
-      <ul class="form-group w-50">
-        <% assigned.each do |a| %>
-            <% topic = Topic.find(a.topic_id) %>
-            <a href="topics/show/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
-        <% end %>
-      </ul>
-      
-      <h2>Other Topics</h2>
-      <ul class="form-group w-50">
-        <% ids = assigned.map {|a| a.topic_id} %>
-        <% topics.each do |topic| %>
-          <% if not ids.include? topic.id %>
-            <a href="topics/show/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
-          <% end %>
-        <% end %>
-      </ul>
+  <% assigned = Assignment.where(student_id: current_user) %>
+  <% if not assigned.empty? %>
+    <h2>Assigned Topics</h2>
+    <ul class="topic-list">
+      <% assigned.each do |a| %>
+          <% topic = Topic.find(a.topic_id) %>
+          <a href="topics/show/<%= topic.id %>" class="topic-item"><%= topic.name %></a>
+      <% end %>
+    </ul>
     
-    <% else %>
-      <ul class="form-group w-50">
-        <% topics.each do |topic| %>
-            <a href="topics/show/<%= topic.id %>" class="list-group-item list-group-item-action text-center"><%= topic.name %></a>
+    <h2>Other Topics</h2>
+    <ul class="topic-list">
+      <% ids = assigned.map {|a| a.topic_id} %>
+      <% topics.each do |topic| %>
+        <% if not ids.include? topic.id %>
+          <a href="topics/show/<%= topic.id %>" class="topic-item"><%= topic.name %></a>
         <% end %>
-      </ul>
-    <% end %>
-  </center>
+      <% end %>
+    </ul>
+  
+  <% else %>
+    <ul class="topic-list">
+      <% topics.each do |topic| %>
+          <a href="topics/show/<%= topic.id %>" class="topic-item"><%= topic.name %></a>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <a class="navigate-button" href="resources/new">Contribute a Resource</a>
+  <% if can? :create, Topic %>
+      <a class="navigate-button" href="topics/new">Create a Topic</a>
+  <% end %>
 </div>
 
-<div>
-  <center>
-    <a class="btn btn-primary btn-lg" href="resources/new" role="button">Contribute a Resource</a>
-    <% if can? :create, Topic %>
-        <a class="btn btn-primary btn-lg" style="margin: auto" href="topics/new" role="button">Create a Topic</a>
-    <% end %>
-  </center>
-</div>
+
 

@@ -20,8 +20,8 @@ gem 'sqlite3', '~> 1.3.6'
 # Things to Remember (Eric)
 * TOASK:
 * TODO:
-    * [] Take out contribute_question action
-    * [] Get current tests working (after some edits)
+    * [X] Take out contribute_question action
+    * [X] Get current tests working (after some edits)
     * [] Refactor CSS (get rid of in-line styling) 
     * [] Flag resources by default as tentative 
     * [] Get automatic approval of resources (threshold of 5 helpfulness ratings >= 3 and helpful_avg >= 2.5)

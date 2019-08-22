@@ -2,11 +2,11 @@
 
 <h2>Student since <%= @user.created_at.strftime("%B %d, %Y") %></h2>
   
-<center>
+<div class="container">
   
   <h2>Badges</h2>
   
-  <button class="btn btn-primary" onclick="location.reload()">Check for New Badges</button>
+  <button class="btn btn-primary btn-sm" onclick="location.reload()">Check for New Badges</button>
     
     <% user_badges = JSON.parse(@user.badges) %>
     <% user_badges.each do |key, val| %>
@@ -35,17 +35,17 @@
       
     <% end %>
 
-  <a href="/user_features/<%= @user.id %>/edit" class="btn btn-primary">Edit My Features</a>
+  <a href="/user_features/<%= @user.id %>/edit" class="navigate-button">Edit My Features</a>
   
   <% if can? :approve, Topic %>
-        <a class="btn btn-primary btn-primary" style="margin: auto" href="/topics/approve" role="button">Approve Topics</a>
+        <a class="navigate-button" href="/topics/approve" role="button">Approve Topics</a>
   <% end %>
   
   <% if can? :create, Classroom %>
-        <a class="btn btn-primary btn-primary" style="margin: auto" href="/classrooms/new" role="button">Create a Class</a>
+        <a class="navigate-button" href="/classrooms/new" role="button">Create a Class</a>
   <% end %>
   
-  <a class="btn btn-primary btn-primary" style="margin: auto" href="/classrooms/enroll" role="button">Join a Class</a>
+  <a class="navigate-button" href="/classrooms/enroll" role="button">Join a Class</a>
   
-</center>
+</div>
 

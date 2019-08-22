@@ -1,33 +1,40 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light w-50">
-  <div class="collapse navbar-collapse">
-    <ul class="navbar-nav">
-      
-      <!--Individual active topics-->
-      <% @active = @active.map {|a| a.topic_id } %>
-      <% @active = @active.uniq %>
-      
-      <div class="nav-item dropdown" <%= 'active' if current_page?("/classrooms/#{@classroom.id}/active") %>>
-        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Active Topics
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/classrooms/<%= @classroom.id %>/show/active">Overview</a>
-          <% @active.each do |id| %>
-            <% t = Topic.find(id) %>
-            <a class="dropdown-item" href="/classrooms/<%= @classroom.id %>/topics/<%= t.id %>/"><%= t.name %></a>
-          <% end %>
+
+  <nav class="topics-navbar">
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        
+        <!--Individual active topics-->
+        <% @active = @active.map {|a| a.topic_id } %>
+        <% @active = @active.uniq %>
+        
+        <div class="nav-item dropdown show" <%= 'active' if current_page?("/classrooms/#{@classroom.id}/active") %>>
+          <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Active Topics
+          </a>
+          <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/classrooms/<%= @classroom.id %>/show/active">Overview</a>
+            <% @active.each do |id| %>
+              <% t = Topic.find(id) %>
+              <a class="dropdown-item" href="/classrooms/<%= @classroom.id %>/topics/<%= t.id %>/"><%= t.name %></a>
+            <% end %>
+          </div>
+          <% # FIXME: Dropdown menu has to be clicked twice to open %>
+          <% # Possible errors: 'focus' or CSS %>
         </div>
-        <% # FIXME: Dropdown menu has to be clicked twice to open %>
-        <% # Possible errors: 'focus' or CSS %>
-      </div>
-      
-      <li class="nav-item <%= 'active' if current_page?("/classrooms/#{@classroom.id}/past") %>">
-          <a class="nav-link" href="/classrooms/<%= @classroom.id %>/show/past">Past Topics</a>
-      </li>
-      
-      <li class="nav-item">
-        <a class="nav-link" href="/classrooms/<%= @classroom.id %>/roster">Roster</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+        
+        <li class="nav-item <%= 'active' if current_page?("/classrooms/#{@classroom.id}/past") %>">
+            <a class="nav-link" href="/classrooms/<%= @classroom.id %>/show/past">Past Topics</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/classrooms/<%= @classroom.id %>/roster">
+            Roster
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+<script>
+  $('.dropdown-toggle').dropdown()
+</script>

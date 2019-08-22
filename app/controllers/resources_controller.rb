@@ -33,6 +33,7 @@ class ResourcesController < ApplicationController
     @resource = Resource.new(params.permit(:name, :topic_id))
     @resource.user_id = current_user.id
     content = { link: params[:link].strip!, video: params[:video].strip!, text: params[:text] }
+    # FIXME: Sometimes link is saved as nil in content; couldn't duplicate this bug :(
     @resource.content = content.to_json
     
     if can? :authorize, @resource

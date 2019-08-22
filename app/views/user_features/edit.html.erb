@@ -1,10 +1,7 @@
 <h1>Edit User Features</h1>
 
-<div class="text-center">
-  <!--<p>Speed is <%= @user.speed %></p>-->
-  <!--<p>Guide is <%= @user.guide %></p>-->
+<div class="container">
   
-  <div class="text-center">
   <%= form_tag("/user_features/#{@user.id}", method: "patch") do %>
     
     <label>Do you prefer faster or more thorough lessons?</label>
@@ -73,7 +70,7 @@
       <% end %>
     </div>
   
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="navigate-button" type="submit">Submit</button>
   <% end %>
 </div>
 

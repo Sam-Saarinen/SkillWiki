@@ -1,69 +1,69 @@
-<%= form_with(url: "/classrooms/#{params[:classroom_id]}/assignments", local: true, id: "assign_topic") do |form| %>
-  
-  <center>
-    
-    <div class="form-group">
-      <% if params[:topic_id] %>
-        <%= form.label "Topic" %>
-        <% topics = Topic.where(reviewed:true).where(approved: true) %>
-        <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true, selected: params[:topic_id] %>
-      <% else %>
-        <%= form.label "Topic" %>
-        <% topics = Topic.where(reviewed:true).where(approved: true) %>
-        <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true %>
-      <% end %>
-    </div>
-  
-    <div class="form-group">
-      <%= form.label :due_date %>
-      <input placeholder="<%= @assignment.due_date %>" type="text" name="due_date" data-provide='datepicker' data-date-format="yyyy-mm-dd 23:59:59" required>
-    </div>
-    
-    <div class="form-group">
-      <%= form.label :students %>
+<div class="container">
+  <%= form_with(url: "/classrooms/#{params[:classroom_id]}/assignments", local: true, id: "assign_topic") do |form| %>
       
-      <input type="hidden" name="students[all]" value="false">
-      <div class="form-check">
-        
-        <input id="all" class="form-check-input" type="checkbox" name="students[all]" value="true" onclick="userSelectAll()">
-        
-        <label class="form-check-label" for="all">
-          All Students
-        </label>
+      <div class="form-group">
+        <% if params[:topic_id] %>
+          <%= form.label "Topic" %>
+          <% topics = Topic.where(reviewed:true).where(approved: true) %>
+          <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true, selected: params[:topic_id] %>
+        <% else %>
+          <%= form.label "Topic" %>
+          <% topics = Topic.where(reviewed:true).where(approved: true) %>
+          <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true %>
+        <% end %>
+      </div>
+    
+      <div class="form-group">
+        <%= form.label :due_date %>
+        <input placeholder="<%= @assignment.due_date %>" type="text" name="due_date" data-provide='datepicker' data-date-format="yyyy-mm-dd 23:59:59" required>
       </div>
       
-      <% @classroom = Classroom.find(params[:classroom_id]) %>
-      <% enrolled = @classroom.enrolled %>
-      <% enrolled.each do |student| %>
-        <% if student.teacher %>
-          <% next %>
-        <% end %>
+      <div class="form-group">
+        <%= form.label :students %>
         
-        <input type="hidden" name="students[<%= student.id %>]" value="false">
+        <input type="hidden" name="students[all]" value="false">
         <div class="form-check">
           
-          <% if params[:student_id] && student.id == params[:student_id] %>
-            <input id="<%= student.id %>" class="form-check-input" type="checkbox" name="students[<%= student.id %>]" value="true" checked=true>
-          <% else %>
-            <input id="<%= student.id %>" class="form-check-input" type="checkbox" name="students[<%= student.id %>]" value="true">
-          <% end %>
+          <input id="all" class="form-check-input" type="checkbox" name="students[all]" value="true" onclick="userSelectAll()">
           
-          <label class="form-check-label" for="<%= student.id %>">
-            <%= student.name %>
+          <label class="form-check-label" for="all">
+            All Students
           </label>
         </div>
-      <% end %>
-    </div>
-    <% #TODO: Align checkboxes vertically %>
+        
+        <% @classroom = Classroom.find(params[:classroom_id]) %>
+        <% enrolled = @classroom.enrolled %>
+        <% enrolled.each do |student| %>
+          <% if student.teacher %>
+            <% next %>
+          <% end %>
+          
+          <input type="hidden" name="students[<%= student.id %>]" value="false">
+          <div class="form-check">
+            
+            <% if params[:student_id] && student.id == params[:student_id] %>
+              <input id="<%= student.id %>" class="form-check-input" type="checkbox" name="students[<%= student.id %>]" value="true" checked=true>
+            <% else %>
+              <input id="<%= student.id %>" class="form-check-input" type="checkbox" name="students[<%= student.id %>]" value="true">
+            <% end %>
+            
+            <label class="form-check-label" for="<%= student.id %>">
+              <%= student.name %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+      <% #TODO: Align checkboxes vertically %>
+      
+      <input type="hidden" id="classroom_id" name="classroom_id" value="<%= j(params['classroom_id']) %>">
     
-    <input type="hidden" id="classroom_id" name="classroom_id" value="<%= j(params['classroom_id']) %>">
-  
-    <div class="actions">
-        <%= form.submit "Assign", id: "assign", class: "btn btn-primary", data: { "disable-with": "Assigning..." } %>
-    </div>
-  
-  </center>
-<% end %>
+      <div class="actions">
+          <%= form.submit "Assign", id: "assign", class: "btn btn-primary", data: { "disable-with": "Assigning..." } %>
+      </div>
+    
+  <% end %>
+</div>
+
 
 <script type="text/javascript">
 

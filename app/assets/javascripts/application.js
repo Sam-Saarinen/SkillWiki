@@ -14,11 +14,12 @@
 //= require activestorage
 
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
+//= require popper
 //= require bootstrap
 //= require turbolinks
 //= require_tree .
-//= require popper
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 

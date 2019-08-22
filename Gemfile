@@ -55,6 +55,7 @@ gem 'unirest'
 
 # Add jQuery 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # Add Markdown parsing and rendering
 gem 'redcarpet'

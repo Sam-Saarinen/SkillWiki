@@ -1,37 +1,26 @@
 <h1>Topics Awaiting Approval</h1>
 
-<!--Approved is defaulted to nil right now...-->
 <% topics = Topic.where(reviewed: false) %>
 
-<center>
+<div class="container">
   <% topics.each do |top| %>
     <%= form_tag("/topics/approve_or_destroy/#{top.id}", method: "post") do %>
-      <div>
-        <div style="display:inline-block">
-          <h2><%= top.name %></h2>
-        </div>
-      </div>
       
-      <div>
-        <p><%= top.description %></p>
-      </div>
+      <h2><%= top.name %></h2>
       
-      <div>
-        <h4>Resources</h4>
-        <ul>
-          <% resources = top.resource.all %>
-          <% resources.each do |res| %>
-            <li><a href="<%= resource_path(res) %>"><%= res.name %></a></li>
-          <% end %>
-        </ul>
-      </div>
-          
-    
-      <div style="display:inline-block">
-          <button class="btn btn-success btn-sm" type="submit" name="todo" value="approve">Approve this Topic</button>
-      </div>
-      <div style="display:inline-block">
-          <button class="btn btn-danger btn-sm" type="submit" name="todo" value="unapprove">Delete this Topic</button>
+      <p><%= top.description %></p>
+      
+      <h4>Resources</h4>
+      <ul>
+        <% resources = top.resource.all %>
+        <% resources.each do |res| %>
+          <li><a href="<%= resource_path(res) %>"><%= res.name %></a></li>
+        <% end %>
+      </ul>
+      
+      <div class="options">
+        <button class="btn btn-success btn-sm" type="submit" name="todo" value="approve">Approve this Topic</button>
+        <button class="btn btn-danger btn-sm" type="submit" name="todo" value="unapprove">Delete this Topic</button>
       </div>
       
       
@@ -39,7 +28,8 @@
       <% # TODO: Come back and make a second list of topics that have been reviewed and not approved %>
     <% end %>
   <% end %>
-</center>
+</div>
+  
 
 
 
