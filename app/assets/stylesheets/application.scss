@@ -17,7 +17,7 @@
  */
  @import "bootstrap";
  
-h1, h2, h3, h4, h5, h6 {text-align: center;
+h1, h2, h3, h4, h5, h6 { text-align: center;
 }
 
 .badge {
@@ -58,6 +58,30 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
 
 .due-date {
   margin-left: 1em;
+}
+
+.embed-code {
+  position: relative;
+  width: 15%; 
+  float: left; 
+  top: 30px; 
+  z-index: 2;
+  left: 15px;
+}
+
+.embed-left {
+  display: inline-block;
+  margin-bottom: 0; 
+  float:left; 
+  position: relative; 
+  left: 10px;
+}
+
+.embed-right {
+  position:relative; 
+  top:20px; 
+  right: 80px; 
+  text-align: left;
 }
 
 .form-group {
@@ -172,6 +196,17 @@ h1, h2, h3, h4, h5, h6 {text-align: center;
 
 .student-progress-item h2 {
   margin-left: 1rem;
+}
+
+.text-preview {
+  height: 100px; 
+  width: 50%;
+  overflow: scroll;
+  text-align: left;
+  border: 1px solid #dee2e6;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
 }
 
 .title {

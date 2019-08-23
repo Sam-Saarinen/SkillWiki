@@ -78,12 +78,6 @@
         deselectSome();
       });
 
-    // function deselectAll() {
-    //   $("input:checkbox").each( function() {
-    //       $(this).prop('checked', false);
-    //   });
-    // }
-
     function userSelectAll() {
 
       if ($("#all:checked").val()) {
@@ -108,8 +102,6 @@
       });
     }
     
-    // TODO: Doesn't deslect if topic is changed
-    // TODO: Doesn't deselect when selectAll is called
     // Checks if student selected already has been assigned the topic,
     // in which case deselects the student with a message
     function checkDuplicate(box) {
@@ -131,9 +123,6 @@
       if (dup) {
         $(box).prop('checked', false);
         displayMessage(box);
-        // $(box).html(dueDate);
-        // console.log("duplicate");
-        // console.log(box)
       } 
     }
     
@@ -153,28 +142,6 @@
         $(label).html(msg);
       });
     }
-    
-    // $('.form-check-input').click(function() {
-    //   if (this.getAttribute('id') !== "all") {
-    //     student = []
-    //     student.push(this.getAttribute('id'));
-        
-    //     const postParameters = {
-    //                 classroom_id: $("#classroom_id").val(),
-    //                 topic_id: $("#topic_id").val(),
-    //                 checked: student};
-                    
-    //     $.post("/assignments/dup_assignments", postParameters, responseJSON => {
-    //       const responseObject = JSON.parse(responseJSON);
-            
-    //       if (responseObject) {
-    //         // $(this).prop('checked', false);
-    //         // alert("This student has already been as")
-    //       } 
-    //     });
-    //   }
-      
-    // });
     
 </script>
 <%= javascript_include_tag "assign_topic_checks" %>

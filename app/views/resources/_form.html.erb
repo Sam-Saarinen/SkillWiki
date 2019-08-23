@@ -1,62 +1,59 @@
-<%= form_with url: '/resources', local: true, id: "create_resource" do |form| %>
-
-  <% if resource.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(resource.errors.count, "error") %> prohibited this resource from being saved:</h2>
-
-      <ul>
-      <% resource.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div class="container">
+  <%= form_with url: '/resources', local: true, id: "create_resource" do |form| %>
   
-  <center>
-    <div class="form-group w-25">
-      <%= form.label :name %>
-      <%= form.text_field :name, class: "form-control", required: true %>
-    </div>
+    <% if resource.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(resource.errors.count, "error") %> prohibited this resource from being saved:</h2>
+  
+        <ul>
+        <% resource.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
     
-    <div class="form-group">
-      <%= form.label "Topic" %>
-      <% topics = Topic.where(reviewed:true).where(approved: true) %>
-      <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true %>
-      <% # TODO: Change options to only approved topics %>
-    </div>
-  
-    <div class="form-group w-50">
-      <%= form.label "link" %>
-      <small id="linkHelp" class="form-text text-muted">Copy and past the link. Make sure to add "https://" at the front.</small>
-      <%= form.text_field "link", class: "form-control" %>
+      <div class="form-group w-25">
+        <%= form.label :name %>
+        <%= form.text_field :name, class: "form-control", required: true %>
+      </div>
       
-    </div>
+      <div class="form-group">
+        <%= form.label "Topic" %>
+        <% topics = Topic.where(reviewed:true).where(approved: true) %>
+        <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true %>
+        <% # TODO: Change options to only approved topics %>
+      </div>
     
-    <div id="link_preview">
-    </div>
-    
-    
-    <div class="form-group w-75">
-      <%= form.label "video" %>
-      <small id="linkHelp" class="form-text text-muted">Copy and paste the string after the slash from the embed code.</small>
-      <pre style="margin-bottom: 0; display: inline-block; float:left; position: relative; right: 5px"><code>
-        &lt;iframe width="560" height="315" 
-        src="https://www.youtube.com/embed/
-      </code></pre>
-      <%= form.text_field "video", class: "form-control", style: "width: 15%; float: left; position: relative; top: 30px; z-index: 2;" %>
-      <pre style="position:relative; top:20px; right: 80px; text-align: left;"><code>
-          " frameborder="0" allow="accelerometer; autoplay; 
-          encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>&lt;/iframe>
-      </code></pre>
-    </div>
-    <div style="position: relative; top:30px;">
-    </div>
-    
-    <div id="video_preview">
-    </div>
-    
-    <div>
+      <div class="form-group w-50">
+        <%= form.label "link" %>
+        <small id="linkHelp" class="form-text text-muted">Copy and past the link. Make sure to add "https://" at the front.</small>
+        <%= form.text_field "link", class: "form-control" %>
+        
+      </div>
+      
+      <div id="link_preview">
+      </div>
+      
+      
+      <div class="form-group">
+        <%= form.label "video" %>
+        <small id="linkHelp" class="form-text text-muted">Copy and paste the string after the slash from the embed code.</small>
+        <pre class="embed-left"><code>
+          &lt;iframe width="560" height="315" 
+          src="https://www.youtube.com/embed/
+        </code></pre>
+        <%= form.text_field "video", class: "form-control embed-code" %>
+        <pre class="embed-right"><code>
+            " frameborder="0" allow="accelerometer; autoplay; 
+            encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>&lt;/iframe>
+        </code></pre>
+      </div>
+      
+      <div id="video_preview">
+      </div>
+      
       <div class="form-group w-50">
         
         <%= form.label "text" %>
@@ -65,18 +62,18 @@
         
       </div>
     
-      <div id="text_preview" class="border text-left w-50" style="height: 100px; overflow: scroll;">
+      <div id="text_preview" class="text-preview">
         <h4>See your text appear here!</h4>
       </div>
-    </div>
-
-    <div class="actions">
-      <%= form.submit id: "submit", class: "btn btn-primary", data: { "disable-with": "Saving..." } %>
-    </div>
-    
-  </center>
   
-<% end %>
+      <div class="actions">
+        <%= form.submit id: "submit", class: "btn btn-primary", data: { "disable-with": "Saving..." } %>
+      </div>
+      
+    
+  <% end %>
+</div>
+
 
 <%= javascript_include_tag "preview" %>
 <%= javascript_include_tag "require_one_field" %>
