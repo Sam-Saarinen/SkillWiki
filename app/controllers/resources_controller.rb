@@ -293,16 +293,18 @@ class ResourcesController < ApplicationController
     
     # Updates resource flags (e.g. approved, tentative)
     def update_resource_flags
-      rating_threshold = 3
-      num_rating_threshold = 5
-      avg_threshold = 2.5
       
-      if @resource.helpful_avg >= avg_threshold && 
-        Interaction.where(resource_id: @resource.id).where("helpful_q >= ?", rating_threshold).count >= num_rating_threshold
+      if @resource.helpful_avg >= 2.5 && 
+        Interaction.where(resource_id: @resource.id).where("helpful_q >= ?", 3).count >= 5
+        
         @resource.tentative = false 
         @resource.approved = true 
         @resource.save 
-      elsif @resource.helpful_avg
+      elsif @resource.helpful_avg < 2.0 && 
+        Interaction.where(resource_id: @resource.id).where("helpful_q <= ?", 2).count >= 5
+      
+        @resource.flagged = true 
+        @resource.save   
       end 
       
     end 

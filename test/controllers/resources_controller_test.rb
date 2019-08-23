@@ -73,4 +73,22 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     assert r.approved
   end
   
+  test "should flag resource" do
+    sign_out @jocko 
+    r = Resource.find(1)
+    assert_not r.flagged
+    
+    (3..7).each do |i|
+      u = User.find(i)
+      sign_in u
+      get resource_url(1)
+      post '/resources/eval', params: { id: 1, helpful: "1", confident: "4", feedback: "done" }
+      r = Resource.find(1)
+      sign_out u
+    end 
+    
+    r = Resource.find(1)
+    assert r.flagged
+  end 
+  
 end

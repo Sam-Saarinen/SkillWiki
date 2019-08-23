@@ -20,11 +20,14 @@ gem 'sqlite3', '~> 1.3.6'
 # Things to Remember (Eric)
 * For installing heroku on cloud9: (1) nvm i v8 (2) npm install -g heroku
 * For resetting heroku db: heroku pg:reset
+* Manual Tests:
+  * topics#show b/c using external API
+  * Integration: log in for new user and should be redirected to 'Edit User Features'
 * TOASK:
 * TODO:
     * [X] Flag resources by default as tentative
     * [X] Get automatic approval of resources (threshold of 5 helpfulness ratings >= 3 and helpful_avg >= 2.5)
-    * [] Automated flagging of resources (threshold of 5 helpfulness ratings <= 2 and helpful_avg < 2.0)
+    * [X] Automated flagging of resources (threshold of 5 helpfulness ratings <= 2 and helpful_avg < 2.0)
     * [] Read up on papers Sam sent
     * Joseph J Williams paper on bandit processes to select helpful explanations for quiz questions
     * 
