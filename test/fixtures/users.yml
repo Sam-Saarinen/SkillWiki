@@ -38,3 +38,58 @@ jocko:
   teacher: false
   badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
   classrooms: one 
+  
+xena:
+  id: 4
+  name: "Xena"
+  email: "xena@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  confirmed_at: <%= Time.current %>
+  admin: false
+  teacher: false
+  badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
+  classrooms: one 
+  
+hume:
+  id: 5
+  name: "Hume"
+  email: "hume@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  confirmed_at: <%= Time.current %>
+  admin: false
+  teacher: false
+  badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
+  classrooms: one 
+  
+smith:
+  id: 6
+  name: "Smith"
+  email: "smith@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  confirmed_at: <%= Time.current %>
+  admin: false
+  teacher: false
+  badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
+  classrooms: one 
+  
+kant:
+  id: 7
+  name: "Kant"
+  email: "kant@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  confirmed_at: <%= Time.current %>
+  admin: false
+  teacher: false
+  badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
+  classrooms: one 
+  
+descartes:
+  id: 8
+  name: "Descartes"
+  email: "descartes@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  confirmed_at: <%= Time.current %>
+  admin: false
+  teacher: false
+  badges: "{\"1\":{\"earned\":false,\"earn_date\":null},\"2\":{\"earned\":false,\"earn_date\":null},\"3\":{\"earned\":false,\"earn_date\":null},\"4\":{\"earned\":false,\"earn_date\":null},\"5\":{\"earned\":false,\"earn_date\":null},\"6\":{\"earned\":false,\"earn_date\":null},\"7\":{\"earned\":false,\"earn_date\":null},\"8\":{\"earned\":false,\"earn_date\":null},\"9\":{\"earned\":false,\"earn_date\":null},\"10\":{\"earned\":false,\"earn_date\":null}}"
+  classrooms: one 

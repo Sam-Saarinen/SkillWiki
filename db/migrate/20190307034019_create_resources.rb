@@ -4,11 +4,11 @@ class CreateResources < ActiveRecord::Migration[5.2]
       t.string :name
       t.references :topic, foreign_key: true
       t.references :user, foreign_key: true
-      t.boolean :approved
+      t.boolean :approved, default: false 
       t.text :content
-      t.boolean :tentative
-      t.boolean :removed
-      t.boolean :flagged
+      t.boolean :tentative, default: true 
+      t.boolean :removed, default: false 
+      t.boolean :flagged, default: false 
       t.integer :views
 
       t.timestamps

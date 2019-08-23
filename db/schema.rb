@@ -76,11 +76,11 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
     t.string "name"
     t.integer "topic_id"
     t.integer "user_id"
-    t.boolean "approved"
+    t.boolean "approved", default: false
     t.text "content"
-    t.boolean "tentative"
-    t.boolean "removed"
-    t.boolean "flagged"
+    t.boolean "tentative", default: true
+    t.boolean "removed", default: false
+    t.boolean "flagged", default: false
     t.integer "views"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

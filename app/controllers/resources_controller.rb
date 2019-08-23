@@ -38,8 +38,6 @@ class ResourcesController < ApplicationController
     
     if can? :authorize, @resource
       @resource.tentative = false
-    else
-      @resource.tentative = true
     end 
 
     respond_to do |format|
@@ -97,6 +95,7 @@ class ResourcesController < ApplicationController
         update_resources_viewed_avg
         update_highest_rated_resource
         update_lowest_rated_resource
+        update_resource_flags
         check_feedback_badges
       else 
         render action: "show", alert: "Could not save feedback"
@@ -110,6 +109,7 @@ class ResourcesController < ApplicationController
         update_resources_viewed_avg
         update_highest_rated_resource
         update_lowest_rated_resource
+        update_resource_flags
         check_feedback_badges
       else 
         render action: "show", alert: "Could not save feedback"
@@ -289,6 +289,21 @@ class ResourcesController < ApplicationController
       enrolled = classroom.enrolled_ids
       feedback = feedback.select {|f| enrolled.include? f.user_id}
       feedback.sum(&:helpful_q).fdiv(classroom.num_students)
+    end 
+    
+    # Updates resource flags (e.g. approved, tentative)
+    def update_resource_flags
+      rating_threshold = 3
+      num_rating_threshold = 5
+      avg_threshold = 2.5
+      
+      if @resource.helpful_avg >= avg_threshold && 
+        Interaction.where(resource_id: @resource.id).where("helpful_q >= ?", rating_threshold).count >= num_rating_threshold
+        @resource.tentative = false 
+        @resource.approved = true 
+        @resource.save 
+      end 
+      
     end 
       
 end

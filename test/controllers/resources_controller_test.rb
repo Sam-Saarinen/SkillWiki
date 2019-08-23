@@ -52,4 +52,25 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     
     assert_redirected_to topic_quiz_url(1)
   end 
+  
+  test "should approve resource and remove tentative status" do
+    sign_out @jocko 
+    r = Resource.find(1)
+    assert r.tentative
+    assert_not r.approved
+    
+    (3..7).each do |i|
+      u = User.find(i)
+      sign_in u
+      get resource_url(1)
+      post '/resources/eval', params: { id: 1, helpful: "3", confident: "4", feedback: "done" }
+      r = Resource.find(1)
+      sign_out u
+    end 
+    
+    r = Resource.find(1)
+    assert_not r.tentative
+    assert r.approved
+  end
+  
 end

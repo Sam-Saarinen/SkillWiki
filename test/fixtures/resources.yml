@@ -5,3 +5,6 @@ one:
   user_id: 1
   content: "{\"link\":\"python.org\",\"video\":\"\",\"text\":\"\"}"
   tentative: true
+  approved: false 
+  removed: false 
+  flagged: false 
