@@ -302,6 +302,7 @@ class ResourcesController < ApplicationController
         @resource.tentative = false 
         @resource.approved = true 
         @resource.save 
+      elsif @resource.helpful_avg
       end 
       
     end 
