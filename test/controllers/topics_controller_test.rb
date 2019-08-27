@@ -16,11 +16,8 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get topic show" do
-    # TODO: Manually test this b/c I don't want to rack up the external API usage
-    # assert_difference('Resource.count', 5) do
-    #   get '/topics/show/2'
-    # end 
-    # assert_response :success
+    get '/topics/show/2'
+    assert_response :success
   end
   
   test "should get topic approve" do 
@@ -32,7 +29,7 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Topic.count') do
       post '/topics/create', params: { topic: { name: "Heap Sort", description: "Another sorting algorithm for testing"  } }
     end
-    assert_redirected_to root_url
+    assert_redirected_to "/topics/4/initial_resources"
   end 
   
   test "should not be able to create topic" do 

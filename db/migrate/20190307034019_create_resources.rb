@@ -9,7 +9,7 @@ class CreateResources < ActiveRecord::Migration[5.2]
       t.boolean :tentative, default: true 
       t.boolean :removed, default: false 
       t.boolean :flagged, default: false 
-      t.integer :views
+      t.integer :views, default: 0
 
       t.timestamps
     end

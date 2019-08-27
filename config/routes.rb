@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :assignments, except: [:new, :create]
   resources :classrooms, except: [:show]
-  resources :resources, except: :index
+  resources :resources, except: [:index, :show]
   
   get '/classrooms/:classroom_id/assignments/new', to: 'assignments#new', as: :new_assignments
   post '/classrooms/:classroom_id/assignments', to: 'assignments#create'
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   
   get '/topics/show/:topic_id', to: 'topics#show', as: :show_topic
   get '/topics/new'
-  get '/topics/approve/', to: 'topics#approve', as: :approve_topics
+  get '/topics/approve', to: 'topics#approve', as: :approve_topics
   post '/topics/approve_or_destroy/:topic_id', to: 'topics#approve_or_destroy'
   post '/topics/create', as: :topics
   get '/topics/edit'
@@ -35,6 +35,11 @@ Rails.application.routes.draw do
   post '/resources/eval', to: 'resources#eval'
   post '/resources/check_link', to: 'resources#check_link'
   post '/resources/parse_markdown', to: 'resources#parse_markdown'
+  get '/topics/:topic_id/initial_resources', to: 'resources#initial_resources'
+  post '/resources/initial', to: 'resources#create_initial'
+  get '/resources/review', to: 'resources#review', as: :review_resources
+  post '/resources/approve_or_destroy/:resource_id', to: 'resources#approve_or_destroy'
+  get '/resources/show/:id', to: 'resources#show'
   
   root 'pages#home'
   get '/about' => 'pages#about'

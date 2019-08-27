@@ -4,7 +4,7 @@
     <div class="recommendation-list">
       <ol>
         <% @rec_resources.each do |resource| %>
-          <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
+          <li><a href="/resources/show/<%= resource.id %>"><%= resource.name %></a></li>
         <% end %>
       </ol>
     </div>
@@ -14,7 +14,7 @@
     <div class="recommendation-list">
       <ol>
         <% @resources.each do |resource| %>
-          <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
+          <li><a href="/resources/show/<%= resource.id %>"><%= resource.name %></a></li>
         <% end %>
       </ol>
     </div>
@@ -25,7 +25,7 @@
   <div class="recommendation-list">
     <ol>
       <% @past_resources.each do |resource| %>
-        <li><a href="<%= resource_path(resource) %>"><%= resource.name %></a></li>
+        <li><a href="/resources/show/<%= resource.id %>"><%= resource.name %></a></li>
       <% end %>
     </ol>
   </div>

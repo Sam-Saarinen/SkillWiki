@@ -18,6 +18,7 @@
         <input placeholder="<%= @assignment.due_date %>" type="text" name="due_date" data-provide='datepicker' data-date-format="yyyy-mm-dd 23:59:59" required>
       </div>
       
+      <div class="container-checkbox">
       <div class="form-group">
         <%= form.label :students %>
         
@@ -52,6 +53,7 @@
             </label>
           </div>
         <% end %>
+      </div>
       </div>
       <% #TODO: Align checkboxes vertically %>
       

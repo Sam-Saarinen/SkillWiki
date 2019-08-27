@@ -1,5 +1,6 @@
 class ResourcesController < ApplicationController
   include ApplicationHelper
+  include WebScraper
   before_action :set_resource, only: [:show, :edit, :update, :destroy, :eval]
 
   # GET /resources
@@ -61,6 +62,47 @@ class ResourcesController < ApplicationController
       end 
     end
   end
+  
+  # GET /topics/:topic_id/initial_resources
+  def initial_resources
+    @topic = Topic.find(params[:topic_id])
+    @resources = scrape_resources(@topic)
+    # content1 = { link: "python.org", video: "awGigULmfig", text: "*fire* burns **very** cleanly and all the time" }
+    # content2 = { link: "www.ruby-lang.org", video: "", text: "" }
+    # @resources = [
+    #   Resource.new(name: "Python", content: content1.to_json, topic_id: 1, user_id: 2),
+    #   Resource.new(name: "Ruby", content: content2.to_json, topic_id: 1, user_id: 2)
+    # ]
+  end 
+  
+  # POST /resources/initial
+  def create_initial 
+    # Iterate over params[:resources] and set approved to true if checked
+    params[:resources].each do |key,val|
+      r = Resource.find(key)
+      if val == "true"
+        r.approved = true
+        r.save 
+      else 
+        r.destroy
+      end 
+    end 
+    
+    respond_to do |format|
+        format.html { redirect_to "/topics/approve/", notice: 'Resources added to newly created topic!' }
+    end
+  end 
+  
+  # GET /resources/review
+  def review 
+    @resources = Resource.where(flagged: true)
+  end 
+  
+  # POST /resources/approve_or_destroy/:resource_id
+  def approve_or_destroy
+    resource = Resource.find(params[:resource_id])
+    execute_todo(resource, params[:todo])
+  end 
 
   # PATCH/PUT /resources/1
   # PATCH/PUT /resources/1.json
@@ -192,7 +234,7 @@ class ResourcesController < ApplicationController
             check_topic_completion_badge
             redirect_to topic_quiz_url(@resource.topic_id), notice: success_notice
           else
-            redirect_to @next_resource, notice: success_notice
+            redirect_to "/resources/show/#{@next_resource.id}", notice: success_notice
           end 
       end 
     end 
@@ -210,7 +252,7 @@ class ResourcesController < ApplicationController
             check_topic_completion_badge
             redirect_to topic_quiz_url(@resource.topic_id), notice: "That's all we have. Now time for a quiz!"
           else
-            redirect_to @next_resource
+            redirect_to "/resources/show/#{@next_resource.id}"
           end 
       end 
     end 
@@ -291,7 +333,7 @@ class ResourcesController < ApplicationController
       feedback.sum(&:helpful_q).fdiv(classroom.num_students)
     end 
     
-    # Updates resource flags (e.g. approved, tentative)
+    # Updates resource flags based on thresholds (e.g. approved, tentative)
     def update_resource_flags
       
       if @resource.helpful_avg >= 2.5 && 
@@ -307,6 +349,25 @@ class ResourcesController < ApplicationController
         @resource.save   
       end 
       
+    end 
+    
+    # Approves or destroys resource based on action 
+    def execute_todo(resource, action)
+      if action == "approve"
+        resource.approved = true 
+        resource.flagged = false
+        if resource.save 
+          redirect_to review_resources_url, notice: "#{resource.name} is approved!"
+        else 
+          redirect_to review_resources_url, alert: "#{resource.name} could not be approved!"
+        end 
+      elsif action == "destroy"
+        if resource.destroy
+          redirect_to review_resources_url, notice: "#{resource.name} has been deleted!"
+        else 
+          redirect_to review_resources_url, alert: "#{topic.name} could not be deleted!"
+        end 
+      end 
     end 
       
 end

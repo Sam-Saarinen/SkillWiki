@@ -14,7 +14,7 @@ class TopicsController < ApplicationController
     @topic.name = @topic.name.titleize
     @topic.user = current_user
     if @topic.save
-      redirect_to root_url, notice: "Topic created!"
+      redirect_to "/topics/#{@topic.id}/initial_resources", notice: "Topic created!"
     else
       render action: "new", alert: "Topic could not be created"
     end
@@ -30,10 +30,12 @@ class TopicsController < ApplicationController
   def show
     @topic = Topic.find_by(id: params[:topic_id])
     # TODO: Get cached rec instead but also update rec if feedback has bene given since last rec.
-    @resources = @topic.resource.all 
+    @resources = @topic.resource.where(approved: true)
     
-    if @resources.empty?
-      @resources = scrape_resources(@topic)
+    if @resources.empty? && (current_user.teacher? || current_user.admin?)
+      redirect_to "/topics/#{params[:topic_id]}/initial_resources"
+    elsif @resources.empty?
+      redirect_to root_url, alert, "There are no resources for this topic right now. Check back later!"
     end 
     
     # Generate recommendation for this topic.
@@ -59,6 +61,7 @@ class TopicsController < ApplicationController
   
   # GET /topics/approve
   def approve
+    @topics = Topic.where(reviewed: false)
   end 
   
   # POST /topics/approve_or_destroy/:topic_id
@@ -167,7 +170,7 @@ class TopicsController < ApplicationController
         if interact.nil?
           next 
         elsif interact.helpful_q.nil? && interact.confidence_q.nil?
-          redirect_to res, notice: "You were viewing this resource recently"
+          redirect_to "/resources/show/#{res.id}", notice: "You were viewing this resource recently"
         end 
       end 
     end 

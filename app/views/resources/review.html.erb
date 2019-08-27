@@ -1,0 +1,42 @@
+<h1>Flagged Resources</h1>
+
+<div class="container">
+  <% @resources.each do |res| %>
+    <%= form_tag("/resources/approve_or_destroy/#{res.id}", method: "post") do %>
+      
+      <h2><%= res.name %></h2>
+      
+      <% content = JSON.parse(res.content) %>
+      
+      <% if !content["link"].empty? %>
+        <a href="<%= content["link"] %>" target="_blank"><%= content["link"] %></a>
+      <% end %>
+      
+      <% if !content["video"].empty? %>
+        <div class="resource-view-item">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= content["video"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      <% end %>
+      
+      <% if !content["text"].empty? %>
+        <% text = content["text"] %>
+        <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true) %>
+        <% rendered = markdown.render(text) %>
+      
+        <div class="resource-view-item border text-left w-50">
+          <%= sanitize rendered %>
+        </div>
+      <% end %>
+      
+      <div class="options">
+        <button class="btn btn-success btn-sm" type="submit" name="todo" value="approve">Approve this Resource</button>
+        <button class="btn btn-danger btn-sm" type="submit" name="todo" value="destroy">Delete this Resource</button>
+      </div>
+
+    <% end %>
+  <% end %>
+</div>
+  
+
+
+

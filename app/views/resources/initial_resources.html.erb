@@ -1,0 +1,61 @@
+<div class="container">
+  <h1>Initial Resources</h1>
+  <p>
+    Before creating your own resources, select relevant resources for <%= @topic.name %>.
+  </p>
+  
+  <%= form_with(url: "/resources/initial", local: true, id: "initial_resources") do |form| %>
+  
+    <div class="form-group">
+      <div class="container-checkbox">
+      <% @resources.each do |r| %>
+      
+        <div class="form-check">
+          
+          <input type="hidden" name="resources[<%= r.id %>]" value="false">
+          <input id="<%= r.id %>" class="form-check-input checkbox-center checkbox-lg" type="checkbox" name="resources[<%= r.id %>]" value="true">
+          
+          <label class="form-check-label" for="<%= r.id %>">
+            <div class="initial-resource-preview" for="<%= r.id %>">
+              <h2><%= r.name %></h2>
+              
+              <% content = JSON.parse(r.content) %>
+              
+              <div class="resource-view-item">
+                <p class="excerpt"><%= content["excerpt"] %></p>
+              </div>
+              
+              <% if !content["link"].empty? %>
+                <a href="<%= content["link"] %>" target="_blank"><%= content["link"] %></a>
+              <% end %>
+              
+              <% if !content["video"].empty? %>
+                <div class="resource-view-item">
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= content["video"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+              <% end %>
+              
+              <% if !content["text"].empty? %>
+                <% text = content["text"] %>
+                <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true) %>
+                <% rendered = markdown.render(text) %>
+              
+                <div class="resource-view-item border text-left w-50">
+                  <%= sanitize rendered %>
+                </div>
+              <% end %>
+              
+            </div>
+          </label>
+      </div>
+      <% end %>
+      </div>
+    </div>
+    
+    <div class="actions">
+        <%= form.submit "Create Resources", class: "btn btn-primary", data: { "disable-with": "Creating..." } %>
+    </div>
+    
+  
+  <% end %>
+</div>

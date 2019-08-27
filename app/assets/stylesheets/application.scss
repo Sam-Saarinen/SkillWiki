@@ -50,10 +50,26 @@ h1, h2, h3, h4, h5, h6 { text-align: center;
   opacity: 0.4;
 }
 
+.checkbox-center {
+  top: 30%;
+}
+
+.checkbox-lg {
+  width: 26px;
+  height: 26px;
+  margin-left: -1.75rem;
+}
+
 .container {
   text-align: center;
   margin-bottom: 1rem;
   margin-top: 1rem;
+}
+
+.container-checkbox {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .due-date {
@@ -84,6 +100,19 @@ h1, h2, h3, h4, h5, h6 { text-align: center;
   text-align: left;
 }
 
+.excerpt {
+  text-align: left;
+  font-weight: 200;
+}
+
+.form-check {
+  text-align: left;
+}
+
+.form-check-input {
+  // top: 30%;
+}
+
 .form-group {
   margin-right: auto;
   margin-left: auto;
@@ -91,6 +120,18 @@ h1, h2, h3, h4, h5, h6 { text-align: center;
 
 .home-section {
   margin: 1rem;
+}
+
+.initial-resource-preview {
+  border: 1px solid;
+  border-radius: 0.3rem;
+  margin-bottom: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1rem;
+  background: rgba(0,0,0,0.05);
+  text-align: center;
+  width: 600px;
 }
 
 .navigate-button {

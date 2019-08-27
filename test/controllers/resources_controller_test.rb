@@ -22,14 +22,14 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
 
   test "should show resource" do
     assert_difference('Interaction.count') do 
-      get resource_url(1)
+      get "/resources/show/1"
     end 
     assert_response :success
   end
 
   test "should evaluate resource" do 
     # Create new interaction
-    get resource_url(1)
+    get "/resources/show/1"
     post '/resources/eval', params: { id: 1, helpful: "4", confident: "3", feedback: "done" }
     
     i = Interaction.find(1)
@@ -43,7 +43,7 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     
     # Update feedback for interaction
     get root_url
-    get resource_url(1)
+    get "/resources/show/1"
     post '/resources/eval', params: { id: 1, helpful: "3", confident: "4", feedback: "done" }
     
     i = Interaction.find(1)
@@ -62,7 +62,7 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     (3..7).each do |i|
       u = User.find(i)
       sign_in u
-      get resource_url(1)
+      get "/resources/show/1"
       post '/resources/eval', params: { id: 1, helpful: "3", confident: "4", feedback: "done" }
       r = Resource.find(1)
       sign_out u
@@ -81,7 +81,7 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     (3..7).each do |i|
       u = User.find(i)
       sign_in u
-      get resource_url(1)
+      get "/resources/show/1"
       post '/resources/eval', params: { id: 1, helpful: "1", confident: "4", feedback: "done" }
       r = Resource.find(1)
       sign_out u
@@ -89,6 +89,38 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     
     r = Resource.find(1)
     assert r.flagged
+  end 
+  
+  test "should get initial resources for a new topic" do 
+    get '/topics/1/initial_resources'
+    assert_response :success
+  end 
+  
+  test "should get review resources" do 
+    get review_resources_url
+    assert_response :success
+  end 
+  
+  test "should approve resource" do 
+    r = Resource.find(2)
+    assert r.flagged 
+    post '/resources/approve_or_destroy/2', params: { todo: "approve" }
+    assert_redirected_to review_resources_url
+    
+    r = Resource.find(2)
+    assert_not r.flagged 
+    assert r.approved
+  end 
+  
+  test "should delete resource" do 
+    r = Resource.find(2)
+    assert r.flagged 
+    
+    assert_difference 'Resource.count', -1 do 
+      post '/resources/approve_or_destroy/2', params: { todo: "destroy" }
+    end 
+    
+    assert_redirected_to review_resources_url
   end 
   
 end

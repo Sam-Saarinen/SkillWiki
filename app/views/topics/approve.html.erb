@@ -1,9 +1,7 @@
 <h1>Topics Awaiting Approval</h1>
 
-<% topics = Topic.where(reviewed: false) %>
-
 <div class="container">
-  <% topics.each do |top| %>
+  <% @topics.each do |top| %>
     <%= form_tag("/topics/approve_or_destroy/#{top.id}", method: "post") do %>
       
       <h2><%= top.name %></h2>
@@ -12,7 +10,7 @@
       
       <h4>Resources</h4>
       <ul>
-        <% resources = top.resource.all %>
+        <% resources = top.resource.where(approved: true) %>
         <% resources.each do |res| %>
           <li><a href="<%= resource_path(res) %>"><%= res.name %></a></li>
         <% end %>

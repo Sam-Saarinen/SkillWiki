@@ -15,6 +15,10 @@ module ApplicationHelper
     "wrong": "<span style='color: red;'>Incorrect</span>",
     "not graded": "<span>Not graded<span>"
   }
+  
+  WebScraperOptions = {
+    numSearchResults: 10
+  }
 
   def valid_url?(url)
     # TODO: Check if 'https://' has been added and append to front if needed.

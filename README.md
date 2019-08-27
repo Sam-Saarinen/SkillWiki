@@ -21,16 +21,18 @@ gem 'sqlite3', '~> 1.3.6'
 * For installing heroku on cloud9: (1) nvm i v8 (2) npm install -g heroku
 * For resetting heroku db: heroku pg:reset
 * Manual Tests:
-  * topics#show b/c using external API
   * Integration: log in for new user and should be redirected to 'Edit User Features'
 * TOASK:
 * TODO:
-    * [X] Flag resources by default as tentative
-    * [X] Get automatic approval of resources (threshold of 5 helpfulness ratings >= 3 and helpful_avg >= 2.5)
-    * [X] Automated flagging of resources (threshold of 5 helpfulness ratings <= 2 and helpful_avg < 2.0)
+    * [X] Check API to see if brief excerpt from resource is available 
+    * [X] Try experimenting with number of search results with API to see if we can get more relevant resources
+      * Search quality rapidly drops off around 10 results
+    * [X] Experiment with APIs Sam sent 
+    * [X] Page for teacher to approve or remove flagged resources
+    * [X] Try to get Initialize Topic test working 
     * [] Read up on papers Sam sent
     * Joseph J Williams paper on bandit processes to select helpful explanations for quiz questions
-    * 
+    * Active learning algos get supervised feedback at end as opposed to reinforcement learning algos that get reward at each timestep 
     * 
     * For badges, put checkmark to show that badge has been earned (Optional)
     * Change CSS for headers so that h1 is clearly different from h2, h3, etc.

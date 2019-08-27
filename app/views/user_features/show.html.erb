@@ -41,6 +41,10 @@
         <a class="navigate-button" href="/topics/approve" role="button">Approve Topics</a>
   <% end %>
   
+  <% if can? :approve, Resource %>
+        <a class="navigate-button" href="/resources/review" role="button">Review Flagged Resources</a>
+  <% end %>
+  
   <% if can? :create, Classroom %>
         <a class="navigate-button" href="/classrooms/new" role="button">Create a Class</a>
   <% end %>
