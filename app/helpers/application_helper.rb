@@ -9,6 +9,12 @@ module ApplicationHelper
     notStarted: " has not started the assignment yet."
   }
   
+  Reports = {
+    flagPercentage: 0.1,
+    helpfulnessThreshold: 3.0,
+    dayLimit: 5
+  }
+  
   ScoreMessages = {
     "right": "<span style='color: green;'>Correct</span>",
     "partial": "<span style='color: orange;'>Partial Credit</span>",
@@ -17,8 +23,10 @@ module ApplicationHelper
   }
   
   WebScraperOptions = {
+    user_id: 2,
     numSearchResults: 10
   }
+  
 
   def valid_url?(url)
     # TODO: Check if 'https://' has been added and append to front if needed.

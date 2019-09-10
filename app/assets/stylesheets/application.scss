@@ -76,6 +76,14 @@ h1, h2, h3, h4, h5, h6 { text-align: center;
   margin-left: 1em;
 }
 
+.edit-resource {
+  @extend .btn;
+  @extend .btn-primary;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}
+
 .embed-code {
   position: relative;
   width: 15%; 
@@ -132,6 +140,7 @@ h1, h2, h3, h4, h5, h6 { text-align: center;
   background: rgba(0,0,0,0.05);
   text-align: center;
   width: 600px;
+  opacity: 0.6;
 }
 
 .navigate-button {
@@ -161,6 +170,14 @@ h1, h2, h3, h4, h5, h6 { text-align: center;
 
 .recommendation-list li {
   text-align: left;
+}
+
+.report-resource {
+  @extend .btn;
+  @extend .btn-danger;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
 }
 
 .resource-feedback {

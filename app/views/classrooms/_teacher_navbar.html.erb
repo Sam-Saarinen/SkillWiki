@@ -7,8 +7,8 @@
         <% @active = @active.map {|a| a.topic_id } %>
         <% @active = @active.uniq %>
         
-        <div class="nav-item dropdown show" <%= 'active' if current_page?("/classrooms/#{@classroom.id}/active") %>>
-          <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item dropdown show" <%= 'active' if current_page?("/classrooms/#{@classroom.id}/active") %>>
+          <a class="nav-link dropdown-toggle" href="#" id="topicsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Active Topics
           </a>
           <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
@@ -18,7 +18,7 @@
               <a class="dropdown-item" href="/classrooms/<%= @classroom.id %>/topics/<%= t.id %>/"><%= t.name %></a>
             <% end %>
           </div>
-        </div>
+        </li>
         
         <li class="nav-item <%= 'active' if current_page?("/classrooms/#{@classroom.id}/past") %>">
             <a class="nav-link" href="/classrooms/<%= @classroom.id %>/show/past">Past Topics</a>

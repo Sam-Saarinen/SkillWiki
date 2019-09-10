@@ -22,12 +22,11 @@
         <%= form.label "Topic" %>
         <% topics = Topic.where(reviewed:true).where(approved: true) %>
         <%= form.collection_select :topic_id, topics, :id, :name, class: "form-control", required: true %>
-        <% # TODO: Change options to only approved topics %>
       </div>
     
       <div class="form-group w-50">
         <%= form.label "link" %>
-        <small id="linkHelp" class="form-text text-muted">Copy and past the link. Make sure to add "https://" at the front.</small>
+        <small id="linkHelp" class="form-text text-muted">Copy and paste the link. Make sure to add "https://" at the front.</small>
         <%= form.text_field "link", class: "form-control" %>
         
       </div>
@@ -74,6 +73,61 @@
   <% end %>
 </div>
 
+<script type="text/javascript">
+  $(document).ready(() => {
+    $("#link").on("input", event => {
+    
+      const text = $("#link").val().trim();
+      
+      const postParameters = {
+                  link: text};
+      $.post("/resources/check_link", postParameters, responseJSON => {
+                const responseObject = JSON.parse(responseJSON);
+                if (responseObject) {
+                  $("#link_preview").html("<center><div class='embed-responsive embed-responsive-16by9 w-75'><iframe class='embed-responsive-item' style='border: 2px solid black' src=" + text + " allowfullscreen>Resource could not be rendered.</iframe> </div> </center>");
+                  
+                  // Displays 'Not Found' page if not a valid url.
+                } else {
+                  $("#link_preview").html("<center><div class='embed-responsive embed-responsive-16by9 w-75'><iframe class='embed-responsive-item' style='border: 2px solid black' src='/not_found' allowfullscreen>Resource could not be rendered.</iframe> </div> </center>");
+                  }
+                  
+      });
+    });
+    
+    $("#text").on("input", event => {
+    
+      const text = $("#text").val();
+      
+      const postParameters = {
+                  text: text};
+      $.post("/resources/parse_markdown", postParameters, responseJSON => {
+                const responseObject = JSON.parse(JSON.stringify(responseJSON));
+                // console.log(responseObject.html);
+                if (responseObject.html) {
+                  $("#text_preview").html(responseObject.html);
+                  } 
+                
+                  
+      });
+    });
+    
+    $("#video").on("input", event => {
+    
+      const text = $("#video").val().trim();
+      // Take template for Youtube embed and only allow string after /embed/
+      $("#video_preview").html("<iframe width='560' height='315' src='https://www.youtube.com/embed/" + 
+      text + 
+      "' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>");
+    });
+  });
+  
+  $("#create_resource").on('submit', event => {
 
-<%= javascript_include_tag "preview" %>
-<%= javascript_include_tag "require_one_field" %>
+    // Check if all of the content fields are empty.
+    if (!$("#link").val() && !$("#video").val() && !$("#text").val()) {
+      event.preventDefault();
+      alert("At least one of the content boxes must be filled in");
+      return false;
+    }
+  });
+</script>

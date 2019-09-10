@@ -12,10 +12,20 @@ class ResourcesController < ApplicationController
   # GET /resources/1
   # GET /resources/1.json
   def show
-    @interact = Interaction.find_by(user_id: current_user.id, resource_id: @resource.id)
+    @interact = Interaction.find_by(
+      user_id: current_user.id, resource_id: @resource.id)
     if @interact.nil?
-      @interact = Interaction.new(user_id: current_user.id, resource_id: @resource.id, topic_id: @resource.topic_id)
-      @interact.save # TODO: Add way to catch error in saving.
+      @interact = Interaction.new(
+        user_id: current_user.id, resource_id: @resource.id, topic_id: @resource.topic_id)
+      @interact.save 
+    end 
+    
+    @can_edit = false 
+    if current_user.admin? || 
+      current_user.teacher? || 
+      @resource.user_id == current_user.id
+      
+      @can_edit = true 
     end 
   end
 
@@ -26,6 +36,7 @@ class ResourcesController < ApplicationController
 
   # GET /resources/1/edit
   def edit
+    @resource = Resource.find(params[:id])
   end
 
   # POST /resources
@@ -33,8 +44,11 @@ class ResourcesController < ApplicationController
   def create
     @resource = Resource.new(params.permit(:name, :topic_id))
     @resource.user_id = current_user.id
-    content = { link: params[:link].strip!, video: params[:video].strip!, text: params[:text] }
-    # FIXME: Sometimes link is saved as nil in content; couldn't duplicate this bug :(
+    content = { 
+      link: params[:link].strip, 
+      video: params[:video].strip, 
+      text: params[:text] 
+    }
     @resource.content = content.to_json
     
     if can? :authorize, @resource
@@ -66,13 +80,11 @@ class ResourcesController < ApplicationController
   # GET /topics/:topic_id/initial_resources
   def initial_resources
     @topic = Topic.find(params[:topic_id])
-    @resources = scrape_resources(@topic)
-    # content1 = { link: "python.org", video: "awGigULmfig", text: "*fire* burns **very** cleanly and all the time" }
-    # content2 = { link: "www.ruby-lang.org", video: "", text: "" }
-    # @resources = [
-    #   Resource.new(name: "Python", content: content1.to_json, topic_id: 1, user_id: 2),
-    #   Resource.new(name: "Ruby", content: content2.to_json, topic_id: 1, user_id: 2)
-    # ]
+    @resources = Resource.where(topic_id: params[:topic_id]).where(
+      user_id: WebScraperOptions[:user_id])
+    if @resources.empty?
+      @resources = scrape_resources(@topic)
+    end
   end 
   
   # POST /resources/initial
@@ -89,7 +101,8 @@ class ResourcesController < ApplicationController
     end 
     
     respond_to do |format|
-        format.html { redirect_to "/topics/approve/", notice: 'Resources added to newly created topic!' }
+        format.html { redirect_to "/topics/approve/", 
+        notice: 'Resources added to newly created topic!' }
     end
   end 
   
@@ -104,12 +117,21 @@ class ResourcesController < ApplicationController
     execute_todo(resource, params[:todo])
   end 
 
-  # PATCH/PUT /resources/1
-  # PATCH/PUT /resources/1.json
+  # POST /resources/:id
   def update
+    content = { 
+      link: params[:link].strip, 
+      video: params[:video].strip, 
+      text: params[:text]
+    }
+    
     respond_to do |format|
-      if @resource.update(resource_params)
-        format.html { redirect_to @resource, notice: 'Resource was successfully updated.' }
+      if @resource.update(
+        name: params[:name].strip,
+        topic_id: params[:topic_id],
+        content: content.to_json)
+        
+        format.html { redirect_to root_url, notice: 'Resource was successfully updated.' }
         format.json { render :show, status: :ok, location: @resource }
       else
         format.html { render :edit }
@@ -134,6 +156,7 @@ class ResourcesController < ApplicationController
     if @interact.helpful_q.nil? && @interact.confidence_q.nil? # new feedback with nil values
       if @interact.update(helpful_q: params[:helpful], confidence_q: params[:confident]) && 
         @resource.update_avg(params[:helpful].to_i)
+        
         update_resources_viewed_avg
         update_highest_rated_resource
         update_lowest_rated_resource
@@ -148,6 +171,7 @@ class ResourcesController < ApplicationController
       old_val = @interact.helpful_q
       if @interact.update(helpful_q: params[:helpful], confidence_q: params[:confident]) && 
         @resource.update_avg_with_old_val(params[:helpful].to_i, old_val)
+        
         update_resources_viewed_avg
         update_highest_rated_resource
         update_lowest_rated_resource
@@ -158,6 +182,44 @@ class ResourcesController < ApplicationController
       end 
     end 
     
+  end 
+  
+  # POST /resources/report
+  def report
+    id = params[:reported_resource_id]
+    i = Interaction.find_by(user_id: params[:user_id], resource_id: id)
+    
+    if i.reported 
+      msg = { reported: true, message: "Already Reported!" }
+      render :json => msg.to_json
+      
+    elsif Interaction.where(user_id: params[:user_id]).where(
+      'updated_at > ?', DateTime.current.beginning_of_day).count > 
+      Reports[:dayLimit]
+    
+      msg = { reported: true, message: "Too many reports today!" }
+      render :json => msg.to_json
+      
+    else 
+      i.reported = true 
+      i.save
+      
+      flagThreshold = (Interaction.where(resource_id: id) * Reports[:flagPercentage]).ceil 
+      num_reports = Interaction.where(resource_id: id).where(reported: true).count
+      if num_reports > flagThreshold && 
+        r.helpful_avg < Reports[:helpfulnessThreshold]
+        
+        r = Resource.find(id)
+        r.flagged = true
+        if r.save
+          msg = { reported: true, message: "Reported!" }
+          render :json => msg.to_json 
+        end
+      else 
+        msg = { reported: true, message: "Reported!" }
+        render :json => msg.to_json
+      end 
+    end 
   end 
   
   # POST /resources/check_link
@@ -203,10 +265,16 @@ class ResourcesController < ApplicationController
     # Check for any feedback badges that might have been earned.
     def check_feedback_badges
       u = User.find(@resource.user_id)
-      if (not current_user.earned(3)) && (Interaction.where(user_id: current_user.id).count == 1) && current_user.add_badge(3)
+      if (not current_user.earned(3)) && 
+        (Interaction.where(user_id: current_user.id).count == 1) && current_user.add_badge(3)
+        
         title = User::Badges[3][:title]
         redirect_to_home_or_next_with_msg("You've earned the #{title} badge!")
-      elsif (not u.earned(9)) && @resource.feedback_count > 100 && @resource.helpful_avg > 4.0 && u.add_badge(9) 
+        
+      elsif (not u.earned(9)) && 
+      @resource.feedback_count > 100 && 
+      @resource.helpful_avg > 4.0 && u.add_badge(9) 
+      
         redirect_to_home_or_next
       else 
         redirect_to_home_or_next

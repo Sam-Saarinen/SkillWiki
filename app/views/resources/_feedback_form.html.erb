@@ -2,6 +2,7 @@
   <%= form_tag("/resources/eval", method: "post") do %>
   
     <%= hidden_field_tag 'id', @resource.id %>
+    <%= hidden_field_tag 'user_id', current_user.id %>
     
     <label>How helpful was this resource?</label>
     <div class="form-group">

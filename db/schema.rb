@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
     t.integer "helpful_q"
     t.integer "confidence_q"
     t.float "time_taken"
+    t.boolean "reported", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["resource_id"], name: "index_interactions_on_resource_id"
@@ -81,7 +82,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_192310) do
     t.boolean "tentative", default: true
     t.boolean "removed", default: false
     t.boolean "flagged", default: false
-    t.integer "views"
+    t.integer "views", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "helpful_avg", default: 0.0

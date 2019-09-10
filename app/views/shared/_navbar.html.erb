@@ -2,21 +2,51 @@
   <a class="navbar-brand" href="/">SkillWiki</a>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="/">Home</a>
       </li>
       
       <% if user_signed_in? %>
-        <li class="nav-item">
-          <a class="nav-link" href="/user_features/<%= current_user.id %>"><%= current_user.name %></a>
+        <li class="nav-item dropdown show">
+          <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= current_user.name %>
+          </a>
+          <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
+            
+            <a class="dropdown-item" href="/user_features/<%= current_user.id %>">Profile</a>
+            
+            <a href="/user_features/<%= current_user.id %>/edit" class="dropdown-item">Edit My Features</a>
+            
+            <% if can? :approve, Topic %>
+              <a class="dropdown-item" href="/topics/approve">Approve Topics</a>
+            <% end %>
+            
+            <% if can? :approve, Resource %>
+              <a class="dropdown-item" href="/resources/review">Review Flagged Resources</a>
+            <% end %>
+            
+          </div>
         </li>
         
-        <% classes = current_user.classrooms %>
-        <% classes.each do |classroom| %>
-          <li class="nav-item">
-            <a class="nav-link" href="/classrooms/<%= classroom.id %>/show/active/"><%= classroom.name %></a>
-          </li>
-        <% end %>
+        <li class="nav-item dropdown show">
+          <a class="nav-link dropdown-toggle" href="#" id="classroomMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Classrooms 
+          </a>
+          <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
+            
+            <% if can? :create, Classroom %>
+              <a class="dropdown-item" href="/classrooms/new">Create a Class</a>
+            <% end %>
+            
+            <a class="dropdown-item" href="/classrooms/enroll" role="button">Join a Class</a>
+            
+            <% classes = current_user.classrooms %>
+            <% classes.each do |classroom| %>
+                <a class="dropdown-item" href="/classrooms/<%= classroom.id %>/show/active/"><%= classroom.name %></a>
+            <% end %>
+            
+          </div>
+        </li>
         
         <li class="nav-item">
           <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "nav-link") %>
@@ -37,3 +67,7 @@
     </ul>
   </div>
 </nav>
+
+<script>
+  $('.dropdown-toggle').dropdown()
+</script>

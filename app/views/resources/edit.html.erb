@@ -1,6 +1,64 @@
-<h1>Editing Resource</h1>
+<h1>Edit Resource</h1>
 
-<%= render 'form', resource: @resource %>
+<div class="container">
+  <%= form_with url: "/resources/#{@resource.id}", local: true, id: "edit_resource" do |form| %>
+  
+    <% content = JSON.parse(@resource.content) %>
+    
+    <div class="form-group w-25">
+      <input type="hidden" id="current_name" value = "<%= @resource.name %>">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: "form-control", required: true %>
+    </div>
+    
+    <input type="hidden" name="topic_id" value= "<%= @resource.topic_id %>">
+  
+    <input type="hidden" name="link" value= "<%= content["link"] %>">
+    
+    <input type="hidden" name="video" value= "<%= content["video"] %>">
+    
+    <div class="form-group w-50">
+      <input type="hidden" id="current_text" value="<%= content["text"] %>">
+      
+      <%= form.label "text" %>
+      <small id="linkHelp" class="form-text text-muted">Write a resource yourself using Markdown!</small>
+      <%= form.text_area "text", class: "form-control" %>
+      
+    </div>
+  
+    <div id="text_preview" class="text-preview">
+      <h4>See your text appear here!</h4>
+    </div>
 
-<%= link_to 'Show', @resource %> |
-<%= link_to 'Back', resources_path %>
+    <div class="actions">
+      <%= form.submit id: "submit", class: "btn btn-primary", data: { "disable-with": "Saving..." } %>
+    </div>
+      
+    
+  <% end %>
+</div>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $("#name").val($("#current_name").val());
+    $("#text").val($("#current_text").val());
+  });
+  
+  $("#text").on("keyup", event => {
+  
+    const text = $("#text").val();
+    
+    const postParameters = {
+                text: text};
+    $.post("/resources/parse_markdown", postParameters, responseJSON => {
+              const responseObject = JSON.parse(JSON.stringify(responseJSON));
+              if (responseObject.html) {
+                $("#text_preview").html(responseObject.html);
+                } 
+              
+                
+    });
+  });
+  // TODO: Change id so other javascript doesn't interfere 
+</script>

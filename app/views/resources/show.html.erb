@@ -2,12 +2,26 @@
 
 <div class="resource-view">
   
+  <h1><%= @resource.name %></h1>
+  
+  <!--Show text-->
+  <% if !content["text"].empty? %>
+      <% text = content["text"] %>
+      <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true) %>
+      <% rendered = markdown.render(text) %>
+    
+      <div class="resource-view-item border text-left w-50">
+        <%= sanitize rendered %>
+      </div>
+    
+  <% end %>
+  
   <!--Show link-->
   <% if !content["link"].empty? %>
     <% link = content["link"] %>
     <% safe_link = '/not_found' %>
     <% if valid_url?(link) %>
-        <a href="<%= link %>" target="_blank">Click here if resource is not visible below (Opens in new tab)</a>
+        <a href="<%= link %>" target="_blank">Click here if resource is not visible below <%= image_tag("external-link.svg", height: '14', width: '14', :alt => "external_link") %></a>
         <div class="resource-view-item embed-responsive embed-responsive-16by9 w-75">
           <iframe class="embed-responsive-item" style="border: 2px solid black" src="<%= link %>" allowfullscreen>Resource could not be rendered.</iframe>
         </div>
@@ -26,26 +40,31 @@
     </div>
   <% end %>
   
-  <!--Show text-->
-  <% if !content["text"].empty? %>
-      <% text = content["text"] %>
-      <% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true) %>
-      <% rendered = markdown.render(text) %>
-    
-      <div class="resource-view-item border text-left w-50">
-        <%= sanitize rendered %>
-      </div>
-    
-  <% end %>
-  
 </div>
 
 <div class="resource-feedback">
   <%= render 'feedback_form' %>
 </div>
 
+<button id="report" class="report-resource" title="Report an irrelevant or inappropriate resource" role="button">Report this Resource</button>
+
+<% if @can_edit %>
+
+  <a class="edit-resource" href="/resources/edit/<%= @resource.id %>">Edit this Resource</a>
+
+<% end %>
+ 
 <script>
-    // $( function() {
-    //   $( "#draggable" ).draggable();
-    // } );
+    $("#report").on('click', event => {
+      const postParameters = { reported_resource_id: $("#id").val(),
+      user_id: $("#user_id").val() }; 
+                  
+      $.post("/resources/report", postParameters, responseJSON => {
+        response = JSON.parse(JSON.stringify(responseJSON))
+        if (response["reported"]) {
+          $("#report").html(response["message"]);
+          $("#report").attr('disabled', true);
+        }
+      });
+    });
 </script>

@@ -13,10 +13,10 @@
         <div class="form-check">
           
           <input type="hidden" name="resources[<%= r.id %>]" value="false">
-          <input id="<%= r.id %>" class="form-check-input checkbox-center checkbox-lg" type="checkbox" name="resources[<%= r.id %>]" value="true">
+          <input id="<%= r.id %>" class="form-check-input checkbox-center checkbox-lg" type="checkbox" name="resources[<%= r.id %>]" value="true" onclick="changeOpacity.call(this)">
           
           <label class="form-check-label" for="<%= r.id %>">
-            <div class="initial-resource-preview" for="<%= r.id %>">
+            <div id="preview<%= r.id %>" class="initial-resource-preview" for="<%= r.id %>">
               <h2><%= r.name %></h2>
               
               <% content = JSON.parse(r.content) %>
@@ -26,7 +26,7 @@
               </div>
               
               <% if !content["link"].empty? %>
-                <a href="<%= content["link"] %>" target="_blank"><%= content["link"] %></a>
+                <a href="<%= content["link"] %>" target="_blank"><%= content["link"] %> <%= image_tag("external-link.svg", height: '14', width: '14', :alt => "external_link") %></a>
               <% end %>
               
               <% if !content["video"].empty? %>
@@ -59,3 +59,18 @@
   
   <% end %>
 </div>
+
+<script type="text/javascript">
+
+  function changeOpacity() {
+     preview_id = "preview" + $(this).attr('id')
+     
+     if ($(this).prop('checked')) {
+       $("#" + preview_id).css("opacity", 1.0);
+     } else {
+       $("#" + preview_id).css("opacity", 0.6);
+       // TODO: For easier refactoring, get opacity value of 
+       // initial-resource-preview class instead of hard-coding 0.6
+     }
+  }
+</script>

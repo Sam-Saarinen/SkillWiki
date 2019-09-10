@@ -56,7 +56,6 @@ class Recommendation < ApplicationRecord
   
   # Thompson sampling with Gaussian priors
   def self.generate_with_ts_Gaussian(user, topic)
-    # pyimport :random, as: :rand # TODO: Why does import have to be inside?
     resources = topic.resource.where(approved: true)
     resources.each do |res|
       interactions = Interaction.where(resource_id: res.id)

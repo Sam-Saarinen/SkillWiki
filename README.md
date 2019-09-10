@@ -24,15 +24,19 @@ gem 'sqlite3', '~> 1.3.6'
   * Integration: log in for new user and should be redirected to 'Edit User Features'
 * TOASK:
 * TODO:
-    * [X] Check API to see if brief excerpt from resource is available 
-    * [X] Try experimenting with number of search results with API to see if we can get more relevant resources
-      * Search quality rapidly drops off around 10 results
-    * [X] Experiment with APIs Sam sent 
-    * [X] Page for teacher to approve or remove flagged resources
-    * [X] Try to get Initialize Topic test working 
+    * [X] Use icon with reusable rights
+    * [X] Check if changing topic when editing a resource breaks recommendations 
+    * [X] Change threshold so based on percentage of interactions or people who have used this resource (for flagThreshold)
+    * [X] Restrict editing the resource to people who have contributed the resource
+    * [X] Remove topic, link, and video boxes if recommendation can't be updated easily 
+      * Would need to reset resource history  
+    * [X] Add button in show for editing resource
+    * [X] 2pm retrospective
     * [] Read up on papers Sam sent
     * Joseph J Williams paper on bandit processes to select helpful explanations for quiz questions
     * Active learning algos get supervised feedback at end as opposed to reinforcement learning algos that get reward at each timestep 
+    * item-response theory from psych 
+    * Right-answer mining and explanation-mining for quiz generation 
     * 
     * For badges, put checkmark to show that badge has been earned (Optional)
     * Change CSS for headers so that h1 is clearly different from h2, h3, etc.

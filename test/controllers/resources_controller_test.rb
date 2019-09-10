@@ -123,4 +123,7 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to review_resources_url
   end 
   
+  test "should edit resource" do 
+  end 
+  
 end

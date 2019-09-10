@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :assignments, except: [:new, :create]
   resources :classrooms, except: [:show]
-  resources :resources, except: [:index, :show]
+  resources :resources, except: [:index, :show, :edit, :update]
   
   get '/classrooms/:classroom_id/assignments/new', to: 'assignments#new', as: :new_assignments
   post '/classrooms/:classroom_id/assignments', to: 'assignments#create'
@@ -40,6 +40,9 @@ Rails.application.routes.draw do
   get '/resources/review', to: 'resources#review', as: :review_resources
   post '/resources/approve_or_destroy/:resource_id', to: 'resources#approve_or_destroy'
   get '/resources/show/:id', to: 'resources#show'
+  post '/resources/report', to: 'resources#report'
+  get '/resources/edit/:id', to: 'resources#edit'
+  post '/resources/:id', to: 'resources#update'
   
   root 'pages#home'
   get '/about' => 'pages#about'
